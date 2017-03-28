@@ -1,24 +1,31 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Rails API app setup
 
-Things you may want to cover:
+    rails new . -d postgresql --skip-javascript --api -T
 
-* Ruby version
+## jsonapi-resources setup
 
-* System dependencies
+### Models
 
-* Configuration
+    rails g model category name:string
+    rails g model post title:string body:text category:references
+    rails g model comment body:text post:references
+    
+### Resources
 
-* Database creation
+    rails generate jsonapi:resource category
+    rails generate jsonapi:resource post
+    rails generate jsonapi:resource model    
 
-* Database initialization
+### Controllers
 
-* How to run the test suite
+    rails g controller Category --skip-assets
+    rails g controller Posts --skip-assets
+    rails g controller Comments --skip-assets
 
-* Services (job queues, cache servers, search engines, etc.)
+### Routes
 
-* Deployment instructions
-
-* ...
+    jsonapi_resources :categories
+    jsonapi_resources :posts
+    jsonapi_resources :comments
