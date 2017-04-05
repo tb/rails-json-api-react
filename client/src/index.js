@@ -10,7 +10,7 @@ import configureStore from './store/configureStore';
 
 import './index.scss';
 
-const store = configureStore();
+const store = configureStore(hashHistory);
 const history = syncHistoryWithStore(hashHistory, store);
 
 ReactDOM.render(

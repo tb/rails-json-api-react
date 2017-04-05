@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { readEndpoint } from 'redux-json-api';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 class PostList extends React.Component {
@@ -10,9 +11,12 @@ class PostList extends React.Component {
   render() {
     return (
       <div>
+        <p>
+          <Link to={'/posts/new'}>New Post</Link>
+        </p>
         {this.props.posts.data.map(post =>
           <div key={post.id}>
-            {post.attributes.title}
+            <Link to={`/posts/${post.id}`}>{post.attributes.title}</Link>
           </div>
         )}
       </div>
@@ -29,7 +33,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);
-
-// https://github.com/dixieio/redux-json-api/issues/47
-// https://github.com/dixieio/redux-json-api/issues/83
-
