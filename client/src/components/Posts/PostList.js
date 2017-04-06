@@ -14,8 +14,13 @@ export class PostList extends Component {
     return this.props.categoriesById[categoryId] || { attributes: {} };
   }
 
+  fetchPage = (url) => (e) => {
+    e.preventDefault();
+    this.props.fetchPage(url);
+  };
+
   render() {
-    const { posts } = this.props;
+    const { posts, prev, next } = this.props;
 
     return (
       <div>
@@ -28,6 +33,8 @@ export class PostList extends Component {
             ({this.getCategoryForPost(post).attributes.name})
           </div>
         )}
+        { prev && <a href onClick={this.fetchPage(prev)}>Prev</a> }
+        { next && <a href onClick={this.fetchPage(next)}>Next</a> }
       </div>
     );
   }
@@ -36,10 +43,13 @@ export class PostList extends Component {
 export const mapStateToProps = (state) => ({
   categoriesById: keyBy((state.api.categories || {data: []}).data, 'id'),
   posts: state.api.posts || {data: []},
+  next: get(state, 'api.links.posts.next'),
+  prev: get(state, 'api.links.posts.prev'),
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-  fetchPosts: () => dispatch(readEndpoint('posts?include=category')),
+  fetchPosts: () => dispatch(readEndpoint('posts?include=category', { options: { indexLinks: 'posts' } })),
+  fetchPage: (url) => dispatch(readEndpoint(url, { options: { indexLinks: 'posts' } })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);

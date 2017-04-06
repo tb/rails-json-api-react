@@ -3,4 +3,6 @@ class PostResource < JSONAPI::Resource
 
   has_many :comments
   has_one :category
+
+  paginator :offset
 end

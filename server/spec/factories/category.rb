@@ -4,6 +4,6 @@ FactoryGirl.define do
   end
 
   trait :with_posts do
-    posts { build_list :post, 3, :with_comments }
+    posts { build_list :post, 5, :with_comments }
   end
 end

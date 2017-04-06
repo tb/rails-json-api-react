@@ -27,8 +27,5 @@ export default (history) => {
     )),
   );
 
-  store.dispatch(setEndpointHost('http://localhost:8080'));
-  store.dispatch(setEndpointPath(''));
-
   return store;
 }
