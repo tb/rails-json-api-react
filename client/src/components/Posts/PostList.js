@@ -2,21 +2,30 @@ import React, { Component, PropTypes } from 'react';
 import { readEndpoint } from 'redux-json-api';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import { get, find, keyBy } from 'lodash';
 
-class PostList extends React.Component {
+export class PostList extends Component {
   componentWillMount() {
     this.props.fetchPosts();
   }
 
+  getCategoryForPost(post) {
+    const categoryId = get(post, 'relationships.category.data.id');
+    return this.props.categoriesById[categoryId] || { attributes: {} };
+  }
+
   render() {
+    const { posts } = this.props;
+
     return (
       <div>
         <p>
           <Link to={'/posts/new'}>New Post</Link>
         </p>
-        {this.props.posts.data.map(post =>
+        {posts.data.map(post =>
           <div key={post.id}>
             <Link to={`/posts/${post.id}`}>{post.attributes.title}</Link>
+            ({this.getCategoryForPost(post).attributes.name})
           </div>
         )}
       </div>
@@ -24,11 +33,12 @@ class PostList extends React.Component {
   }
 };
 
-const mapStateToProps = (state) => ({
+export const mapStateToProps = (state) => ({
+  categoriesById: keyBy((state.api.categories || {data: []}).data, 'id'),
   posts: state.api.posts || {data: []},
 });
 
-const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = (dispatch) => ({
   fetchPosts: () => dispatch(readEndpoint('posts?include=category')),
 });
 

@@ -6,13 +6,13 @@ import { connect } from 'react-redux';
 import { find, omit } from 'lodash';
 import PostForm from './PostForm';
 
-class PostEdit extends Component {
+export class PostEdit extends Component {
   componentWillMount() {
-    const { isNew, params } = this.props;
+    const { params } = this.props;
 
     this.props.fetchCategories();
 
-    if (!isNew) {
+    if (params.id) {
       this.props.fetchPost(params.id);
     }
   }
@@ -48,13 +48,8 @@ class PostEdit extends Component {
 
   onDelete = (e) => {
     e.preventDefault();
-
-    if (this.props.isNew) {
-      this.props.redirectToIndex();
-    } else {
-      this.props.deleteResource(this.props.post);
-      this.props.redirectToIndex();
-    }
+    this.props.deleteResource(this.props.post);
+    this.props.redirectToIndex();
   };
 
   render() {
@@ -68,9 +63,11 @@ class PostEdit extends Component {
 
         <h2>{ isNew ? 'New Post' : post.attributes.title }</h2>
 
-        <p>
-          <a href onClick={this.onDelete}>Delete</a>
-        </p>
+        { !isNew &&
+          <p>
+            <a href onClick={this.onDelete}>Delete</a>
+          </p>
+        }
 
         <PostForm initialValues={post.attributes} categories={categories} onSubmit={this.onSubmit} />
       </div>
@@ -78,15 +75,13 @@ class PostEdit extends Component {
   }
 };
 
-const mapStateToProps = (state, props) => ({
+export const mapStateToProps = (state, props) => ({
   isNew: !props.params.id,
   categories: (state.api.categories || { data: [] }).data,
-  post: (find(
-    (state.api.posts || { data: [] }).data, { id: props.params.id }
-  ) || { attributes: {} }),
+  post: (find((state.api.posts || { data: [] }).data, { id: props.params.id }) || { attributes: {} }),
 });
 
-const mapDispatchToProps = (dispatch, props) => ({
+export const mapDispatchToProps = (dispatch) => ({
   fetchCategories: () => dispatch(requireResource('categories')),
   fetchPost: (id) => dispatch(requireResource(`posts/${id}`)),
   deleteResource: (resource) => dispatch(deleteResource(resource)),

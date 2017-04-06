@@ -1,17 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
-import { InputField, TextArea, SelectField } from '../Forms';
+import { InputField, TextArea, SelectField, required } from '../Forms';
 
 class PostForm extends Component {
-  componentWillUpdate(nextProps) {
-    if (!isEmpty(nextProps.initialValues) && !this.props.initialized) {
-      this.props.initialize(nextProps.initialValues);
-    }
-  }
-
   render() {
-    const { initialValues, categories, handleSubmit, pristine, reset, submitting } = this.props;
+    const { categories, handleSubmit, pristine, reset, submitting } = this.props;
 
     const categoriesOptions = categories.map(category => ({
       id: category.id,
@@ -39,12 +33,7 @@ class PostForm extends Component {
 }
 
 const validate = values => {
-  const errors = {};
-  ['title'].forEach(field => {
-    if (!values[field]) {
-      errors[field] = 'Required'
-    }
-  });
+  const errors = required(values, ['title']);
   return errors;
 };
 

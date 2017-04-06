@@ -3,6 +3,7 @@ import { Router, Route, IndexRoute } from 'react-router';
 
 import App from './App';
 import { PostList, PostEdit } from './Posts';
+import { CategoryList, CategoryEdit } from './Categories';
 
 export default class Routes extends PureComponent {
   static propTypes = {
@@ -19,6 +20,8 @@ export default class Routes extends PureComponent {
           <Route path="/posts" component={PostList}/>
           <Route path="/posts/new" component={PostEdit}/>
           <Route path="/posts/:id" component={PostEdit}/>
+          <Route path="/categories" component={CategoryList}/>
+          <Route path="/categories/:id" component={CategoryEdit}/>
         </Route>
       </Router>
     );
