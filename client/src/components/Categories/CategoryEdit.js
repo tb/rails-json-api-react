@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { requireResource } from 'redux-json-api';
+import { requireResource, createResource, updateResource, deleteResource } from 'redux-json-api';
 import { Link } from 'react-router';
+import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { find, omit } from 'lodash';
+import CategoryForm from './CategoryForm';
 
 export class CategoryEdit extends Component {
   componentWillMount() {
@@ -12,6 +14,24 @@ export class CategoryEdit extends Component {
       this.props.fetchCategory(params.id);
     }
   }
+
+  onSubmit = (values) => {
+    const { params, createResource, updateResource, redirectToIndex } = this.props;
+    const { ...attributes } = values;
+
+    if (!params.id) {
+      createResource({
+        type: 'categories',
+        attributes,
+      }).then(redirectToIndex);
+    } else {
+      updateResource({
+        id: params.id,
+        type: 'categories',
+        attributes,
+      }).then(redirectToIndex);
+    }
+  };
 
   render() {
     const { isNew, category } = this.props;
@@ -24,7 +44,13 @@ export class CategoryEdit extends Component {
 
         <h2>{ isNew ? 'New Category' : category.attributes.name }</h2>
 
-        <pre>{ JSON.stringify(category, null, 2) }</pre>
+        { !isNew &&
+          <p>
+            <a href onClick={this.onDelete}>Delete</a>
+          </p>
+        }
+
+        <CategoryForm initialValues={category.attributes} onSubmit={this.onSubmit} />
       </div>
     );
   }
@@ -37,6 +63,10 @@ export const mapStateToProps = (state, props) => ({
 
 export const mapDispatchToProps = (dispatch) => ({
   fetchCategory: (id) => dispatch(requireResource(`categories/${id}`)),
+  deleteResource: (resource) => dispatch(deleteResource(resource)),
+  createResource: (resource) => dispatch(createResource(resource)),
+  updateResource: (resource) => dispatch(updateResource(resource)),
+  redirectToIndex: () => dispatch(push('/categories')),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryEdit);

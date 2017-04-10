@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { readEndpoint } from 'redux-json-api';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { get, find, keyBy } from 'lodash';
+import { get, keyBy } from 'lodash';
 
 export class PostList extends Component {
   componentWillMount() {

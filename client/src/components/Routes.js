@@ -21,6 +21,7 @@ export default class Routes extends PureComponent {
           <Route path="/posts/new" component={PostEdit}/>
           <Route path="/posts/:id" component={PostEdit}/>
           <Route path="/categories" component={CategoryList}/>
+          <Route path="/categories/new" component={CategoryEdit}/>
           <Route path="/categories/:id" component={CategoryEdit}/>
         </Route>
       </Router>
