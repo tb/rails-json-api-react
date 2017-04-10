@@ -33,8 +33,9 @@ export class PostList extends Component {
             ({this.getCategoryForPost(post).attributes.name})
           </div>
         )}
-        { prev && <a href onClick={this.fetchPage(prev)}>Prev</a> }
-        { next && <a href onClick={this.fetchPage(next)}>Next</a> }
+        {/*{ prev && <a href onClick={this.fetchPage(prev)}>Prev</a> }*/}
+        {/*{ next && <a href onClick={this.fetchPage(next)}>Next</a> }*/}
+        { next && <a href onClick={this.fetchPage(next)}>More</a> }
       </div>
     );
   }

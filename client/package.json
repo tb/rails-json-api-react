@@ -22,7 +22,7 @@
     "react-router-redux": "^4.0.8",
     "redux": "^3.6.0",
     "redux-form": "^6.6.1",
-    "redux-json-api": "^1.7.0",
+    "redux-json-api": "2.0.0-beta.0",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
