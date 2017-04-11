@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { readEndpoint } from 'redux-json-api';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { get, keyBy } from 'lodash';
+import { get, find, keyBy } from 'lodash';
 
-export class PostList extends Component {
+export class BlogPostList extends Component {
   componentWillMount() {
     this.props.fetchPosts();
   }
@@ -24,12 +24,9 @@ export class PostList extends Component {
 
     return (
       <div>
-        <p>
-          <Link to={'admin/posts/new'}>New Post</Link>
-        </p>
         {posts.data.map(post =>
           <div key={post.id}>
-            <Link to={`admin/posts/${post.id}`}>{post.attributes.title}</Link>
+            <Link to={`posts/${post.id}`}>{post.attributes.title}</Link>
             ({this.getCategoryForPost(post).attributes.name})
           </div>
         )}
@@ -53,4 +50,4 @@ export const mapDispatchToProps = (dispatch) => ({
   fetchPage: (url) => dispatch(readEndpoint(url, { options: { indexLinks: 'posts' } })),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostList);
+export default connect(mapStateToProps, mapDispatchToProps)(BlogPostList);

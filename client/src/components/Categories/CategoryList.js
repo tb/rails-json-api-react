@@ -10,7 +10,7 @@ export class CategoryList extends Component {
   }
 
   getPostsCountForCategory(category) {
-    return category.relationships.posts.data.length
+    return get(category, 'relationships.posts.data.length') || 0
   }
 
   render() {
@@ -19,11 +19,11 @@ export class CategoryList extends Component {
     return (
       <div>
         <p>
-          <Link to={'/categories/new'}>New Category</Link>
+          <Link to={'admin/categories/new'}>New Category</Link>
         </p>
         {categories.data.map(category =>
           <div key={category.id}>
-            <Link to={`/categories/${category.id}`}>{category.attributes.name}</Link>
+            <Link to={`admin/categories/${category.id}`}>{category.attributes.name}</Link>
             ({this.getPostsCountForCategory(category)})
           </div>
         )}
