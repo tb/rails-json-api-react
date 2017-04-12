@@ -15,7 +15,7 @@ export class BlogPostShow extends Component {
   }
 
   render() {
-    const { post } = this.props;
+    const { post, comments } = this.props;
 
     return(
       <div>
@@ -26,7 +26,7 @@ export class BlogPostShow extends Component {
         <h2> { post.attributes.title } </h2>
 
         <h3> { post.attributes.body } </h3>
-        <CommentList post={ post } />
+        <CommentList comments={ comments } />
       </div>
     );
   }
@@ -34,6 +34,7 @@ export class BlogPostShow extends Component {
 
 export const mapStateToProps = (state, props) => ({
   post: (find((state.api.posts || { data: [] }).data, { id: props.params.id }) || { attributes: {} }),
+  comments: (state.api.comments || { data: [] }),
 });
 
 export const mapDispatchToProps = (dispatch) => ({

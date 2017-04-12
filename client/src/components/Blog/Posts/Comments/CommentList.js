@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { readEndpiint } from 'redux-json-api';
-import { connect } from 'react-redux';
 
 export class CommentList extends Component {
   render() {
-    const { post } = this.props;
+    const { comments } = this.props;
 
     return (
       <div>
-        { post.id }
+        {comments.data.map(comment =>
+          <div key={comment.id}>
+            # { comment.id }
+            <p> { comment.attributes.body } </p>
+          </div>
+        )}
       </div>
     );
   }
