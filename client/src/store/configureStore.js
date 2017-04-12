@@ -1,9 +1,8 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { routerReducer, routerMiddleware } from 'react-router-redux'
-import { reducer as api } from 'redux-json-api';
-import { setEndpointHost, setEndpointPath } from 'redux-json-api';
-import { reducer as formReducer } from 'redux-form'
+import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { reducer as formReducer } from 'redux-form';
+import api from './api/reducer';
 
 const composeEnhancers =
   process.env.NODE_ENV === 'production'

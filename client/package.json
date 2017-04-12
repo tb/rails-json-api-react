@@ -13,8 +13,10 @@
     "test": "NODE_ENV=test jest"
   },
   "dependencies": {
+    "axios": "^0.16.1",
     "babel-polyfill": "^6.23.0",
     "lodash": "^4.17.4",
+    "object-path-immutable": "^0.5.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",
@@ -22,7 +24,6 @@
     "react-router-redux": "^4.0.8",
     "redux": "^3.6.0",
     "redux-form": "^6.6.1",
-    "redux-json-api": "2.0.0-beta.0",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {

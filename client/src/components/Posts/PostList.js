@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import { readEndpoint } from 'redux-json-api';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { get, find, keyBy } from 'lodash';
 
+import { fetchList, getList, getMap } from '../../store/api';
+import PostListFilter from './PostListFilter';
+
 export class PostList extends Component {
   componentWillMount() {
-    this.props.fetchPosts();
+    this.props.fetchPosts(this.props.filter);
   }
 
   getCategoryForPost(post) {
@@ -19,38 +21,42 @@ export class PostList extends Component {
     this.props.fetchPage(url);
   };
 
+  onFilter = (filter) => this.props.fetchPosts(filter);
+
   render() {
-    const { posts, prev, next } = this.props;
+    const { posts } = this.props;
+    const { prev, next } = posts.links;
 
     return (
       <div>
         <p>
           <Link to={'/posts/new'}>New Post</Link>
         </p>
+        <PostListFilter onSubmit={this.onFilter}></PostListFilter>
         {posts.data.map(post =>
           <div key={post.id}>
             <Link to={`/posts/${post.id}`}>{post.attributes.title}</Link>
             ({this.getCategoryForPost(post).attributes.name})
           </div>
         )}
-        {/*{ prev && <a href onClick={this.fetchPage(prev)}>Prev</a> }*/}
-        {/*{ next && <a href onClick={this.fetchPage(next)}>Next</a> }*/}
-        { next && <a href onClick={this.fetchPage(next)}>More</a> }
+        <p>
+        { next && <a href onClick={this.fetchPage(next)} style={{marginRight: '4px'}}>Next</a> }
+        { prev && <a href onClick={this.fetchPage(prev)}>Prev</a> }
+        </p>
       </div>
     );
   }
 };
 
 export const mapStateToProps = (state) => ({
-  categoriesById: keyBy((state.api.categories || {data: []}).data, 'id'),
-  posts: state.api.posts || {data: []},
-  next: get(state, 'api.links.posts.next'),
-  prev: get(state, 'api.links.posts.prev'),
+  filter: get(state, 'form.postListFilter.values') || {},
+  categoriesById: getMap(state, 'categories'),
+  posts: getList(state, 'posts'),
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-  fetchPosts: () => dispatch(readEndpoint('posts?include=category', { options: { indexLinks: 'posts' } })),
-  fetchPage: (url) => dispatch(readEndpoint(url, { options: { indexLinks: 'posts' } })),
+  fetchPosts: (filter = {}) => dispatch(fetchList('posts', {include: 'category', filter})),
+  fetchPage: (url) => dispatch(fetchList('posts', {include: 'category'}, {url})),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);

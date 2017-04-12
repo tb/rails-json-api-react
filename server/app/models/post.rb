@@ -4,4 +4,6 @@ class Post < ApplicationRecord
 
   validates :title, presence: true
   validates :body, presence: true
+
+  scope :title_contains, -> (value) { where('title ILIKE ?', "%#{value.join}%") }
 end

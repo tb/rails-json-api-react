@@ -1,10 +1,19 @@
 import React, { Component, PropTypes } from 'react';
-import { requireResource, createResource, updateResource, deleteResource } from 'redux-json-api';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
-import { find, omit } from 'lodash';
+import { get, find, omit } from 'lodash';
+
 import PostForm from './PostForm';
+import {
+  fetchOne,
+  fetchList,
+  createResource,
+  updateResource,
+  deleteResource,
+  getOne,
+  getMany,
+} from '../../store/api';
 
 export class PostEdit extends Component {
   componentWillMount() {
@@ -18,38 +27,40 @@ export class PostEdit extends Component {
   }
 
   onSubmit = (values) => {
-    const { params, categories, createResource, updateResource, redirectToIndex } = this.props;
-    const { category_id, ...attributes } = values;
-    const category = find(categories, { id: category_id }) | {};
+    const { params, post, categories, createResource, updateResource, redirectToIndex } = this.props;
     const relationships = {
       category: {
         data: {
           type: 'categories',
-          id: category_id,
-        },
-        links: category.links,
+        }
       },
     };
 
+    values.relationships.category.data.type = 'categories';
+
+    // TODO find better way to manage new/edit payload
+    const payload = omit({
+      id: post.id,
+      relationships,
+      ...values,
+      type: 'posts',
+    },
+      'links',
+      'relationships.category.links',
+      'relationships.comments'
+    );
+
     if (!params.id) {
-      createResource({
-        type: 'posts',
-        attributes,
-        relationships,
-      }).then(redirectToIndex);
+      createResource(payload).then(redirectToIndex);
     } else {
-      updateResource({
-        id: params.id,
-        type: 'posts',
-        attributes,
-      }).then(redirectToIndex);
+      updateResource(payload).then(redirectToIndex);
     }
   };
 
   onDelete = (e) => {
     e.preventDefault();
-    this.props.deleteResource(this.props.post);
-    this.props.redirectToIndex();
+    this.props.deleteResource(this.props.post)
+      .then(this.props.redirectToIndex);
   };
 
   render() {
@@ -69,7 +80,7 @@ export class PostEdit extends Component {
           </p>
         }
 
-        <PostForm initialValues={post.attributes} categories={categories} onSubmit={this.onSubmit} />
+        <PostForm initialValues={post} categories={categories} onSubmit={this.onSubmit} />
       </div>
     );
   }
@@ -77,16 +88,16 @@ export class PostEdit extends Component {
 
 export const mapStateToProps = (state, props) => ({
   isNew: !props.params.id,
-  categories: (state.api.categories || { data: [] }).data,
-  post: (find((state.api.posts || { data: [] }).data, { id: props.params.id }) || { attributes: {} }),
+  categories: getMany(state, 'categories'),
+  post: getOne(state, 'posts', props.params.id),
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-  fetchCategories: () => dispatch(requireResource('categories')),
-  fetchPost: (id) => dispatch(requireResource(`posts/${id}`)),
-  deleteResource: (resource) => dispatch(deleteResource(resource)),
-  createResource: (resource) => dispatch(createResource(resource)),
-  updateResource: (resource) => dispatch(updateResource(resource)),
+  fetchCategories: () => dispatch(fetchList('categories', {page: { limit: 999 }})),
+  fetchPost: (id) => dispatch(fetchOne('posts', { id, include: 'category' })),
+  deleteResource: (resource) => dispatch(deleteResource('posts', resource)),
+  createResource: (resource) => dispatch(createResource('posts', resource)),
+  updateResource: (resource) => dispatch(updateResource('posts', resource)),
   redirectToIndex: () => dispatch(push('/posts')),
 });
 

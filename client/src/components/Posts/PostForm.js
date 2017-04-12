@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
+
 import { InputField, TextArea, SelectField, required } from '../Forms';
 
 class PostForm extends Component {
@@ -15,13 +16,14 @@ class PostForm extends Component {
     return (
       <form onSubmit={handleSubmit}>
         <div>
-          <Field name="title" component={InputField} />
+          <Field name="attributes.title" component={InputField} />
         </div>
         <div>
-          <Field name="category_id" component={SelectField} options={categoriesOptions} />
+          <Field name="relationships.category.data.id" component={SelectField}
+                 options={categoriesOptions} />
         </div>
         <div>
-          <Field name="body" component={TextArea} rows="10" />
+          <Field name="attributes.body" component={TextArea} rows="10" />
         </div>
         <div>
           <button type="submit" disabled={pristine || submitting}>Submit</button>
@@ -33,7 +35,11 @@ class PostForm extends Component {
 }
 
 const validate = values => {
-  const errors = required(values, ['title']);
+  const errors = required(values,
+    'attributes.title',
+    'relationships.category.data.id',
+    'attributes.body'
+  );
   return errors;
 };
 

@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { requireResource } from 'redux-json-api';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { find, omit } from 'lodash';
+
+import { fetchOne, getOne } from '../../store/api';
 
 export class CategoryEdit extends Component {
   componentWillMount() {
@@ -32,11 +33,11 @@ export class CategoryEdit extends Component {
 
 export const mapStateToProps = (state, props) => ({
   isNew: !props.params.id,
-  category: (find((state.api.categories || { data: [] }).data, { id: props.params.id }) || { attributes: {} }),
+  category: getOne(state, 'categories', props.params.id),
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-  fetchCategory: (id) => dispatch(requireResource(`categories/${id}`)),
+  fetchCategory: (id) => dispatch(fetchOne('categories', { id })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryEdit);

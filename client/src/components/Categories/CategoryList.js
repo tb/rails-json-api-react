@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { readEndpoint } from 'redux-json-api';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { find, keyBy } from 'lodash';
+
+import { fetchList, getList } from '../../store/api';
 
 export class CategoryList extends Component {
   componentWillMount() {
@@ -25,11 +26,11 @@ export class CategoryList extends Component {
 };
 
 export const mapStateToProps = (state) => ({
-  categories: state.api.categories || {data: []},
+  categories: getList(state, 'categories'),
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-  fetchCategories: () => dispatch(readEndpoint('categories')),
+  fetchCategories: () => dispatch(fetchList('categories')),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);
