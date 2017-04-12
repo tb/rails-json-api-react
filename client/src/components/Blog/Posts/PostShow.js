@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { requireResource } from 'redux-json-api';
+import { CommentList } from './Comments/CommentList'
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { find } from 'lodash';
+import { get, find } from 'lodash';
 
 export class BlogPostShow extends Component {
   componentWillMount() {
@@ -25,6 +26,7 @@ export class BlogPostShow extends Component {
         <h2> { post.attributes.title } </h2>
 
         <h3> { post.attributes.body } </h3>
+        <CommentList post={ post } />
       </div>
     );
   }
@@ -35,7 +37,7 @@ export const mapStateToProps = (state, props) => ({
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-  fetchPost: (id) => dispatch(requireResource(`posts/${id}`)),
+  fetchPost: (id) => dispatch(requireResource(`posts/${id}?include=comments`)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlogPostShow);

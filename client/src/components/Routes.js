@@ -5,6 +5,7 @@ import Admin from './Admin';
 import Blog from './Blog';
 import NotFound from './NotFound'
 import { BlogPostShow, BlogPostList } from './Blog/Posts'
+import { CommentEdit, CommentList } from './Blog/Posts/Comments'
 import { PostList, PostEdit } from './Posts';
 import { CategoryList, CategoryEdit } from './Categories';
 
@@ -29,6 +30,9 @@ export default class Routes extends PureComponent {
         <Route path="/" component={Blog}>
           <IndexRoute component={BlogPostList}/>
           <Route path="posts/:id" component={BlogPostShow}/>
+          <Route path="posts/:id/comments" component={CommentList}/>
+          <Route path="posts/:id/new" component={CommentEdit}/>
+          <Route path="posts/:id/:id" component={CommentEdit}/>
         </Route>
         <Route path="*" component={NotFound} />
       </Router>
