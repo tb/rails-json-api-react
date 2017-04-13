@@ -10,20 +10,20 @@ class PostForm extends Component {
 
     const categoriesOptions = categories.map(category => ({
       id: category.id,
-      name: category.attributes.name,
+      name: category.name,
     }));
 
     return (
       <form onSubmit={handleSubmit}>
         <div>
-          <Field name="attributes.title" component={InputField} />
+          <Field name="title" component={InputField} />
         </div>
         <div>
-          <Field name="relationships.category.data.id" component={SelectField}
+          <Field name="category.id" component={SelectField}
                  options={categoriesOptions} />
         </div>
         <div>
-          <Field name="attributes.body" component={TextArea} rows="10" />
+          <Field name="body" component={TextArea} rows="10" />
         </div>
         <div>
           <button type="submit" disabled={pristine || submitting}>Submit</button>
@@ -36,9 +36,9 @@ class PostForm extends Component {
 
 const validate = values => {
   const errors = required(values,
-    'attributes.title',
-    'relationships.category.data.id',
-    'attributes.body'
+    'title',
+    'category.id',
+    'body'
   );
   return errors;
 };

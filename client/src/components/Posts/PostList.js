@@ -13,8 +13,8 @@ export class PostList extends Component {
   }
 
   getCategoryForPost(post) {
-    const categoryId = get(post, 'relationships.category.data.id');
-    return this.props.categoriesById[categoryId] || { attributes: {} };
+    const categoryId = String(get(post, 'category.id'));
+    return this.props.categoriesById[categoryId] || {};
   }
 
   fetchPage = (url) => (e) => {
@@ -24,10 +24,10 @@ export class PostList extends Component {
 
   onFilter = (filter) => {
     this.props.fetchPosts(filter);
-  }
+  };
 
   render() {
-    const { posts, categoriesById, categories } = this.props;
+    const { posts, categories } = this.props;
     const { prev, next } = posts.links;
 
     return (
@@ -38,8 +38,8 @@ export class PostList extends Component {
         <PostListFilter onSubmit={this.onFilter} categories={categories}></PostListFilter>
         {posts.data.map(post =>
           <div key={post.id}>
-            <Link to={`/posts/${post.id}`}>{post.attributes.title}</Link>
-            ({this.getCategoryForPost(post).attributes.name})
+            <Link to={`/posts/${post.id}`}>{post.title}</Link>
+            ({this.getCategoryForPost(post).name})
           </div>
         )}
         <p>
