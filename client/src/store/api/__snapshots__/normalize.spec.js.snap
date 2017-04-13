@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`normalize categories denormalize 1`] = `
+Object {
+  "data": Object {
+    "attributes": Object {
+      "name": "Category 11",
+    },
+    "id": "11",
+    "type": "categories",
+  },
+}
+`;
+
+exports[`normalize categories normalize 1`] = `
+Object {
+  "id": "11",
+  "name": "Category 11",
+}
+`;
+
+exports[`normalize posts denormalize 1`] = `
+Object {
+  "data": Object {
+    "attributes": Object {
+      "body": "Body 1",
+      "title": "Title 1",
+    },
+    "id": "1",
+    "relationships": Object {
+      "category": Object {
+        "data": Object {
+          "id": "11",
+          "type": "categories",
+        },
+      },
+    },
+    "type": "posts",
+  },
+}
+`;
+
+exports[`normalize posts normalize 1`] = `
+Object {
+  "body": "Body 1",
+  "category": Object {
+    "id": "11",
+    "name": undefined,
+  },
+  "id": "1",
+  "title": "Title 1",
+}
+`;

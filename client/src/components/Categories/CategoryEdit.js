@@ -23,7 +23,7 @@ export class CategoryEdit extends Component {
           <Link to={`/categories`}>Back to Categories</Link>
         </p>
 
-        <h2>{ isNew ? 'New Category' : category.attributes.name }</h2>
+        <h2>{ isNew ? 'New Category' : category.name }</h2>
 
         <pre>{ JSON.stringify(category, null, 2) }</pre>
       </div>

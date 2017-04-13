@@ -1,6 +1,8 @@
 import qs from 'qs';
 import axios from 'axios';
-import { isEmpty, toArray } from 'lodash';
+import { get, isEmpty, toArray } from 'lodash';
+
+import { denormalize, normalize, normalizeEach } from './normalize';
 
 export const GET_ONE = 'GET_ONE';
 export const GET_LIST = 'GET_LIST';
@@ -26,6 +28,11 @@ export default (request, payload, meta) => {
     url = `${meta.key}`,
   } = meta;
 
+  const normalizeResponse = response => Promise.all([
+      normalize(meta.key, get(response, 'data')),
+      normalizeEach(get(response, 'data.included')),
+    ]).then(([data, included]) => ({...response.data, data, included}));
+
   const params = payload;
 
   switch(request) {
@@ -33,14 +40,15 @@ export default (request, payload, meta) => {
       return client({
         url: withParams(url),
         method: 'POST',
-        data: { data: payload },
+        data: denormalize(meta.key, payload),
       }).then(response => response.data);
-    case UPDATE:
+    case UPDATE: {
       return client({
         url: withParams(`${url}/${payload.id}`),
         method: 'PUT',
-        data: { data: payload },
+        data: denormalize(meta.key, payload),
       }).then(response => response.data);
+    }
     case DELETE:
       return client({
         url: withParams(`${url}/${payload.id}`),
@@ -51,12 +59,12 @@ export default (request, payload, meta) => {
         url: withParams(`${url}/${payload.id}`, params),
         method: 'GET',
         data: JSON.stringify(payload),
-      }).then(response => response.data);
+      }).then(normalizeResponse);
     default:
       return client({
         url: withParams(`${url}`, params),
         method: 'GET',
         data: JSON.stringify(payload),
-      }).then(response => response.data);
+      }).then(normalizeResponse);
   }
 };

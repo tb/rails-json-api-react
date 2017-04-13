@@ -17,7 +17,7 @@ export class CategoryList extends Component {
       <div>
         {categories.data.map(category =>
           <div key={category.id}>
-            <Link to={`/categories/${category.id}`}>{category.attributes.name}</Link>
+            <Link to={`/categories/${category.id}`}>{category.name}</Link>
           </div>
         )}
       </div>

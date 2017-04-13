@@ -28,27 +28,11 @@ export class PostEdit extends Component {
 
   onSubmit = (values) => {
     const { params, post, categories, createResource, updateResource, redirectToIndex } = this.props;
-    const relationships = {
-      category: {
-        data: {
-          type: 'categories',
-        }
-      },
-    };
 
-    values.relationships.category.data.type = 'categories';
-
-    // TODO find better way to manage new/edit payload
-    const payload = omit({
+    const payload = {
       id: post.id,
-      relationships,
       ...values,
-      type: 'posts',
-    },
-      'links',
-      'relationships.category.links',
-      'relationships.comments'
-    );
+    };
 
     if (!params.id) {
       createResource(payload).then(redirectToIndex);
@@ -72,7 +56,7 @@ export class PostEdit extends Component {
           <Link to={`/posts`}>Back to Posts</Link>
         </p>
 
-        <h2>{ isNew ? 'New Post' : post.attributes.title }</h2>
+        <h2>{ isNew ? 'New Post' : post.title }</h2>
 
         { !isNew &&
           <p>

@@ -9,9 +9,13 @@ class PostListFilter extends Component {
 
     const categoriesOptions = categories.map(category => ({
       id: category.id,
-      name: category.attributes.name,
+      name: category.name,
     }));
-    categoriesOptions.unshift({ id: "", name: 'All categories'})
+
+    categoriesOptions.unshift({
+      id: '',
+      name: 'All categories'
+    });
 
     return (
       <form onSubmit={handleSubmit}>
