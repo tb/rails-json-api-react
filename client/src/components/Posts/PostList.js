@@ -3,12 +3,13 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { get, find, keyBy } from 'lodash';
 
-import { fetchList, getList, getMap } from '../../store/api';
+import { fetchList, getList, getMap, getMany } from '../../store/api';
 import PostListFilter from './PostListFilter';
 
 export class PostList extends Component {
   componentWillMount() {
     this.props.fetchPosts(this.props.filter);
+    this.props.fetchCategories();
   }
 
   getCategoryForPost(post) {
@@ -21,10 +22,12 @@ export class PostList extends Component {
     this.props.fetchPage(url);
   };
 
-  onFilter = (filter) => this.props.fetchPosts(filter);
+  onFilter = (filter) => {
+    this.props.fetchPosts(filter);
+  }
 
   render() {
-    const { posts } = this.props;
+    const { posts, categoriesById, categories } = this.props;
     const { prev, next } = posts.links;
 
     return (
@@ -32,7 +35,7 @@ export class PostList extends Component {
         <p>
           <Link to={'/posts/new'}>New Post</Link>
         </p>
-        <PostListFilter onSubmit={this.onFilter}></PostListFilter>
+        <PostListFilter onSubmit={this.onFilter} categories={categories}></PostListFilter>
         {posts.data.map(post =>
           <div key={post.id}>
             <Link to={`/posts/${post.id}`}>{post.attributes.title}</Link>
@@ -51,12 +54,14 @@ export class PostList extends Component {
 export const mapStateToProps = (state) => ({
   filter: get(state, 'form.postListFilter.values') || {},
   categoriesById: getMap(state, 'categories'),
+  categories: getMany(state, 'categories'),
   posts: getList(state, 'posts'),
 });
 
 export const mapDispatchToProps = (dispatch) => ({
   fetchPosts: (filter = {}) => dispatch(fetchList('posts', {include: 'category', filter})),
   fetchPage: (url) => dispatch(fetchList('posts', {include: 'category'}, {url})),
+  fetchCategories: () => dispatch(fetchList('categories', {page: { limit: 999 }})),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);
