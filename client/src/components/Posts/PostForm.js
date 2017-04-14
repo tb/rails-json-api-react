@@ -8,10 +8,13 @@ class PostForm extends Component {
   render() {
     const { categories, handleSubmit, pristine, reset, submitting } = this.props;
 
-    const categoriesOptions = categories.map(category => ({
+    const categoriesOptions = [{
+      id: '',
+      name: '-- select category --'
+    }].concat(categories.map(category => ({
       id: category.id,
       name: category.name,
-    }));
+    })));
 
     return (
       <form onSubmit={handleSubmit}>

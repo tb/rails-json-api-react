@@ -7,15 +7,13 @@ class PostListFilter extends Component {
   render() {
     const { handleSubmit, onSubmit, categories } = this.props;
 
-    const categoriesOptions = categories.map(category => ({
-      id: category.id,
-      name: category.name,
-    }));
-
-    categoriesOptions.unshift({
+    const categoriesOptions = [{
       id: '',
       name: 'All categories'
-    });
+    }].concat(categories.map(category => ({
+      id: category.id,
+      name: category.name,
+    })));
 
     return (
       <form onSubmit={handleSubmit}>
