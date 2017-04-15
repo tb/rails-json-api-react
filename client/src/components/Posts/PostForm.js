@@ -41,7 +41,7 @@ const validate = values => {
   const errors = required(values,
     'title',
     'category.id',
-    'body'
+    'body',
   );
   return errors;
 };

@@ -17,20 +17,20 @@ import {
 
 export class PostEdit extends Component {
   componentWillMount() {
-    const { params } = this.props;
+    const { params, fetchResource, fetchCategories } = this.props;
 
-    this.props.fetchCategories();
+    fetchCategories();
 
     if (params.id) {
-      this.props.fetchPost(params.id);
+      fetchResource(params.id);
     }
   }
 
   onSubmit = (values) => {
-    const { params, post, categories, createResource, updateResource, redirectToIndex } = this.props;
+    const { params, resource, createResource, updateResource, redirectToIndex } = this.props;
 
     const payload = {
-      id: post.id,
+      id: resource.id,
       ...values,
     };
 
@@ -42,13 +42,13 @@ export class PostEdit extends Component {
   };
 
   onDelete = (e) => {
+    const { deleteResource, resource, redirectToIndex } = this.props;
     e.preventDefault();
-    this.props.deleteResource(this.props.post)
-      .then(this.props.redirectToIndex);
+    deleteResource(resource).then(redirectToIndex);
   };
 
   render() {
-    const { isNew, post, categories } = this.props;
+    const { isNew, resource, categories } = this.props;
 
     return (
       <div>
@@ -56,7 +56,7 @@ export class PostEdit extends Component {
           <Link to={`/posts`}>Back to Posts</Link>
         </p>
 
-        <h2>{ isNew ? 'New Post' : post.title }</h2>
+        <h2>{ isNew ? 'New Post' : resource.title }</h2>
 
         { !isNew &&
           <p>
@@ -64,7 +64,7 @@ export class PostEdit extends Component {
           </p>
         }
 
-        <PostForm initialValues={post} categories={categories} onSubmit={this.onSubmit} />
+        <PostForm initialValues={resource} categories={categories} onSubmit={this.onSubmit} />
       </div>
     );
   }
@@ -73,15 +73,15 @@ export class PostEdit extends Component {
 export const mapStateToProps = (state, props) => ({
   isNew: !props.params.id,
   categories: getMany(state, 'categories'),
-  post: getOne(state, 'posts', props.params.id),
+  resource: getOne(state, 'posts', props.params.id),
 });
 
 export const mapDispatchToProps = (dispatch) => ({
   fetchCategories: () => dispatch(fetchList('categories', {page: { limit: 999 }})),
-  fetchPost: (id) => dispatch(fetchOne('posts', { id, include: 'category' })),
-  deleteResource: (resource) => dispatch(deleteResource('posts', resource)),
+  fetchResource: (id) => dispatch(fetchOne('posts', { id, include: 'category' })),
   createResource: (resource) => dispatch(createResource('posts', resource)),
   updateResource: (resource) => dispatch(updateResource('posts', resource)),
+  deleteResource: (resource) => dispatch(deleteResource('posts', resource)),
   redirectToIndex: () => dispatch(push('/posts')),
 });
 
