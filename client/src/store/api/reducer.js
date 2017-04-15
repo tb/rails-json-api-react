@@ -1,5 +1,12 @@
 import imm from 'object-path-immutable';
-import { get, map, keyBy, isEmpty, without } from 'lodash';
+import {
+  get,
+  map,
+  keys,
+  keyBy,
+  isEmpty,
+  without,
+} from 'lodash';
 
 import {
   GET_ONE,
@@ -19,11 +26,12 @@ import {
 
 const initialState = {};
 
-const addIncluded = (newState, included = []) => {
-  included.forEach(data => {
-    newState = imm.assign(newState, [data.type, 'byId'], keyBy([data], 'id'));
+const addNormalized = (newState, payload) => {
+  keys(payload.normalized).forEach(key => {
+    payload.normalized[key].forEach(item => {
+      newState = imm.assign(newState, [key, 'byId', item.id], item);
+    });
   });
-
   return newState;
 };
 
@@ -34,30 +42,23 @@ export default (state = initialState, action) => {
 
   switch (type) {
     case actionType(GET_ONE, SUCCESS): {
-      newState = imm.assign(newState, [key, 'byId'], keyBy([payload.data], 'id'));
-      newState = addIncluded(newState, payload.included);
-      return newState;
+      return addNormalized(newState, payload);
     }
     case actionType(GET_LIST, SUCCESS): {
-      newState = imm.assign(newState, [key, 'byId'], keyBy(payload.data, 'id'));
+      newState = addNormalized(newState, payload);
       newState = imm.set(newState, [key, 'list', 'ids'], map(payload.data, 'id'));
       newState = imm.set(newState, [key, 'list', 'links'], payload.links);
       newState = imm.set(newState, [key, 'list', 'meta'], payload.meta);
-      newState = addIncluded(newState, payload.included);
       return newState;
     }
     case actionType(GET_MANY, SUCCESS): {
-      newState = imm.assign(newState, [key, 'byId'], keyBy(payload.data, 'id'));
-      newState = addIncluded(newState, payload.included);
-      return newState;
+      return addNormalized(newState, payload);
     }
     case actionType(CREATE, SUCCESS): {
-      newState = imm.assign(newState, [key, 'byId'], keyBy([payload.data], 'id'));
-      return newState;
+      return addNormalized(newState, payload);
     }
     case actionType(UPDATE, SUCCESS): {
-      newState = imm.assign(newState, [key, 'byId'], keyBy([payload.data], 'id'));
-      return newState;
+      return addNormalized(newState, payload);
     }
     case actionType(DELETE, SUCCESS): {
       newState = imm.del(newState, [key, 'byId', payload.data.id]);
