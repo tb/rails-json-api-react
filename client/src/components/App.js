@@ -1,36 +1,63 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { isEmpty } from 'lodash';
+import IndexLink from 'react-router/lib/IndexLink';
+import NavigationDrawer from 'react-md/lib/NavigationDrawers';
+import FontIcon from 'react-md/lib/FontIcons';
 
 import { getUser, logout } from '../store/api';
 
-export class App extends Component {
-  logout = (e) => {
-    e.preventDefault();
-    this.props.logout(this.props.user);
-  };
-
+class App extends Component {
   render() {
-    const { user } = this.props;
+    const { children } = this.props;
+
+    const navItems = [
+      {
+        key: 'posts',
+        primaryText: 'Posts',
+        leftIcon: <FontIcon>language</FontIcon>,
+        component: IndexLink,
+        to: '/posts',
+      },
+      {
+        key: 'categories',
+        primaryText: 'Categories',
+        leftIcon: <FontIcon>filter_list</FontIcon>,
+        component: IndexLink,
+        to: '/categories',
+      },
+      {
+        key: 'users',
+        primaryText: 'Users',
+        leftIcon: <FontIcon>filter_list</FontIcon>,
+        component: IndexLink,
+        to: '/users',
+      },
+      {
+        key: 'logout',
+        primaryText: 'Logout',
+        leftIcon: <FontIcon>exit_to_app</FontIcon>,
+        onClick: () => this.props.logout(),
+      },
+    ];
+
     return (
       <div>
-        <p>
-          <Link to={'/posts'}>Posts</Link> |&nbsp;
-          <Link to={'/categories'}>Categories</Link> |&nbsp;
-          <Link to={'/users'}>Users</Link> |&nbsp;
-          {
-            isEmpty(user)
-              ? <Link to={'/login'}>Log in</Link>
-              : <a href="/" onClick={this.logout}>Logout ({user.email})</a>
-          }
-        </p>
-        <hr />
-        {this.props.children}
+        <NavigationDrawer
+          navItems={navItems}
+          mobileDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
+          tabletDrawerType={NavigationDrawer.DrawerTypes.TEMPORARY}
+          desktopDrawerType={NavigationDrawer.DrawerTypes.FULL_HEIGHT}
+        >
+          <section className="md-grid md-grid--40-16">
+            <section className="main-content md-cell md-cell--12">
+              {children}
+            </section>
+          </section>
+        </NavigationDrawer>
       </div>
     );
   }
-}
+};
 
 export const mapStateToProps = state => ({
   user: getUser(state),

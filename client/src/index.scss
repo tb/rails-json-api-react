@@ -1,7 +1,14 @@
-$font-stack: Helvetica, sans-serif;
-$primary-color: #999;
+@import '~normalize.css';
+@import '~react-md/src/scss/react-md';
 
-body {
-  font: 100% $font-stack;
-  color: $primary-color;
+// Include all components
+@include react-md-everything;
+
+// Or only a few
+@include react-md-typography;
+@include react-md-grid;
+@include react-md-buttons;
+
+.float-right {
+  float: right;
 }
