@@ -13,7 +13,7 @@ module.exports = removeEmpty({
 
   output: {
     filename: ifProduction('[name]-bundle-[hash].js', '[name]-bundle.js'),
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, '../server/public'),
   },
 
   module: {

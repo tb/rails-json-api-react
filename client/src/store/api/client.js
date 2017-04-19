@@ -28,6 +28,11 @@ const client = axios.create({
   },
 });
 
+// client.interceptors.response.use(
+//   (response) => response,
+//   (error) => Promise.reject({ error }),
+// );
+
 const stringifyParams = (params) => qs.stringify(params, { format: 'RFC1738', arrayFormat: 'brackets' });
 
 const withParams = (url, params) => isEmpty(params) ? url : `${url}?${stringifyParams(params)}`;

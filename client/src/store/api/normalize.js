@@ -33,9 +33,24 @@ const serializers = {
       }
     }),
   },
+
+  users: {
+    serializer: new Serializer('users', {
+      attributes: [
+        'email',
+      ],
+    }),
+    deserializer: new Deserializer({}),
+  },
 };
 
-export const normalize = (type, data) => serializers[type].deserializer.deserialize(data);
+export const normalize = (type, data) => {
+  if (!serializers[type]) {
+    console.error(`No serializer for ${type}`);
+  } else {
+    return serializers[type].deserializer.deserialize(data);
+  }
+};
 
 export const denormalize = (type, data) => {
   const res = serializers[type].serializer.serialize(data);

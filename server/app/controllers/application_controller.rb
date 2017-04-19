@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include DeviseTokenAuth::Concerns::SetUserByToken
   include JSONAPI::ActsAsResourceController
 
   # Prevent CSRF attacks by raising an exception.
