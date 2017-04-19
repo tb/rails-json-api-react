@@ -5,6 +5,7 @@ import App from './App';
 import { PostList, PostEdit } from './Posts';
 import { CategoryList, CategoryEdit } from './Categories';
 import { UserList, UserEdit } from './Users';
+import { Login } from './Auth';
 
 export default class Routes extends PureComponent {
   static propTypes = {
@@ -25,6 +26,7 @@ export default class Routes extends PureComponent {
           <Route path="/categories/:id" component={CategoryEdit}/>
           <Route path="/users" component={UserList}/>
           <Route path="/users/:id" component={UserEdit}/>
+          <Route path="/login" component={Login}/>
         </Route>
       </Router>
     );

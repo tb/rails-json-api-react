@@ -9,6 +9,7 @@ import {
   values,
   keys,
   zipObject,
+  pick,
 } from 'lodash';
 
 import { denormalize, normalize } from './normalize';
@@ -19,6 +20,8 @@ export const GET_MANY = 'GET_MANY';
 export const CREATE = 'CREATE';
 export const UPDATE = 'UPDATE';
 export const DELETE = 'DELETE';
+export const AUTH_LOGIN = 'AUTH_LOGIN';
+export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
 const client = axios.create({
   baseURL: '/',
@@ -91,6 +94,21 @@ export default (request, payload, meta) => {
         url: withParams(`${url}/${payload.id}`),
         method: 'DELETE',
       }).then(response => normalizeResponse({ data: payload }));
+    case AUTH_LOGIN:
+      return client({
+        url: 'auth/sign_in',
+        method: 'POST',
+        data: payload,
+      }).then(response => ({
+        ...response.data.data,
+        ...pick(response.headers, ['access-token', 'client']),
+      }));
+    case AUTH_LOGOUT:
+      return client({
+        url: 'auth/sign_out',
+        method: 'DELETE',
+        data: payload,
+      });
     default:
       throw `No client handler for ${request}`;
   }
