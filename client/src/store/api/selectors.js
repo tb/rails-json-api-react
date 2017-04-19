@@ -1,5 +1,7 @@
 import { get, isEmpty } from 'lodash';
 
+export const getUser = (state) => get(state, ['api', 'user']) || {};
+
 export const getOne = (state, key, id) => get(state, ['api', key, 'byId', id]) || {};
 
 export const getMap = (state, key) => get(state, ['api', key, 'byId']) || {};
