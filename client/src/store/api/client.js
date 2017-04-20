@@ -79,7 +79,7 @@ export default (request, payload, meta) => {
         url: withParams(`${url}`, params),
         method: 'GET',
         data: JSON.stringify(payload),
-      }).then(normalizeResponse);
+      }).then(normalizeResponse).then((res) => ({...res, params}));
     case CREATE:
       return client({
         url: withParams(url),

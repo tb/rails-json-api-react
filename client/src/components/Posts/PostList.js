@@ -23,7 +23,29 @@ export class PostList extends Component {
   };
 
   onFilter = (filter) => {
-    this.props.fetchPosts(filter);
+    const { posts: { params }, fetchPosts } = this.props;
+    fetchPosts({...params, filter});
+  };
+
+  onSort = (event) => {
+    const { posts: { params }, fetchPosts } = this.props;
+    const sort = event.target.value;
+    fetchPosts({...params, sort});
+  };
+
+  onPageSize = (event) => {
+    const { posts: { params }, fetchPosts } = this.props;
+    const { page } = params;
+    const size = event.target.value;
+    fetchPosts({...params, page: { ...page, size }});
+  };
+
+  onPageNumber = (value) => (event) => {
+    event.preventDefault();
+    const { posts: { params }, fetchPosts } = this.props;
+    const { page } = params;
+    const number = (page.number || 1) + value;
+    fetchPosts({...params, page: { ...page, number }});
   };
 
   render() {
@@ -35,7 +57,28 @@ export class PostList extends Component {
         <p>
           <Link to={'/posts/new'}>New Post</Link>
         </p>
+
         <PostListFilter onSubmit={this.onFilter} categories={categories}></PostListFilter>
+
+        <p>
+          <label>
+            Sort&nbsp;
+            <select name="sort" onChange={this.onSort}>
+              <option value="title">Asc</option>
+              <option value="-title">Desc</option>
+            </select>
+          </label>
+          <label>
+            &nbsp;Per Page&nbsp;
+            <select name="size" onChange={this.onPageSize}>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </label>
+        </p>
+
         {posts.data.map(post =>
           <div key={post.id}>
             <Link to={`/posts/${post.id}`}>{post.title}</Link>
@@ -43,8 +86,8 @@ export class PostList extends Component {
           </div>
         )}
         <p>
-        { next && <a href onClick={this.fetchPage(next)} style={{marginRight: '4px'}}>Next</a> }
-        { prev && <a href onClick={this.fetchPage(prev)}>Prev</a> }
+        { next && <a href onClick={this.onPageNumber(1)} style={{marginRight: '4px'}}>Next</a> }
+        { prev && <a href onClick={this.onPageNumber(-1)}>Prev</a> }
         </p>
       </div>
     );
@@ -59,7 +102,7 @@ export const mapStateToProps = (state) => ({
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-  fetchPosts: (filter = {}) => dispatch(fetchList('posts', {include: 'category', filter})),
+  fetchPosts: (params = {}) => dispatch(fetchList('posts', {include: 'category', ...params})),
   fetchPage: (url) => dispatch(fetchList('posts', {include: 'category'}, {url})),
   fetchCategories: () => dispatch(fetchList('categories', {page: { limit: 999 }})),
 });
