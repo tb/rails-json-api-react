@@ -30,8 +30,9 @@ const createAsyncAction = (request) => (key, payload = {}, _meta = {}) => (dispa
       dispatch(createAction(request, SUCCESS)(key, response, meta));
       return response;
     })
-    .catch(err => {
-      dispatch(createAction(request, FAILED)(key, err, meta));
+    .catch(error => {
+      dispatch(createAction(request, FAILED)(key, error, meta));
+      throw error;
     });
 };
 

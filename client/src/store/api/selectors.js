@@ -4,6 +4,8 @@ export const getUser = (state) => get(state, ['api', 'user']) || {};
 
 export const getOne = (state, key, id) => get(state, ['api', key, 'byId', id]) || {};
 
+export const getErrors = (state, key, id) => get(state, ['api', key, 'errors', id]) || {};
+
 export const getMap = (state, key) => get(state, ['api', key, 'byId']) || {};
 
 export const getMany = (state, key, ids) => {

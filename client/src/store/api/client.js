@@ -31,11 +31,6 @@ const client = axios.create({
   },
 });
 
-// client.interceptors.response.use(
-//   (response) => response,
-//   (error) => Promise.reject({ error }),
-// );
-
 const stringifyParams = (params) => qs.stringify(params, { format: 'RFC1738', arrayFormat: 'brackets' });
 
 const withParams = (url, params) => isEmpty(params) ? url : `${url}?${stringifyParams(params)}`;
@@ -53,6 +48,15 @@ const normalizeResponse = response => {
       ...response.data,
       normalized: zipObject(keys(dataByType), normalizedItems),
     }));
+};
+
+const normalizeErrors = response => {
+  throw get(response, 'response.data.errors')
+    .reduce((errors, error) => {
+      const attribute = /attributes\/(.*)$/.exec(get(error, 'source.pointer'))[1];
+      errors[attribute] = error.title;
+      return errors;
+    }, {});
 };
 
 export default (request, payload, meta) => {
@@ -81,13 +85,13 @@ export default (request, payload, meta) => {
         url: withParams(url),
         method: 'POST',
         data: denormalize(meta.key, payload),
-      }).then(normalizeResponse);
+      }).then(normalizeResponse).catch(normalizeErrors);
     case UPDATE: {
       return client({
         url: withParams(`${url}/${payload.id}`),
         method: 'PUT',
         data: denormalize(meta.key, payload),
-      }).then(normalizeResponse);
+      }).then(normalizeResponse).catch(normalizeErrors);
     }
     case DELETE:
       return client({

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
+import { SubmissionError } from 'redux-form';
 import { get, find, omit } from 'lodash';
 
 import UserForm from './UserForm';
@@ -31,11 +32,9 @@ export class UserEdit extends Component {
       ...values,
     };
 
-    if (!params.id) {
-      createResource(payload).then(redirectToIndex);
-    } else {
-      updateResource(payload).then(redirectToIndex);
-    }
+    return (params.id ? updateResource : createResource)(payload)
+      .then(redirectToIndex)
+      .catch((errors) => { throw new SubmissionError(errors) });
   };
 
   onDelete = (e) => {
