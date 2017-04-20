@@ -1,20 +1,15 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { UserAuthWrapper } from 'redux-auth-wrapper';
-import { routerActions, replace } from 'react-router-redux';
 
+import { getUser } from '../store/api';
 import App from './App';
 import { PostList, PostEdit } from './Posts';
 import { CategoryList, CategoryEdit } from './Categories';
 import { UserList, UserEdit } from './Users';
 import { Login } from './Auth';
 
-const UserIsAuthenticated = UserAuthWrapper({
-  authSelector: state => state.api.user, // how to get the user state
-  redirectAction: routerActions.replace,
-  wrapperDisplayName: 'UserIsAuthenticated' // a nice name for this auth check
-})
-
+const UserIsAuthenticated = UserAuthWrapper({ authSelector: getUser });
 
 export default class Routes extends PureComponent {
   static propTypes = {
@@ -26,17 +21,17 @@ export default class Routes extends PureComponent {
 
     return (
       <Router history={history}>
-        <Route path="/" component={App}>
-          <IndexRoute component={UserIsAuthenticated(PostList)}/>
-          <Route path="/posts" component={UserIsAuthenticated(PostList)}/>
-          <Route path="/posts/new" component={UserIsAuthenticated(PostEdit)}/>
-          <Route path="/posts/:id" component={UserIsAuthenticated(PostEdit)}/>
-          <Route path="/categories" component={UserIsAuthenticated(CategoryList)}/>
-          <Route path="/categories/:id" component={UserIsAuthenticated(CategoryEdit)}/>
-          <Route path="/users" component={UserIsAuthenticated(UserList)}/>
-          <Route path="/users/:id" component={UserIsAuthenticated(UserEdit)}/>
-          <Route path="/login" component={Login}/>
+        <Route path="/" component={UserIsAuthenticated(App)}>
+          <IndexRoute component={PostList}/>
+          <Route path="/posts" component={PostList}/>
+          <Route path="/posts/new" component={PostEdit}/>
+          <Route path="/posts/:id" component={PostEdit}/>
+          <Route path="/categories" component={CategoryList}/>
+          <Route path="/categories/:id" component={CategoryEdit}/>
+          <Route path="/users" component={UserList}/>
+          <Route path="/users/:id" component={UserEdit}/>
         </Route>
+        <Route path="/login" component={Login}/>
       </Router>
     );
   }
