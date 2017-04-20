@@ -1,11 +1,15 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Router, Route, IndexRoute } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { UserAuthWrapper } from 'redux-auth-wrapper';
 
+import { getUser } from '../store/api';
 import App from './App';
 import { PostList, PostEdit } from './Posts';
 import { CategoryList, CategoryEdit } from './Categories';
 import { UserList, UserEdit } from './Users';
 import { Login } from './Auth';
+
+const UserIsAuthenticated = UserAuthWrapper({ authSelector: getUser });
 
 export default class Routes extends PureComponent {
   static propTypes = {
@@ -17,7 +21,7 @@ export default class Routes extends PureComponent {
 
     return (
       <Router history={history}>
-        <Route path="/" component={App}>
+        <Route path="/" component={UserIsAuthenticated(App)}>
           <IndexRoute component={PostList}/>
           <Route path="/posts" component={PostList}/>
           <Route path="/posts/new" component={PostEdit}/>
@@ -26,8 +30,8 @@ export default class Routes extends PureComponent {
           <Route path="/categories/:id" component={CategoryEdit}/>
           <Route path="/users" component={UserList}/>
           <Route path="/users/:id" component={UserEdit}/>
-          <Route path="/login" component={Login}/>
         </Route>
+        <Route path="/login" component={Login}/>
       </Router>
     );
   }
