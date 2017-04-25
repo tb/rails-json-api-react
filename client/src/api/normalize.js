@@ -4,15 +4,19 @@ import { Deserializer, Serializer } from 'jsonapi-serializer';
 const serializers = {
   categories: {
     serializer: new Serializer('categories', {
+      keyForAttribute: 'camelCase',
       attributes: [
         'name',
       ],
     }),
-    deserializer: new Deserializer({}),
+    deserializer: new Deserializer({
+      keyForAttribute: 'camelCase',
+    }),
   },
 
   posts: {
     serializer: new Serializer('posts', {
+      keyForAttribute: 'camelCase',
       attributes: [
         'title',
         'body',
@@ -25,6 +29,7 @@ const serializers = {
       },
     }),
     deserializer: new Deserializer({
+      keyForAttribute: 'camelCase',
       categories: {
         valueForRelationship: relationship => ({
           id: relationship.id,
@@ -36,11 +41,14 @@ const serializers = {
 
   users: {
     serializer: new Serializer('users', {
+      keyForAttribute: 'camelCase',
       attributes: [
         'email',
       ],
     }),
-    deserializer: new Deserializer({}),
+    deserializer: new Deserializer({
+      keyForAttribute: 'camelCase',
+    }),
   },
 };
 

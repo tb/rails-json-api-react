@@ -20,7 +20,7 @@ export class UserList extends Component {
         {resourceList.data.map(user =>
           <div key={user.id}>
             <Link to={`/users/${user.id}`}>{user.email}</Link>
-            &nbsp;(confirmed at: {formatDate(user['confirmed-at'])})
+            &nbsp;(confirmed at: {formatDate(user.confirmedAt)})
           </div>,
         )}
         <p>

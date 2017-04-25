@@ -1,4 +1,6 @@
 JSONAPI.configure do |config|
+  #:underscored_key, :camelized_key, :dasherized_key, or custom
+  config.json_key_format = :camelized_key
   # built in paginators are :none, :offset, :paged
   config.default_paginator = :none
   config.default_page_size = 10
