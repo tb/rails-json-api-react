@@ -52,7 +52,7 @@ const stringifyParams = (params) => qs.stringify(params, { format: 'RFC1738', ar
 const withParams = (url, params) => isEmpty(params) ? url : `${url}?${stringifyParams(params)}`;
 
 const normalizeResponse = response => {
-  const { data, included = [] } = response.data;
+  const { data = [], included = [] } = response.data;
   const dataByType = groupBy(castArray(data).concat(included), 'type');
 
   const normalizeItems = (items = []) => Promise.all(items.map(item =>
@@ -113,7 +113,7 @@ export default (request, payload, meta) => {
       return client({
         url: withParams(`${url}/${payload.id}`),
         method: 'DELETE',
-      }).then(response => normalizeResponse({ data: payload }));
+      }).then(response => ({ data: payload }));
     case AUTH_LOGIN:
       return client({
         url: 'auth/sign_in',
