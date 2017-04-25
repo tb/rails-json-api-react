@@ -22,7 +22,7 @@ export class App extends Component {
           {
             isEmpty(user)
               ? <Link to={'/login'}>Log in</Link>
-              : <a href="/" onClick={this.logout}>Logout</a>
+              : <a href="/" onClick={this.logout}>Logout ({user.email})</a>
           }
         </p>
         <hr />
