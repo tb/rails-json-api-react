@@ -9,7 +9,9 @@ class SelectField extends Component {
         <label>{label}</label>
         <div>
           <select {...input} type={type} style={{ width: '500px' }}>
-            {options.map(option => <option key={option.id} value={option.id}>{option.name}</option>)}
+            {options.map(option => (
+              <option key={option.id} value={option.id}>{option.name}</option>
+            ))}
           </select>
           {touched && (error && <div>{error}</div>)}
         </div>

@@ -22,7 +22,7 @@ class CategoryForm extends Component {
   }
 }
 
-const validate = values => {
+const validate = (values) => {
   const errors = required(values, 'name');
   return errors;
 };

@@ -3,8 +3,6 @@ import axios from 'axios';
 import {
   castArray,
   get,
-  isEmpty,
-  toArray,
   groupBy,
   values,
   keys,
@@ -36,27 +34,25 @@ client.interceptors.request.use(
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     if (user['access-token']) {
       config.headers['x-jwt-token'] = 'Bearer';
-      config.headers['client'] = user.client;
+      config.headers.client = user.client;
       config.headers['access-token'] = user['access-token'];
-      config.headers['uid'] = user.uid;
+      config.headers.uid = user.uid;
     }
-    return config
+    return config;
   },
-  (error) => {
-    return Promise.reject(error)
-  }
+  error => Promise.reject(error),
 );
 
-const stringifyParams = (params) => qs.stringify(params, { format: 'RFC1738', arrayFormat: 'brackets' });
+const stringifyParams = params => qs.stringify(params, { format: 'RFC1738', arrayFormat: 'brackets' });
 
-const withParams = (url, params) => isEmpty(params) ? url : `${url}?${stringifyParams(params)}`;
+const withParams = (url, params) => `${url}?${stringifyParams(params)}`;
 
-const normalizeResponse = response => {
+const normalizeResponse = (response) => {
   const { data = [], included = [] } = response.data;
   const dataByType = groupBy(castArray(data).concat(included), 'type');
 
   const normalizeItems = (items = []) => Promise.all(items.map(item =>
-    normalize(item.type, {data: item, included})
+    normalize(item.type, { data: item, included }),
   ));
 
   return Promise.all(values(dataByType).map(normalizeItems))
@@ -66,7 +62,7 @@ const normalizeResponse = response => {
     }));
 };
 
-const normalizeErrors = response => {
+const normalizeErrors = (response) => {
   throw get(response, 'response.data.errors')
     .reduce((errors, error) => {
       const attribute = /attributes\/(.*)$/.exec(get(error, 'source.pointer'))[1];
@@ -82,7 +78,7 @@ export default (requestType, payload, meta) => {
 
   const params = payload;
 
-  switch(requestType) {
+  switch (requestType) {
     case GET_ONE:
       return client({
         url: withParams(`${url}/${payload.id}`, params),
@@ -95,7 +91,7 @@ export default (requestType, payload, meta) => {
         url: withParams(`${url}`, params),
         method: 'GET',
         data: JSON.stringify(payload),
-      }).then(normalizeResponse).then((res) => ({...res, params}));
+      }).then(normalizeResponse).then(res => ({ ...res, params }));
     case CREATE:
       return client({
         url: withParams(url),
@@ -113,7 +109,7 @@ export default (requestType, payload, meta) => {
       return client({
         url: withParams(`${url}/${payload.id}`),
         method: 'DELETE',
-      }).then(response => ({ data: payload }));
+      }).then(() => ({ data: payload }));
     case AUTH_LOGIN:
       return client({
         url: 'auth/sign_in',
@@ -130,6 +126,6 @@ export default (requestType, payload, meta) => {
         data: payload,
       });
     default:
-      throw `No client handler for ${requestType}`;
+      throw new Error(`No client handler for ${requestType}`);
   }
 };

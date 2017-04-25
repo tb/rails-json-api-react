@@ -6,21 +6,21 @@ import LoginForm from './LoginForm';
 import { login } from '../../store/api';
 
 export class Login extends Component {
-  onSubmit = (values) => this.props.login(values).then(this.props.redirect);
+  onSubmit = values => this.props.login(values).then(this.props.redirect);
 
   render() {
     return (
       <div>
         <LoginForm onSubmit={this.onSubmit}/>
       </div>
-    )
+    );
   }
-};
+}
 
-export const mapStateToProps = (state) => ({});
+export const mapStateToProps = state => ({});
 
 export const mapDispatchToProps = (dispatch, props) => ({
-  login: (payload) => dispatch(login('auth', payload)),
+  login: payload => dispatch(login('auth', payload)),
   redirect: () => dispatch(replace(props.location.query.redirect || '/')),
 });
 

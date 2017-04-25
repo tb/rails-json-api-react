@@ -22,7 +22,7 @@ class LoginForm extends Component {
   }
 }
 
-const validate = values => {
+const validate = (values) => {
   const errors = required(values,
     'email',
     'password',

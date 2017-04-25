@@ -7,6 +7,7 @@ import api from './api/reducer';
 const composeEnhancers =
   process.env.NODE_ENV === 'production'
     ? compose
+    // eslint-disable-next-line no-underscore-dangle
     : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default (history) => {
@@ -27,4 +28,4 @@ export default (history) => {
   );
 
   return store;
-}
+};

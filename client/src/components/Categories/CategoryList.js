@@ -18,18 +18,18 @@ export class CategoryList extends Component {
         {categories.data.map(category =>
           <div key={category.id}>
             <Link to={`/categories/${category.id}`}>{category.name}</Link>
-          </div>
+          </div>,
         )}
       </div>
     );
   }
-};
+}
 
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
   categories: getList(state, 'categories'),
 });
 
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = dispatch => ({
   fetchCategories: () => dispatch(fetchList('categories')),
 });
 

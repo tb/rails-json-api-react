@@ -34,7 +34,7 @@ export class UserEdit extends Component {
 
     return (params.id ? updateResource : createResource)(payload)
       .then(redirectToIndex)
-      .catch((errors) => { throw new SubmissionError(errors) });
+      .catch((errors) => { throw new SubmissionError(errors); });
   };
 
   onDelete = (e) => {
@@ -49,7 +49,7 @@ export class UserEdit extends Component {
     return (
       <div>
         <p>
-          <Link to={`/users`}>Back to Users</Link>
+          <Link to={'/users'}>Back to Users</Link>
         </p>
 
         <h2>{ isNew ? 'New User' : resource.email }</h2>
@@ -64,18 +64,18 @@ export class UserEdit extends Component {
       </div>
     );
   }
-};
+}
 
 export const mapStateToProps = (state, props) => ({
   isNew: !props.params.id,
   resource: getOne(state, 'users', props.params.id),
 });
 
-export const mapDispatchToProps = (dispatch) => ({
-  fetchResource: (id) => dispatch(fetchOne('users', { id })),
-  createResource: (resource) => dispatch(createResource('users', resource)),
-  updateResource: (resource) => dispatch(updateResource('users', resource)),
-  deleteResource: (resource) => dispatch(deleteResource('users', resource)),
+export const mapDispatchToProps = dispatch => ({
+  fetchResource: id => dispatch(fetchOne('users', { id })),
+  createResource: resource => dispatch(createResource('users', resource)),
+  updateResource: resource => dispatch(updateResource('users', resource)),
+  deleteResource: resource => dispatch(deleteResource('users', resource)),
   redirectToIndex: () => dispatch(push('/users')),
 });
 

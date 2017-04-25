@@ -10,7 +10,7 @@ class PostForm extends Component {
 
     const categoriesOptions = [{
       id: '',
-      name: '-- select category --'
+      name: '-- select category --',
     }].concat(categories.map(category => ({
       id: category.id,
       name: category.name,
@@ -37,7 +37,7 @@ class PostForm extends Component {
   }
 }
 
-const validate = values => {
+const validate = (values) => {
   const errors = required(values,
     'title',
     'category.id',

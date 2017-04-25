@@ -17,35 +17,35 @@ export class PostList extends Component {
     return this.props.categoriesById[categoryId] || {};
   }
 
-  fetchPage = (url) => (e) => {
+  fetchPage = url => (e) => {
     e.preventDefault();
     this.props.fetchPage(url);
   };
 
   onFilter = (filter) => {
     const { posts: { params }, fetchPosts } = this.props;
-    fetchPosts({...params, filter});
+    fetchPosts({ ...params, filter });
   };
 
   onSort = (event) => {
     const { posts: { params }, fetchPosts } = this.props;
     const sort = event.target.value;
-    fetchPosts({...params, sort});
+    fetchPosts({ ...params, sort });
   };
 
   onPageSize = (event) => {
     const { posts: { params }, fetchPosts } = this.props;
     const { page } = params;
     const size = event.target.value;
-    fetchPosts({...params, page: { ...page, size }});
+    fetchPosts({ ...params, page: { ...page, size } });
   };
 
-  onPageNumber = (value) => (event) => {
+  onPageNumber = value => (event) => {
     event.preventDefault();
     const { posts: { params }, fetchPosts } = this.props;
     const { page } = params;
     const number = (page.number || 1) + value;
-    fetchPosts({...params, page: { ...page, number }});
+    fetchPosts({ ...params, page: { ...page, number } });
   };
 
   render() {
@@ -83,28 +83,28 @@ export class PostList extends Component {
           <div key={post.id}>
             <Link to={`/posts/${post.id}`}>{post.title}</Link>
             ({this.getCategoryForPost(post).name})
-          </div>
+          </div>,
         )}
         <p>
-        { next && <a href onClick={this.onPageNumber(1)} style={{marginRight: '4px'}}>Next</a> }
+        { next && <a href onClick={this.onPageNumber(1)} style={{ marginRight: '4px' }}>Next</a> }
         { prev && <a href onClick={this.onPageNumber(-1)}>Prev</a> }
         </p>
       </div>
     );
   }
-};
+}
 
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
   filter: get(state, 'form.postListFilter.values') || {},
   categoriesById: getMap(state, 'categories'),
   categories: getMany(state, 'categories'),
   posts: getList(state, 'posts'),
 });
 
-export const mapDispatchToProps = (dispatch) => ({
-  fetchPosts: (params = {}) => dispatch(fetchList('posts', {include: 'category', ...params})),
-  fetchPage: (url) => dispatch(fetchList('posts', {include: 'category'}, {url})),
-  fetchCategories: () => dispatch(fetchList('categories', {page: { limit: 999 }})),
+export const mapDispatchToProps = dispatch => ({
+  fetchPosts: (params = {}) => dispatch(fetchList('posts', { include: 'category', ...params })),
+  fetchPage: url => dispatch(fetchList('posts', { include: 'category' }, { url })),
+  fetchCategories: () => dispatch(fetchList('categories', { page: { limit: 999 } })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);

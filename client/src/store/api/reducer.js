@@ -31,8 +31,8 @@ const initialState = {
 };
 
 const addNormalized = (newState, payload) => {
-  keys(payload.normalized).forEach(key => {
-    payload.normalized[key].forEach(item => {
+  keys(payload.normalized).forEach((key) => {
+    payload.normalized[key].forEach((item) => {
       newState = imm.assign(newState, [key, 'byId', item.id], item);
     });
   });
@@ -68,7 +68,7 @@ export default (state = initialState, action) => {
     case actionType(DELETE, SUCCESS): {
       newState = imm.del(newState, [key, 'byId', payload.data.id]);
       newState = imm.set(newState, [key, 'list', 'ids'],
-        without(get(newState, [key, 'list', 'ids']), payload.data.id)
+        without(get(newState, [key, 'list', 'ids']), payload.data.id),
       );
       return newState;
     }
@@ -83,6 +83,6 @@ export default (state = initialState, action) => {
       return newState;
     }
     default:
-      return state
+      return state;
   }
 };

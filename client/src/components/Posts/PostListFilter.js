@@ -10,7 +10,7 @@ class PostListFilter extends Component {
 
     const categoriesOptions = [{
       id: '',
-      name: 'All categories'
+      name: 'All categories',
     }].concat(categories.map(category => ({
       id: category.id,
       name: category.name,

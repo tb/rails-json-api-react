@@ -33,7 +33,7 @@ export class CategoryEdit extends Component {
 
     return (params.id ? updateResource : createResource)(payload)
       .then(redirectToIndex)
-      .catch((errors) => { throw new SubmissionError(errors) });
+      .catch((errors) => { throw new SubmissionError(errors); });
   };
 
   onDelete = (e) => {
@@ -48,7 +48,7 @@ export class CategoryEdit extends Component {
     return (
       <div>
         <p>
-          <Link to={`/categories`}>Back to Categories</Link>
+          <Link to={'/categories'}>Back to Categories</Link>
         </p>
 
         <h2>{ isNew ? 'New Category' : resource.name }</h2>
@@ -63,18 +63,18 @@ export class CategoryEdit extends Component {
       </div>
     );
   }
-};
+}
 
 export const mapStateToProps = (state, props) => ({
   isNew: !props.params.id,
   resource: getOne(state, 'categories', props.params.id),
 });
 
-export const mapDispatchToProps = (dispatch) => ({
-  fetchResource: (id) => dispatch(fetchOne('categories', { id })),
-  createResource: (resource) => dispatch(createResource('categories', resource)),
-  updateResource: (resource) => dispatch(updateResource('categories', resource)),
-  deleteResource: (resource) => dispatch(deleteResource('categories', resource)),
+export const mapDispatchToProps = dispatch => ({
+  fetchResource: id => dispatch(fetchOne('categories', { id })),
+  createResource: resource => dispatch(createResource('categories', resource)),
+  updateResource: resource => dispatch(updateResource('categories', resource)),
+  deleteResource: resource => dispatch(deleteResource('categories', resource)),
   redirectToIndex: () => dispatch(push('/categories')),
 });
 

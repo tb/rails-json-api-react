@@ -19,19 +19,19 @@ export const actionType = (request, status) => `@@api/${request}/${status}`;
 const createAction = (request, status) => (key, payload, meta = {}) => ({
   type: actionType(request, status),
   payload,
-  meta: {...meta, status},
+  meta: { ...meta, status },
   error: status === FAILED ? true : undefined,
 });
 
-const createAsyncAction = (request) => (key, payload = {}, _meta = {}) => (dispatch) => {
+const createAsyncAction = request => (key, payload = {}, _meta = {}) => (dispatch) => {
   const meta = { ..._meta, key, request };
   dispatch(createAction(request, STARTED)(key, payload, meta));
   return client(request, payload, meta)
-    .then(response => {
+    .then((response) => {
       dispatch(createAction(request, SUCCESS)(key, response, meta));
       return response;
     })
-    .catch(error => {
+    .catch((error) => {
       dispatch(createAction(request, FAILED)(key, error, meta));
       throw error;
     });

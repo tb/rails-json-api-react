@@ -22,15 +22,15 @@ const serializers = {
         ref: 'id',
         included: false,
         attributes: ['name'],
-      }
+      },
     }),
     deserializer: new Deserializer({
       categories: {
-        valueForRelationship: (relationship) => ({
+        valueForRelationship: relationship => ({
           id: relationship.id,
           name: relationship.name,
         }),
-      }
+      },
     }),
   },
 
@@ -47,9 +47,9 @@ const serializers = {
 export const normalize = (type, data) => {
   if (!serializers[type]) {
     console.error(`No serializer for ${type}`);
-  } else {
-    return serializers[type].deserializer.deserialize(data);
   }
+
+  return serializers[type].deserializer.deserialize(data);
 };
 
 export const denormalize = (type, data) => {

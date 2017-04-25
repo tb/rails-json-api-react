@@ -6,10 +6,8 @@ const testNormalize = (type, values) => {
       expect(denormalize(type, values)).toMatchSnapshot();
     });
 
-    it('normalize', async () => {
-      return (normalize(type, denormalize(type, values)))
-        .then(res => expect(res).toMatchSnapshot());
-    });
+    it('normalize', async () => (normalize(type, denormalize(type, values)))
+        .then(res => expect(res).toMatchSnapshot()));
   });
 };
 

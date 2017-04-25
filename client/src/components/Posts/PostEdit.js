@@ -37,7 +37,7 @@ export class PostEdit extends Component {
 
     return (params.id ? updateResource : createResource)(payload)
       .then(redirectToIndex)
-      .catch((errors) => { throw new SubmissionError(errors) });
+      .catch((errors) => { throw new SubmissionError(errors); });
   };
 
   onDelete = (e) => {
@@ -52,7 +52,7 @@ export class PostEdit extends Component {
     return (
       <div>
         <p>
-          <Link to={`/posts`}>Back to Posts</Link>
+          <Link to={'/posts'}>Back to Posts</Link>
         </p>
 
         <h2>{ isNew ? 'New Post' : resource.title }</h2>
@@ -67,7 +67,7 @@ export class PostEdit extends Component {
       </div>
     );
   }
-};
+}
 
 export const mapStateToProps = (state, props) => ({
   isNew: !props.params.id,
@@ -75,12 +75,12 @@ export const mapStateToProps = (state, props) => ({
   resource: getOne(state, 'posts', props.params.id),
 });
 
-export const mapDispatchToProps = (dispatch) => ({
-  fetchCategories: () => dispatch(fetchList('categories', {page: { limit: 999 }})),
-  fetchResource: (id) => dispatch(fetchOne('posts', { id, include: 'category' })),
-  createResource: (resource) => dispatch(createResource('posts', resource)),
-  updateResource: (resource) => dispatch(updateResource('posts', resource)),
-  deleteResource: (resource) => dispatch(deleteResource('posts', resource)),
+export const mapDispatchToProps = dispatch => ({
+  fetchCategories: () => dispatch(fetchList('categories', { page: { limit: 999 } })),
+  fetchResource: id => dispatch(fetchOne('posts', { id, include: 'category' })),
+  createResource: resource => dispatch(createResource('posts', resource)),
+  updateResource: resource => dispatch(updateResource('posts', resource)),
+  deleteResource: resource => dispatch(deleteResource('posts', resource)),
   redirectToIndex: () => dispatch(push('/posts')),
 });
 

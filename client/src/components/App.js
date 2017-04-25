@@ -28,16 +28,16 @@ export class App extends Component {
         <hr />
         {this.props.children}
       </div>
-    )
+    );
   }
 }
 
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
   user: getUser(state),
 });
 
-export const mapDispatchToProps = (dispatch) => ({
-  logout: (payload) => dispatch(logout('auth', payload)),
+export const mapDispatchToProps = dispatch => ({
+  logout: payload => dispatch(logout('auth', payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

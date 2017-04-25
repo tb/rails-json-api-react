@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router';
 import { UserAuthWrapper } from 'redux-auth-wrapper';
 
 import { getUser } from '../store/api';
@@ -11,7 +11,7 @@ import { Login } from './Auth';
 
 const UserIsAuthenticated = UserAuthWrapper({ authSelector: getUser });
 
-export default class Routes extends PureComponent {
+export class Routes extends PureComponent {
   static propTypes = {
     history: PropTypes.object,
   };
@@ -36,3 +36,5 @@ export default class Routes extends PureComponent {
     );
   }
 }
+
+export default Routes;
