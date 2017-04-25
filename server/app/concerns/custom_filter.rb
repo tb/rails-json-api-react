@@ -9,6 +9,6 @@ module CustomFilter
   end
 
   def custom_filters(*names)
-    names.each { |name| ransack_filter(name, names.extract_options!) }
+    names.each { |name| custom_filter(name, names.extract_options!) }
   end
 end
