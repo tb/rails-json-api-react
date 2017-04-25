@@ -31,6 +31,22 @@ const client = axios.create({
   },
 });
 
+client.interceptors.request.use(
+  (config) => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (user['access-token']) {
+      config.headers['x-jwt-token'] = 'Bearer';
+      config.headers['client'] = user.client;
+      config.headers['access-token'] = user['access-token'];
+      config.headers['uid'] = user.uid;
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+);
+
 const stringifyParams = (params) => qs.stringify(params, { format: 'RFC1738', arrayFormat: 'brackets' });
 
 const withParams = (url, params) => isEmpty(params) ? url : `${url}?${stringifyParams(params)}`;

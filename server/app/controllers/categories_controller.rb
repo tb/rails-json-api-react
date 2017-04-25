@@ -1,2 +1,2 @@
-class CategoriesController < ApplicationController
+class CategoriesController < AuthorizedController
 end

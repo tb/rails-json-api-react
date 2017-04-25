@@ -9,7 +9,7 @@ export class App extends Component {
   logout = (e) => {
     e.preventDefault();
     this.props.logout(this.props.user);
-  }
+  };
 
   render() {
     const { user } = this.props;
