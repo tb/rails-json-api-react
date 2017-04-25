@@ -21,14 +21,13 @@ const withResourceList = resourceKey => (WrappedComponent) => {
         const sort = event.target.value;
         fetchResourceList({ ...params, sort });
       },
-
       onPageSize: props => (event) => {
         const { resourceList: { params }, fetchResourceList } = props;
         const { page } = params;
         const size = event.target.value;
-        fetchResourceList({ ...params, page: { ...page, size } });
+        const number = 1;
+        fetchResourceList({ ...params, page: { number, size } });
       },
-
       onPageNumber: props => value => (event) => {
         event.preventDefault();
         const { resourceList: { params }, fetchResourceList } = props;
