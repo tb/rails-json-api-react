@@ -2,49 +2,22 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
-import { SubmissionError } from 'redux-form';
 import { get, find, omit } from 'lodash';
 
+import { withResource } from '../../hocs';
 import UserForm from './UserForm';
-
-import {
-  fetchOne,
-  createResource,
-  updateResource,
-  deleteResource,
-  getOne,
-} from '../../store/api';
 
 export class UserEdit extends Component {
   componentWillMount() {
     const { params, fetchResource } = this.props;
 
     if (params.id) {
-      fetchResource(params.id);
+      fetchResource({ id: params.id });
     }
   }
 
-  onSubmit = (values) => {
-    const { params, resource, createResource, updateResource, redirectToIndex } = this.props;
-
-    const payload = {
-      id: resource.id,
-      ...values,
-    };
-
-    return (params.id ? updateResource : createResource)(payload)
-      .then(redirectToIndex)
-      .catch((errors) => { throw new SubmissionError(errors); });
-  };
-
-  onDelete = (e) => {
-    const { deleteResource, resource, redirectToIndex } = this.props;
-    e.preventDefault();
-    deleteResource(resource).then(redirectToIndex);
-  };
-
   render() {
-    const { isNew, resource } = this.props;
+    const { isNew, resource, onDelete, onSubmit } = this.props;
 
     return (
       <div>
@@ -56,27 +29,22 @@ export class UserEdit extends Component {
 
         { !isNew &&
         <p>
-          <a href onClick={this.onDelete}>Delete</a>
+          <a href onClick={onDelete}>Delete</a>
         </p>
         }
 
-        <UserForm initialValues={resource} onSubmit={this.onSubmit}></UserForm>
+        <UserForm initialValues={resource} onSubmit={onSubmit}></UserForm>
       </div>
     );
   }
 }
 
-export const mapStateToProps = (state, props) => ({
-  isNew: !props.params.id,
-  resource: getOne(state, 'users', props.params.id),
-});
+export const mapStateToProps = (state, props) => ({});
 
 export const mapDispatchToProps = dispatch => ({
-  fetchResource: id => dispatch(fetchOne('users', { id })),
-  createResource: resource => dispatch(createResource('users', resource)),
-  updateResource: resource => dispatch(updateResource('users', resource)),
-  deleteResource: resource => dispatch(deleteResource('users', resource)),
   redirectToIndex: () => dispatch(push('/users')),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withResource('users')(UserEdit),
+);

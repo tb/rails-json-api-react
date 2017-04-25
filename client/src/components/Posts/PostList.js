@@ -3,12 +3,14 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { get, find, keyBy } from 'lodash';
 
-import { fetchList, getList, getMap, getMany } from '../../store/api';
+import { fetchList, getMap, getMany } from '../../store/api';
+import { withResourceList } from '../../hocs';
 import PostListFilter from './PostListFilter';
 
 export class PostList extends Component {
   componentWillMount() {
-    this.props.fetchPosts(this.props.filter);
+    const { filter } = this.props;
+    this.props.fetchResourceList({ include: 'category', filter });
     this.props.fetchCategories();
   }
 
@@ -17,40 +19,9 @@ export class PostList extends Component {
     return this.props.categoriesById[categoryId] || {};
   }
 
-  fetchPage = url => (e) => {
-    e.preventDefault();
-    this.props.fetchPage(url);
-  };
-
-  onFilter = (filter) => {
-    const { posts: { params }, fetchPosts } = this.props;
-    fetchPosts({ ...params, filter });
-  };
-
-  onSort = (event) => {
-    const { posts: { params }, fetchPosts } = this.props;
-    const sort = event.target.value;
-    fetchPosts({ ...params, sort });
-  };
-
-  onPageSize = (event) => {
-    const { posts: { params }, fetchPosts } = this.props;
-    const { page } = params;
-    const size = event.target.value;
-    fetchPosts({ ...params, page: { ...page, size } });
-  };
-
-  onPageNumber = value => (event) => {
-    event.preventDefault();
-    const { posts: { params }, fetchPosts } = this.props;
-    const { page } = params;
-    const number = (page.number || 1) + value;
-    fetchPosts({ ...params, page: { ...page, number } });
-  };
-
   render() {
-    const { posts, categories } = this.props;
-    const { prev, next } = posts.links;
+    const { resourceList, onFilter, onSort, onPageSize, onPageNumber, categories } = this.props;
+    const { prev, next } = resourceList.links;
 
     return (
       <div>
@@ -58,19 +29,19 @@ export class PostList extends Component {
           <Link to={'/posts/new'}>New Post</Link>
         </p>
 
-        <PostListFilter onSubmit={this.onFilter} categories={categories}></PostListFilter>
+        <PostListFilter onSubmit={onFilter} categories={categories}></PostListFilter>
 
         <p>
           <label>
             Sort&nbsp;
-            <select name="sort" onChange={this.onSort}>
+            <select name="sort" onChange={onSort}>
               <option value="title">Asc</option>
               <option value="-title">Desc</option>
             </select>
           </label>
           <label>
             &nbsp;Per Page&nbsp;
-            <select name="size" onChange={this.onPageSize}>
+            <select name="size" onChange={onPageSize}>
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="50">50</option>
@@ -79,15 +50,15 @@ export class PostList extends Component {
           </label>
         </p>
 
-        {posts.data.map(post =>
+        {resourceList.data.map(post =>
           <div key={post.id}>
             <Link to={`/posts/${post.id}`}>{post.title}</Link>
             ({this.getCategoryForPost(post).name})
           </div>,
         )}
         <p>
-        { next && <a href onClick={this.onPageNumber(1)} style={{ marginRight: '4px' }}>Next</a> }
-        { prev && <a href onClick={this.onPageNumber(-1)}>Prev</a> }
+          { next && <a href onClick={onPageNumber(1)} style={{ marginRight: '4px' }}>Next</a> }
+          { prev && <a href onClick={onPageNumber(-1)}>Prev</a> }
         </p>
       </div>
     );
@@ -98,13 +69,12 @@ export const mapStateToProps = state => ({
   filter: get(state, 'form.postListFilter.values') || {},
   categoriesById: getMap(state, 'categories'),
   categories: getMany(state, 'categories'),
-  posts: getList(state, 'posts'),
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchPosts: (params = {}) => dispatch(fetchList('posts', { include: 'category', ...params })),
-  fetchPage: url => dispatch(fetchList('posts', { include: 'category' }, { url })),
   fetchCategories: () => dispatch(fetchList('categories', { page: { limit: 999 } })),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostList);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withResourceList('posts')(PostList),
+);

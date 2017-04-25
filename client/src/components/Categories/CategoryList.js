@@ -1,21 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { connect } from 'react-redux';
 import { find, keyBy } from 'lodash';
 
-import { fetchList, getList } from '../../store/api';
+import { withResourceList } from '../../hocs';
 
 export class CategoryList extends Component {
   componentWillMount() {
-    this.props.fetchCategories();
+    this.props.fetchResourceList({ page: { size: 999 } });
   }
 
   render() {
-    const { categories } = this.props;
+    const { resourceList } = this.props;
 
     return (
       <div>
-        {categories.data.map(category =>
+        {resourceList.data.map(category =>
           <div key={category.id}>
             <Link to={`/categories/${category.id}`}>{category.name}</Link>
           </div>,
@@ -25,12 +24,4 @@ export class CategoryList extends Component {
   }
 }
 
-export const mapStateToProps = state => ({
-  categories: getList(state, 'categories'),
-});
-
-export const mapDispatchToProps = dispatch => ({
-  fetchCategories: () => dispatch(fetchList('categories')),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);
+export default withResourceList('categories')(CategoryList);

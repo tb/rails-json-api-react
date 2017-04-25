@@ -2,48 +2,22 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
-import { SubmissionError } from 'redux-form';
 import { find, omit } from 'lodash';
 
+import { withResource } from '../../hocs';
 import CategoryForm from './CategoryForm';
-import {
-  fetchOne,
-  createResource,
-  updateResource,
-  deleteResource,
-  getOne,
-} from '../../store/api';
 
 export class CategoryEdit extends Component {
   componentWillMount() {
     const { params, fetchResource } = this.props;
 
     if (params.id) {
-      fetchResource(params.id);
+      fetchResource({ id: params.id });
     }
   }
 
-  onSubmit = (values) => {
-    const { params, resource, createResource, updateResource, redirectToIndex } = this.props;
-
-    const payload = {
-      id: resource.id,
-      ...values,
-    };
-
-    return (params.id ? updateResource : createResource)(payload)
-      .then(redirectToIndex)
-      .catch((errors) => { throw new SubmissionError(errors); });
-  };
-
-  onDelete = (e) => {
-    const { deleteResource, resource, redirectToIndex } = this.props;
-    e.preventDefault();
-    deleteResource(resource).then(redirectToIndex);
-  };
-
   render() {
-    const { isNew, resource } = this.props;
+    const { isNew, resource, onDelete, onSubmit } = this.props;
 
     return (
       <div>
@@ -55,27 +29,22 @@ export class CategoryEdit extends Component {
 
         { !isNew &&
         <p>
-          <a href onClick={this.onDelete}>Delete</a>
+          <a href onClick={onDelete}>Delete</a>
         </p>
         }
 
-        <CategoryForm initialValues={resource} onSubmit={this.onSubmit} />
+        <CategoryForm initialValues={resource} onSubmit={onSubmit} />
       </div>
     );
   }
 }
 
-export const mapStateToProps = (state, props) => ({
-  isNew: !props.params.id,
-  resource: getOne(state, 'categories', props.params.id),
-});
+export const mapStateToProps = (state, props) => ({});
 
 export const mapDispatchToProps = dispatch => ({
-  fetchResource: id => dispatch(fetchOne('categories', { id })),
-  createResource: resource => dispatch(createResource('categories', resource)),
-  updateResource: resource => dispatch(updateResource('categories', resource)),
-  deleteResource: resource => dispatch(deleteResource('categories', resource)),
   redirectToIndex: () => dispatch(push('/categories')),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withResource('categories')(CategoryEdit),
+);
