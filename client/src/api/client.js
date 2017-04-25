@@ -75,14 +75,14 @@ const normalizeErrors = response => {
     }, {});
 };
 
-export default (request, payload, meta) => {
+export default (requestType, payload, meta) => {
   const {
     url = `${meta.key}`,
   } = meta;
 
   const params = payload;
 
-  switch(request) {
+  switch(requestType) {
     case GET_ONE:
       return client({
         url: withParams(`${url}/${payload.id}`, params),
@@ -130,6 +130,6 @@ export default (request, payload, meta) => {
         data: payload,
       });
     default:
-      throw `No client handler for ${request}`;
+      throw `No client handler for ${requestType}`;
   }
 };

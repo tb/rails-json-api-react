@@ -17,7 +17,7 @@ import {
   DELETE,
   AUTH_LOGIN,
   AUTH_LOGOUT,
-} from './client';
+} from '../../api';
 
 import {
   STARTED,

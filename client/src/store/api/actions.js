@@ -1,4 +1,4 @@
-import client, {
+import {
   GET_ONE,
   GET_LIST,
   GET_MANY,
@@ -7,7 +7,8 @@ import client, {
   DELETE,
   AUTH_LOGIN,
   AUTH_LOGOUT,
-} from './client';
+  client,
+} from '../../api';
 
 export const STARTED = 'STARTED';
 export const SUCCESS = 'SUCCESS';
