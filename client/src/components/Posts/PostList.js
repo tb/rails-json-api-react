@@ -9,8 +9,8 @@ import PostListFilter from './PostListFilter';
 
 export class PostList extends Component {
   componentWillMount() {
-    const { filter } = this.props;
-    this.props.fetchResourceList({ include: 'category', filter });
+    const { resourceList } = this.props;
+    this.props.fetchResourceList({ ...resourceList.params, include: 'category' });
     this.props.fetchCategories();
   }
 
@@ -29,7 +29,11 @@ export class PostList extends Component {
           <Link to={'/posts/new'}>New Post</Link>
         </p>
 
-        <PostListFilter onSubmit={onFilter} categories={categories}></PostListFilter>
+        <PostListFilter
+          initialValues={resourceList.params.filter}
+          onSubmit={onFilter}
+          categories={categories}>
+        </PostListFilter>
 
         <p>
           <label>
