@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
-import { InputField, SelectField } from '../Forms';
+
+import { InputField, SelectField } from '../../forms';
 
 class PostListFilter extends Component {
   render() {

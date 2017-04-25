@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
 
-import { InputField, TextArea, SelectField, required } from '../Forms';
+import { InputField, TextArea, SelectField, required } from '../../forms';
 
 class PostForm extends Component {
   render() {
