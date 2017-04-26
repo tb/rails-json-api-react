@@ -30,7 +30,7 @@ export class PostList extends Component {
         </p>
 
         <PostListFilter
-          initialValues={resourceList.params.filter}
+          initialValues={{category: '', ...resourceList.params.filter}}
           onSubmit={onFilter}
           categories={categories}>
         </PostListFilter>
