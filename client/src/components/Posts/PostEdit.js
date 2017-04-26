@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { get, find, omit } from 'lodash';
+import { Badge } from 'reactstrap';
 
 import { withResource } from '../../hocs';
 import PostForm from './PostForm';
@@ -26,19 +26,11 @@ export class PostEdit extends Component {
     const { isNew, resource, onDelete, onSubmit, categories } = this.props;
 
     return (
-      <div>
-        <p>
-          <Link to={'/posts'}>Back to Posts</Link>
-        </p>
-
-        <h2>{ isNew ? 'New Post' : resource.title }</h2>
-
-        { !isNew &&
-        <p>
-          <a href onClick={onDelete}>Delete</a>
-        </p>
-        }
-
+      <div className="page-header">
+        <h2>
+          { isNew ? 'New Post' : resource.title }
+          { !isNew && <Badge color="danger" onClick={onDelete}>X</Badge> }
+        </h2>
         <PostForm initialValues={resource} categories={categories} onSubmit={onSubmit} />
       </div>
     );

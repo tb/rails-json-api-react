@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
+import { Form, Row, Col } from 'reactstrap';
 
 import { InputField, SelectField } from '../../forms';
 
@@ -19,14 +20,27 @@ class PostListFilter extends Component {
     })));
 
     return (
-      <form onSubmit={handleSubmit}>
-        <div>
-          <Field name="title_contains" label="Title Contains" component={InputField}
-            onChange={onChange} />
-          <Field name="category" label="Category" component={SelectField} options={categoriesOptions}
-            onChange={onChange} />
-        </div>
-      </form>
+      <Form onSubmit={handleSubmit}>
+        <Row>
+          <Col md={4}>
+            <Field
+              name="category"
+              label="Category"
+              component={SelectField}
+              options={categoriesOptions}
+              onChange={onChange}
+            />
+          </Col>
+          <Col md={8}>
+            <Field
+              name="title_contains"
+              label="Title Contains"
+              component={InputField}
+              onChange={onChange}
+            />
+          </Col>
+        </Row>
+      </Form>
     );
   }
 }

@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
+import { FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 
 class TextArea extends Component {
   static defaultProps = {
-    type: 'text',
+    type: 'textarea',
   };
 
   render() {
-    const { input, label, rows, meta: { touched, error } } = this.props;
+    const { input, type, label, rows, meta: { touched, error } } = this.props;
+    const showError = touched && error;
 
     return (
-      <div>
-        <label>{label}</label>
-        <div>
-          <textarea {...input} rows={rows} style={{ width: '500px' }} />
-          {touched && (error && <div>{error}</div>)}
-        </div>
-      </div>
+      <FormGroup color={showError ? 'danger' : ''}>
+        {label && <Label>{label}</Label>}
+        <Input {...input} type={type} rows={rows} />
+        {showError && <FormFeedback>{error}</FormFeedback>}
+      </FormGroup>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { find, keyBy } from 'lodash';
+import { Button, Table } from 'reactstrap';
 
 import { withResourceList } from '../../hocs';
 
@@ -17,16 +18,34 @@ export class UserList extends Component {
 
     return (
       <div>
-        {resourceList.data.map(user =>
-          <div key={user.id}>
-            <Link to={`/users/${user.id}`}>{user.email}</Link>
-            &nbsp;(confirmed at: {formatDate(user.confirmedAt)})
-          </div>,
-        )}
-        <p>
-          { next && <a href onClick={onPageNumber(1)} style={{ marginRight: '4px' }}>Next</a> }
-          { prev && <a href onClick={onPageNumber(-1)}>Prev</a> }
-        </p>
+        <Table>
+          <thead>
+          <tr>
+            <th>
+              Email
+            </th>
+            <th>
+              Confirmed at
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          {resourceList.data.map(user =>
+            <tr key={user.id}>
+              <td>
+                <Link to={`/users/${user.id}`}>{user.email}</Link>
+              </td>
+              <td>
+                {formatDate(user.confirmedAt)}
+              </td>
+            </tr>
+          )}
+          </tbody>
+        </Table>
+        <div>
+          { prev && <Button onClick={onPageNumber(-1)}>Prev</Button> }
+          { next && <Button onClick={onPageNumber(1)} style={{ marginRight: '4px' }}>Next</Button> }
+        </div>
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
+import { Button, Col, Form, Row } from 'reactstrap';
 
 import { InputField, required } from '../../forms';
 
@@ -9,15 +10,24 @@ class LoginForm extends Component {
     const { handleSubmit, pristine, reset, submitting } = this.props;
 
     return (
-      <form onSubmit={handleSubmit}>
-        <div>
-          <Field name="email" component={InputField} />
-          <Field name="password" component={InputField} type='password' />
-        </div>
-        <div>
-          <button type="submit" disabled={submitting}>Submit</button>
-        </div>
-      </form>
+      <Row style={{marginTop: '50px'}}>
+        <Col md={{ size: 4, offset: 4 }}>
+          <Form onSubmit={handleSubmit}>
+            <Field
+              name="email"
+              label="Email"
+              component={InputField}
+            />
+            <Field
+              name="password"
+              label="Password"
+              component={InputField}
+              type='password'
+            />
+            <Button disabled={submitting}>Login</Button>
+          </Form>
+        </Col>
+      </Row>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
+import { Button, Form } from 'reactstrap';
 
 import { InputField, TextArea, SelectField, required } from '../../forms';
 
@@ -17,22 +18,27 @@ class PostForm extends Component {
     })));
 
     return (
-      <form onSubmit={handleSubmit}>
-        <div>
-          <Field name="title" component={InputField} />
-        </div>
-        <div>
-          <Field name="category.id" component={SelectField}
-                 options={categoriesOptions} />
-        </div>
-        <div>
-          <Field name="body" component={TextArea} rows="10" />
-        </div>
-        <div>
-          <button type="submit" disabled={pristine || submitting}>Submit</button>
-          <button type="button" disabled={pristine || submitting} onClick={reset}>Undo Changes</button>
-        </div>
-      </form>
+      <Form onSubmit={handleSubmit}>
+        <Field
+          name="title"
+          label="Title"
+          component={InputField}
+        />
+        <Field
+          name="category.id"
+          label="Category"
+          component={SelectField}
+          options={categoriesOptions}
+        />
+        <Field
+          name="body"
+          label="Body"
+          component={TextArea}
+          rows="10"
+        />
+        <Button disabled={pristine || submitting} color="primary">Submit</Button>
+        <Button disabled={pristine || submitting} onClick={reset}>Undo Changes</Button>
+      </Form>
     );
   }
 }

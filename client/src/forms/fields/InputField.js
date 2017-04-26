@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 
 class InputField extends Component {
   static defaultProps = {
@@ -7,15 +8,14 @@ class InputField extends Component {
 
   render() {
     const { input, type, label, meta: { touched, error } } = this.props;
+    const showError = touched && error;
 
     return (
-      <div>
-        <label>{label}</label>
-        <div>
-          <input {...input} type={type} style={{ width: '500px' }} />
-          {touched && (error && <div>{error}</div>)}
-        </div>
-      </div>
+      <FormGroup color={showError ? 'danger' : ''}>
+        {label && <Label>{label}</Label>}
+        <Input {...input} type={type} />
+        {showError && <FormFeedback>{error}</FormFeedback>}
+      </FormGroup>
     );
   }
 }

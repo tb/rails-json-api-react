@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { get, find, keyBy } from 'lodash';
+import { Button, Input, Table } from 'reactstrap';
 
 import { fetchList, getMap, getMany } from '../../store/api';
 import { withResourceList } from '../../hocs';
@@ -35,35 +36,48 @@ export class PostList extends Component {
           categories={categories}>
         </PostListFilter>
 
-        <p>
+        <Table>
+          <thead>
+          <tr>
+            <th>
+              Category
+            </th>
+            <th>
+              Title&nbsp;
+              <select name="sort" onChange={onSort}>
+                <option value="title">Asc</option>
+                <option value="-title">Desc</option>
+              </select>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          {resourceList.data.map(post =>
+            <tr key={post.id}>
+              <td>
+                {this.getCategoryForPost(post).name}
+              </td>
+              <td>
+                <Link to={`/posts/${post.id}`}>{post.title}</Link>
+              </td>
+            </tr>
+          )}
+          </tbody>
+        </Table>
+
+        <div>
           <label>
-            Sort&nbsp;
-            <select name="sort" onChange={onSort}>
-              <option value="title">Asc</option>
-              <option value="-title">Desc</option>
-            </select>
-          </label>
-          <label>
-            &nbsp;Per Page&nbsp;
-            <select name="size" onChange={onPageSize}>
+            Per Page&nbsp;
+            <Input type="select" name="size" onChange={onPageSize}>
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="50">50</option>
               <option value="100">100</option>
-            </select>
+            </Input>
           </label>
-        </p>
-
-        {resourceList.data.map(post =>
-          <div key={post.id}>
-            <Link to={`/posts/${post.id}`}>{post.title}</Link>
-            ({this.getCategoryForPost(post).name})
-          </div>,
-        )}
-        <p>
-          { next && <a href onClick={onPageNumber(1)} style={{ marginRight: '4px' }}>Next</a> }
-          { prev && <a href onClick={onPageNumber(-1)}>Prev</a> }
-        </p>
+          { prev && <Button onClick={onPageNumber(-1)}>Prev</Button> }
+          { next && <Button onClick={onPageNumber(1)} style={{ marginRight: '4px' }}>Next</Button> }
+        </div>
       </div>
     );
   }
