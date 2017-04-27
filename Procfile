@@ -1,2 +1,1 @@
-web: cd client && npm start
-api: bundle exec rails s -p 3000
+web: bundle exec puma -p $PORT

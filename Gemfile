@@ -28,7 +28,6 @@ gem 'jsonapi-resources'
 gem 'factory_girl'
 gem 'faker'
 gem 'devise_token_auth'
-gem 'foreman', '~> 0.82.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

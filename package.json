@@ -1,27 +1,12 @@
 {
-  "name": "client",
-    "version": "1.0.0",
-    "private": true,
-    "engines": {
-      "node": "7.4.0",
-      "npm": "4.1.2"
-    },
-    "jest": {
-      "snapshotSerializers": [
-        "<rootDir>/node_modules/enzyme-to-json/serializer"
-      ]
-    },
-    "scripts": {
-      "postinstall": "cd client && npm install",
-      "rails-server": "foreman start",
-      "start": "npm run rails-server",
-      "test": "rspec && cd client && npm test",
-      "linters": "rubocop -a && cd client && npm run eslint",
-      "build:clean": "rm app/assets/webpack/*",
-      "build:production": "cd client && npm run build:production"
-    },
-    "cacheDirectories": [
-      "node_modules",
-      "client/node_modules"
-    ]
+  "name": "rails-json-api-react",
+  "engines": {
+    "node": "6"
+  },
+  "scripts": {
+     "postinstall": "cd client && npm install && npm run build && echo 'Client built!'"
+  },
+  "cacheDirectories": [
+    "client/node_modules"
+  ]
 }
