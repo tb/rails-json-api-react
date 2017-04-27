@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, debounce } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
 import { Form, Row, Col } from 'reactstrap';
 
@@ -36,7 +36,7 @@ class PostListFilter extends Component {
               name="title_contains"
               label="Title Contains"
               component={InputField}
-              onChange={onChange}
+              onChange={debounce(onChange, 500, 2000)}
             />
           </Col>
         </Row>
