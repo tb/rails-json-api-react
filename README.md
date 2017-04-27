@@ -11,12 +11,12 @@
     rails g model category name:string
     rails g model post title:string body:text category:references
     rails g model comment body:text post:references
-    
+
 ### Resources
 
     rails generate jsonapi:resource category
     rails generate jsonapi:resource post
-    rails generate jsonapi:resource model    
+    rails generate jsonapi:resource model
 
 ### Controllers
 
@@ -29,3 +29,6 @@
     jsonapi_resources :categories
     jsonapi_resources :posts
     jsonapi_resources :comments
+
+### Start app
+    foreman start

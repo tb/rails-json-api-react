@@ -1,0 +1,32 @@
+{
+  "name": "client",
+    "version": "0.1.0",
+    "private": true,
+    "jest": {
+      "snapshotSerializers": [
+        "<rootDir>/node_modules/enzyme-to-json/serializer"
+      ]
+    },
+    "scripts": {
+      "build": "shx rm -rf ../server/public/** && NODE_ENV=production webpack -p --progress",
+        "lint": "eslint --ext .js,.jsx src/",
+        "lint:fix": "npm run lint -- --fix",
+        "start": "webpack-dev-server",
+        "test": "NODE_ENV=test jest"
+    },
+  "scripts": {
+        "postinstall": "cd client && npm install",
+          "rails-server": "foreman start -f Procfile.dev",
+          "start": "npm run rails-server",
+          "test": "rspec && cd client && npm test",
+          "linters": "rubocop -a && cd client && npm run eslint",
+          "build:clean": "rm app/assets/webpack/*",
+          "build:production": "cd client && npm run build:production"
+
+  },
+  "cacheDirectories": [
+       "node_modules",
+       "client/node_modules"
+
+  ]
+}
