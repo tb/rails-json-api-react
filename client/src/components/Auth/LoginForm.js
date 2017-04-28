@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Col, Form, Row } from 'reactstrap';
+import { Button, Card, CardBlock, Form } from 'reactstrap';
 
 import { InputField, required } from '../../forms';
 
@@ -10,8 +10,8 @@ class LoginForm extends Component {
     const { handleSubmit, pristine, reset, submitting } = this.props;
 
     return (
-      <Row style={{marginTop: '50px'}}>
-        <Col md={{ size: 4, offset: 4 }}>
+      <Card className="mx-auto" style={{maxWidth: '350px', marginTop: '50px'}}>
+        <CardBlock>
           <Form onSubmit={handleSubmit}>
             <Field
               name="email"
@@ -26,8 +26,8 @@ class LoginForm extends Component {
             />
             <Button disabled={submitting}>Login</Button>
           </Form>
-        </Col>
-      </Row>
+        </CardBlock>
+      </Card>
     );
   }
 }

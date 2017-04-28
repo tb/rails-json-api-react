@@ -35,6 +35,8 @@ export class App extends Component {
               <NavItem>
                 <NavLink href="/#/users">Users</NavLink>
               </NavItem>
+            </Nav>
+            <Nav navbar className="ml-auto">
               <NavItem>
                 <NavLink onClick={this.logout}>Logout ({user.email})</NavLink>
               </NavItem>
