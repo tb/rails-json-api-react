@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { get, find, omit } from 'lodash';
-import { Badge } from 'reactstrap';
 
+import { EditHeader } from '../UI';
 import { withResource } from '../../hocs';
 import PostForm from './PostForm';
 import {
@@ -23,14 +23,11 @@ export class PostEdit extends Component {
   }
 
   render() {
-    const { isNew, resource, onDelete, onSubmit, categories } = this.props;
+    const { isNew, resource, onSubmit, categories } = this.props;
 
     return (
-      <div className="page-header">
-        <h2>
-          { isNew ? 'New Post' : resource.title }
-          { !isNew && <Badge color="danger" onClick={onDelete}>X</Badge> }
-        </h2>
+      <div>
+        <EditHeader {...this.props}>{ isNew ? 'New Post' : resource.title }</EditHeader>
         <PostForm initialValues={resource} categories={categories} onSubmit={onSubmit} />
       </div>
     );

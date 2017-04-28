@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
+import { Button, Form } from 'reactstrap';
 
 import { InputField, required } from '../../forms';
 
@@ -9,15 +10,19 @@ class UserForm extends Component {
     const { handleSubmit, pristine, reset, submitting } = this.props;
 
     return (
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <div>
-          <Field name="email" component={InputField} />
+          <Field
+            name="email"
+            label="Email"
+            component={InputField}
+          />
         </div>
         <div>
-          <button type="submit" disabled={pristine || submitting}>Submit</button>
-          <button type="button" disabled={pristine || submitting} onClick={reset}>Undo Changes</button>
+          <Button disabled={pristine || submitting} color="primary">Submit</Button>
+          <Button disabled={pristine || submitting} onClick={reset}>Undo Changes</Button>
         </div>
-      </form>
+      </Form>
     );
   }
 }

@@ -1,33 +1,34 @@
 import React, { Component, PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
-import { Button, Card, CardBlock, Form } from 'reactstrap';
+import { Alert, Button, Form } from 'reactstrap';
 
+import { CardSingle } from '../UI';
 import { InputField, required } from '../../forms';
 
 class LoginForm extends Component {
   render() {
-    const { handleSubmit, pristine, reset, submitting } = this.props;
+    const { handleSubmit, pristine, reset, submitting, error } = this.props;
 
     return (
-      <Card className="mx-auto" style={{maxWidth: '350px', marginTop: '50px'}}>
-        <CardBlock>
-          <Form onSubmit={handleSubmit}>
-            <Field
-              name="email"
-              label="Email"
-              component={InputField}
-            />
-            <Field
-              name="password"
-              label="Password"
-              component={InputField}
-              type='password'
-            />
-            <Button disabled={submitting}>Login</Button>
-          </Form>
-        </CardBlock>
-      </Card>
+      <CardSingle>
+        <h1>Login</h1>
+        <Form onSubmit={handleSubmit}>
+          {error && <Alert color="danger">{error}</Alert>}
+          <Field
+            name="email"
+            label="Email"
+            component={InputField}
+          />
+          <Field
+            name="password"
+            label="Password"
+            component={InputField}
+            type='password'
+          />
+          <Button disabled={submitting}>Login</Button>
+        </Form>
+      </CardSingle>
     );
   }
 }

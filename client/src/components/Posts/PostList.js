@@ -2,10 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { get, find, keyBy } from 'lodash';
-import { Button, Input, Table } from 'reactstrap';
+import { Button, Table } from 'reactstrap';
 
 import { fetchList, getMap, getMany } from '../../store/api';
 import { withResourceList } from '../../hocs';
+import { ListHeader, Pagination } from '../UI';
 import PostListFilter from './PostListFilter';
 
 export class PostList extends Component {
@@ -21,14 +22,11 @@ export class PostList extends Component {
   }
 
   render() {
-    const { resourceList, onFilter, onSort, onPageSize, onPageNumber, categories } = this.props;
-    const { prev, next } = resourceList.links;
+    const { resourceList, onFilter, onSort, categories } = this.props;
 
     return (
       <div>
-        <p>
-          <Link to={'/posts/new'}>New Post</Link>
-        </p>
+        <Button tag={Link} to={'/posts/new'}>New Post</Button>
 
         <PostListFilter
           initialValues={{category: '', ...resourceList.params.filter}}
@@ -64,20 +62,7 @@ export class PostList extends Component {
           )}
           </tbody>
         </Table>
-
-        <div>
-          <label>
-            Per Page&nbsp;
-            <Input type="select" name="size" onChange={onPageSize}>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </Input>
-          </label>
-          { prev && <Button onClick={onPageNumber(-1)}>Prev</Button> }
-          { next && <Button onClick={onPageNumber(1)} style={{ marginRight: '4px' }}>Next</Button> }
-        </div>
+        <Pagination {...this.props}></Pagination>
       </div>
     );
   }

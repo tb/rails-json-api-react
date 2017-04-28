@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { find, keyBy } from 'lodash';
-import { Button, Table } from 'reactstrap';
+import { Table } from 'reactstrap';
 
+import { Pagination } from '../UI';
 import { withResourceList } from '../../hocs';
 
 const formatDate = date => (new Date(date)).toLocaleString();
@@ -13,8 +14,7 @@ export class UserList extends Component {
   }
 
   render() {
-    const { resourceList, onPageNumber } = this.props;
-    const { prev, next } = resourceList.links;
+    const { resourceList } = this.props;
 
     return (
       <div>
@@ -42,10 +42,7 @@ export class UserList extends Component {
           )}
           </tbody>
         </Table>
-        <div>
-          { prev && <Button onClick={onPageNumber(-1)}>Prev</Button> }
-          { next && <Button onClick={onPageNumber(1)} style={{ marginRight: '4px' }}>Next</Button> }
-        </div>
+        <Pagination {...this.props}></Pagination>
       </div>
     );
   }

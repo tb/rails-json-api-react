@@ -29,11 +29,9 @@ const withResourceList = resourceKey => (WrappedComponent) => {
         const number = 1;
         fetchResourceList({ ...params, page: { number, size } });
       },
-      onPageNumber: props => value => (event) => {
-        event.preventDefault();
+      onPageNumber: props => number => {
         const { resourceList: { params }, fetchResourceList } = props;
         const { page = {} } = params;
-        const number = (page.number || 1) + value;
         fetchResourceList({ ...params, page: { ...page, number } });
       },
     }),

@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { get, find, omit } from 'lodash';
 
+import { EditHeader } from '../UI';
 import { withResource } from '../../hocs';
 import UserForm from './UserForm';
 
@@ -17,22 +17,11 @@ export class UserEdit extends Component {
   }
 
   render() {
-    const { isNew, resource, onDelete, onSubmit } = this.props;
+    const { isNew, resource, onSubmit } = this.props;
 
     return (
       <div>
-        <p>
-          <Link to={'/users'}>Back to Users</Link>
-        </p>
-
-        <h2>{ isNew ? 'New User' : resource.email }</h2>
-
-        { !isNew &&
-        <p>
-          <a href onClick={onDelete}>Delete</a>
-        </p>
-        }
-
+        <EditHeader {...this.props}>{ isNew ? 'New User' : resource.email }</EditHeader>
         <UserForm initialValues={resource} onSubmit={onSubmit}></UserForm>
       </div>
     );
