@@ -3,15 +3,15 @@ import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
 import { Alert, Button, Form } from 'reactstrap';
 
-import { CardSingle } from '../UI';
+import { SingleCard } from '../UI';
 import { InputField, required } from '../../forms';
 
 class LoginForm extends Component {
   render() {
-    const { handleSubmit, pristine, reset, submitting, error } = this.props;
+    const { handleSubmit, submitting, error } = this.props;
 
     return (
-      <CardSingle>
+      <SingleCard>
         <h1>Login</h1>
         <Form onSubmit={handleSubmit}>
           {error && <Alert color="danger">{error}</Alert>}
@@ -28,7 +28,7 @@ class LoginForm extends Component {
           />
           <Button disabled={submitting}>Login</Button>
         </Form>
-      </CardSingle>
+      </SingleCard>
     );
   }
 }
