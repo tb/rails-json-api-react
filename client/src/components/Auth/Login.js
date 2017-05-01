@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 import { SubmissionError } from 'redux-form';
 
+import { CardSingle } from '../UI';
 import LoginForm from './LoginForm';
 import { login } from '../../store/api';
 
@@ -15,7 +16,10 @@ export class Login extends Component {
 
   render() {
     return (
-      <LoginForm onSubmit={this.onSubmit}/>
+      <CardSingle>
+        <h1>Login</h1>
+        <LoginForm onSubmit={this.onSubmit}/>
+      </CardSingle>
     );
   }
 }

@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { SubmissionError } from 'redux-form';
 import { get, find, isEmpty, omitBy } from 'lodash';
 import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';
 
 import {
   fetchList,
+  createResource,
+  updateResource,
+  deleteResource,
   getList,
 } from '../store/api';
 
@@ -34,6 +38,16 @@ const withResourceList = resourceKey => (WrappedComponent) => {
         const { page = {} } = params;
         fetchResourceList({ ...params, page: { ...page, number } });
       },
+      onSubmit: props => (values) => {
+        const { createResource, updateResource } = props;
+        return (values.id ? updateResource : createResource)(values)
+          .catch((errors) => { throw new SubmissionError(errors); });
+      },
+      onDelete: props => (resource) => (e) => {
+        const { deleteResource } = props;
+        e.preventDefault();
+        deleteResource(resource);
+      },
     }),
   );
 
@@ -43,6 +57,9 @@ const withResourceList = resourceKey => (WrappedComponent) => {
 
   const mapDispatchToProps = dispatch => ({
     fetchResourceList: (params = {}) => dispatch(fetchList(resourceKey, params)),
+    createResource: payload => dispatch(createResource(resourceKey, payload, {list: true})),
+    updateResource: payload => dispatch(updateResource(resourceKey, payload)),
+    deleteResource: payload => dispatch(deleteResource(resourceKey, payload)),
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(enhance(WrappedComponent));

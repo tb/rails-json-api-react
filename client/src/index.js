@@ -9,7 +9,7 @@ import Routes from './components/Routes';
 import configureStore from './store/configureStore';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import './index.scss';
+import './index.css';
 
 const store = configureStore(hashHistory);
 const history = syncHistoryWithStore(hashHistory, store);
