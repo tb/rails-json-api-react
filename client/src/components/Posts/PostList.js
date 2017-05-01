@@ -9,10 +9,12 @@ import { withResourceList } from '../../hocs';
 import { ListHeader, Pagination } from '../UI';
 import PostListFilter from './PostListFilter';
 
+const formatDate = date => (new Date(date)).toLocaleString();
+
 export class PostList extends Component {
   componentWillMount() {
     const { resourceList } = this.props;
-    this.props.fetchResourceList({ ...resourceList.params, include: 'category' });
+    this.props.fetchResourceList({ sort: '-createdAt', ...resourceList.params, include: 'category' });
     this.props.fetchCategories();
   }
 
@@ -42,9 +44,16 @@ export class PostList extends Component {
             </th>
             <th>
               Title&nbsp;
-              <select name="sort" onChange={onSort}>
+              <select name="sort" value={resourceList.params.sort} onChange={onSort}>
                 <option value="title">Asc</option>
                 <option value="-title">Desc</option>
+              </select>
+            </th>
+            <th>
+              Created at&nbsp;
+              <select name="sort" value={resourceList.params.sort} onChange={onSort}>
+                <option value="createdAt">Asc</option>
+                <option value="-createdAt">Desc</option>
               </select>
             </th>
           </tr>
@@ -57,6 +66,9 @@ export class PostList extends Component {
               </td>
               <td>
                 <Link to={`/posts/${post.id}`}>{post.title}</Link>
+              </td>
+              <td>
+                {formatDate(post.createdAt)}
               </td>
             </tr>
           )}
