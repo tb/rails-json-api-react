@@ -9,7 +9,7 @@ class PostListFilter extends Component {
   render() {
     const { handleSubmit, onSubmit, categories } = this.props;
 
-    const onChange = () => setTimeout(() => handleSubmit(onSubmit)(), 0);
+    const submitOnChange = () => setTimeout(() => handleSubmit(onSubmit)(), 0);
 
     const categoriesOptions = [{
       id: '',
@@ -28,7 +28,7 @@ class PostListFilter extends Component {
               label="Category"
               component={SelectField}
               options={categoriesOptions}
-              onChange={onChange}
+              onChange={submitOnChange}
             />
           </Col>
           <Col md={8}>
@@ -36,7 +36,7 @@ class PostListFilter extends Component {
               name="title_contains"
               label="Title Contains"
               component={InputField}
-              onChange={onChange}
+              onChange={submitOnChange}
             />
           </Col>
         </Row>

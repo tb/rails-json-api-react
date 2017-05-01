@@ -7,11 +7,17 @@ import { InputField, required } from '../../forms';
 
 class CategoryForm extends Component {
   render() {
-    const { handleSubmit, onDelete, reset, isNew, submitSucceeded } = this.props;
+    const { handleSubmit, onSubmit, onDelete, reset, isNew, submitSucceeded } = this.props;
 
     if (isNew && submitSucceeded) {
       setTimeout(() => reset());
     }
+
+    const submitOnChange = () => {
+      if (!isNew) {
+        setTimeout(() => handleSubmit(onSubmit)(), 0);
+      }
+    };
 
     return (
       <Form onSubmit={handleSubmit}>
@@ -20,6 +26,7 @@ class CategoryForm extends Component {
             <Field
               name="name"
               component={InputField}
+              onChange={submitOnChange}
             />
           </Col>
           <Col xs="2">
