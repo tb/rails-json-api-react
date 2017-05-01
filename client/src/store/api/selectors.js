@@ -19,7 +19,7 @@ export const getMany = (state, resourceName, ids) => {
 export const getList = (state, resourceName, listName = 'list') => {
   const byId = get(state, ['api', resourceName, 'byId']) || {};
   const list = get(state, ['api', resourceName, listName]) || {};
-  return isEmpty(list)
-    ? { data: [], ids: [], links: {}, params: { page: {}, filter: {} } }
-    : { ...list, data: list.ids.map(id => byId[id]) };
+  return isEmpty(list.ids)
+    ? { data: [], ids: [], links: {}, params: { page: {}, filter: {} }, loading: true, empty: true }
+    : { ...list, empty: false, data: list.ids.map(id => byId[id]) };
 };

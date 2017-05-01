@@ -48,12 +48,18 @@ export default (state = initialState, action) => {
     case actionType(GET_ONE, SUCCESS): {
       return addNormalized(newState, payload);
     }
+    case actionType(GET_LIST, STARTED): {
+      console.log('loading');
+      return imm.set(newState, [key, list, 'loading'], true);
+    }
     case actionType(GET_LIST, SUCCESS): {
+      console.log('loaded');
       newState = addNormalized(newState, payload);
       newState = imm.set(newState, [key, list, 'ids'], map(payload.data, 'id'));
       newState = imm.set(newState, [key, list, 'params'], payload.params);
       newState = imm.set(newState, [key, list, 'links'], payload.links);
       newState = imm.set(newState, [key, list, 'meta'], payload.meta);
+      newState = imm.set(newState, [key, list, 'loading'], false);
       return newState;
     }
     case actionType(GET_MANY, SUCCESS): {

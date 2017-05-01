@@ -43,6 +43,7 @@ export class UserList extends Component {
           </tbody>
         </Table>
         <Pagination {...this.props}></Pagination>
+        {resourceList.empty && resourceList.loading && <p>Loading...</p>}
       </div>
     );
   }

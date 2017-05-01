@@ -24,6 +24,7 @@ export class CategoryList extends Component {
             />
           </div>,
         )}
+        {resourceList.empty && resourceList.loading && <p>Loading...</p>}
         <CategoryForm
           isNew={true}
           form="category-new"

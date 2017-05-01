@@ -51,6 +51,11 @@ module.exports = removeEmpty({
       '/**': {
         target: 'http://localhost:3001',
       },
+      // '/**': {
+      //   target: 'https://rails-json-api-react.herokuapp.com',
+      //   secure: true,
+      //   changeOrigin: true,
+      // },
     }
   }),
 

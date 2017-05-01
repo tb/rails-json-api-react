@@ -23,6 +23,7 @@ export class Dashobard extends Component {
     return (
       <div>
         <h4>Latest posts</h4>
+        {postsList.empty && postsList.loading && <p>Loading...</p>}
         {postsList.data.map(post =>
           <div key={post.id}>
             <Link to={`/posts/${post.id}`}>{post.title}</Link>
