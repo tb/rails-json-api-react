@@ -4,6 +4,7 @@ import { UserAuthWrapper } from 'redux-auth-wrapper';
 
 import { getUser } from '../store/api';
 import App from './App';
+import Dashboard from './Dashboard';
 import { PostList, PostEdit } from './Posts';
 import { CategoryList, CategoryEdit } from './Categories';
 import { UserList, UserEdit } from './Users';
@@ -22,7 +23,7 @@ export class Routes extends PureComponent {
     return (
       <Router history={history}>
         <Route path="/" component={UserIsAuthenticated(App)}>
-          <IndexRoute component={PostList}/>
+          <IndexRoute component={Dashboard}/>
           <Route path="/posts" component={PostList}/>
           <Route path="/posts/new" component={PostEdit}/>
           <Route path="/posts/:id" component={PostEdit}/>

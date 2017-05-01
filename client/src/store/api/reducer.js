@@ -41,7 +41,7 @@ const addNormalized = (newState, payload) => {
 
 export default (state = initialState, action) => {
   const { type, payload, meta } = action;
-  const { key } = meta || {};
+  const { key, list = 'list' } = meta || {};
   let newState = state;
 
   switch (type) {
@@ -50,10 +50,10 @@ export default (state = initialState, action) => {
     }
     case actionType(GET_LIST, SUCCESS): {
       newState = addNormalized(newState, payload);
-      newState = imm.set(newState, [key, 'list', 'ids'], map(payload.data, 'id'));
-      newState = imm.set(newState, [key, 'list', 'params'], payload.params);
-      newState = imm.set(newState, [key, 'list', 'links'], payload.links);
-      newState = imm.set(newState, [key, 'list', 'meta'], payload.meta);
+      newState = imm.set(newState, [key, list, 'ids'], map(payload.data, 'id'));
+      newState = imm.set(newState, [key, list, 'params'], payload.params);
+      newState = imm.set(newState, [key, list, 'links'], payload.links);
+      newState = imm.set(newState, [key, list, 'meta'], payload.meta);
       return newState;
     }
     case actionType(GET_MANY, SUCCESS): {
@@ -62,7 +62,7 @@ export default (state = initialState, action) => {
     case actionType(CREATE, SUCCESS): {
       newState = addNormalized(newState, payload);
       if (meta.list) {
-        newState = imm.push(newState, [key, 'list', 'ids'], payload.data.id);
+        newState = imm.push(newState, [key, list, 'ids'], payload.data.id);
       }
       return newState;
     }
@@ -71,8 +71,8 @@ export default (state = initialState, action) => {
     }
     case actionType(DELETE, SUCCESS): {
       newState = imm.del(newState, [key, 'byId', payload.data.id]);
-      newState = imm.set(newState, [key, 'list', 'ids'],
-        without(get(newState, [key, 'list', 'ids']), payload.data.id),
+      newState = imm.set(newState, [key, list, 'ids'],
+        without(get(newState, [key, list, 'ids']), payload.data.id),
       );
       return newState;
     }

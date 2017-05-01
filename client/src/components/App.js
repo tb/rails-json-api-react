@@ -27,6 +27,9 @@ export class App extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav navbar>
                 <NavItem>
+                  <NavLink href="/#/">Dashboard</NavLink>
+                </NavItem>
+                <NavItem>
                   <NavLink href="/#/posts">Posts</NavLink>
                 </NavItem>
                 <NavItem>

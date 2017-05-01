@@ -87,7 +87,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchCategories: () => dispatch(fetchList('categories', { page: { limit: 999 } })),
+  fetchCategories: () => dispatch(fetchList('categories', { page: { size: 999 } })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(
