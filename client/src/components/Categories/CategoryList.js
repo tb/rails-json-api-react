@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import { find, keyBy } from 'lodash';
 
 import { withResourceList } from '../../hocs';
+import CategoryForm from './CategoryForm';
 
 export class CategoryList extends Component {
   componentWillMount() {
@@ -10,15 +10,25 @@ export class CategoryList extends Component {
   }
 
   render() {
-    const { resourceList } = this.props;
+    const { resourceList, onSubmit, onDelete } = this.props;
 
     return (
       <div>
         {resourceList.data.map(category =>
           <div key={category.id}>
-            <Link to={`/categories/${category.id}`}>{category.name}</Link>
+            <CategoryForm
+              form={`category-${category.id}`}
+              initialValues={category}
+              onSubmit={onSubmit}
+              onDelete={onDelete(category)}
+            />
           </div>,
         )}
+        <CategoryForm
+          isNew={true}
+          form="category-new"
+          onSubmit={onSubmit}
+        />
       </div>
     );
   }

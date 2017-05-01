@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 import { Card, CardBlock } from 'reactstrap';
 
-export default () => (
+export default (props) => (
   <Card className="mx-auto" style={{maxWidth: '400px', marginTop: '50px'}}>
-    <CardBlock>{this.props.children}</CardBlock>
+    <CardBlock>{props.children}</CardBlock>
   </Card>
 );

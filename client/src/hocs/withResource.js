@@ -18,17 +18,11 @@ const withResource = resourceKey => (WrappedComponent) => {
     withHandlers({
       onSubmit: props => (values) => {
         const { params, createResource, updateResource, redirectToIndex } = props;
-
-        const payload = {
-          id: params.id,
-          ...values,
-        };
-
+        const payload = { id: params.id, ...values };
         return (params.id ? updateResource : createResource)(payload)
           .then(redirectToIndex)
           .catch((errors) => { throw new SubmissionError(errors); });
       },
-
       onDelete: props => (e) => {
         const { deleteResource, resource, redirectToIndex } = props;
         e.preventDefault();
