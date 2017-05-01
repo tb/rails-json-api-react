@@ -1,34 +1,30 @@
-# README
+# [rails-json-api-react](https://github.com/tb/rails-json-api-react)
 
-## Rails API app setup
+## [DEMO](rails-json-api-react.herokuapp.com)
 
-    rails new . -d postgresql --skip-javascript --api -T
+Demo user: user1@example.com / Secret123
 
-## jsonapi-resources setup
+## Setup app
 
-### Models
+    bundle
+    rake db:setup
+    cd client && npm i
+
+## Start app
+
+    foreman start
+    open http://localhost:3000
+
+## Adding new JSON API resource
 
     rails g model category name:string
-    rails g model post title:string body:text category:references
-    rails g model comment body:text post:references
-
-### Resources
-
     rails generate jsonapi:resource category
-    rails generate jsonapi:resource post
-    rails generate jsonapi:resource model
-
-### Controllers
-
     rails g controller Category --skip-assets
-    rails g controller Posts --skip-assets
-    rails g controller Comments --skip-assets
 
-### Routes
+### routes.rb
 
     jsonapi_resources :categories
-    jsonapi_resources :posts
-    jsonapi_resources :comments
 
-### Start app
-    foreman start
+### Client
+
+Add list, edit and form components in `client/src/components/` based on one of existing.

@@ -8,8 +8,10 @@
 
 FactoryGirl.find_definitions
 
-FactoryGirl.create_list(:category, 15, :with_posts)
+15.times do |n|
+  FactoryGirl.create(:category, :with_posts)
+end
 
 25.times do |n|
-  User.create(email: "user#{n}@example.com", password: 'Secret99', confirmed_at: Time.now)
+  User.create!(email: "user#{n}@example.com", password: 'Secret123', confirmed_at: Time.now)
 end
