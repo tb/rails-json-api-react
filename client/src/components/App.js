@@ -15,7 +15,7 @@ export class App extends Component {
     this.props.logout(this.props.user);
   };
 
-  toggle = () => this.setState({isOpen: !this.state.isOpen});
+  toggle = () => this.setState({ isOpen: !this.state.isOpen });
 
   render() {
     const { user } = this.props;

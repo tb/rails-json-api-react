@@ -51,7 +51,7 @@ export class PostList extends Component {
         <Button tag={Link} to={'/posts/new'}>New Post</Button>
 
         <PostListFilter
-          initialValues={{category: '', ...resourceList.params.filter}}
+          initialValues={{ category: '', ...resourceList.params.filter }}
           onSubmit={onFilter}
           categories={categories}>
         </PostListFilter>

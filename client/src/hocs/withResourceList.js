@@ -32,7 +32,7 @@ const withResourceList = resourceKey => (WrappedComponent) => {
         const number = 1;
         fetchResourceList({ ...params, page: { number, size } });
       },
-      onPageNumber: props => number => {
+      onPageNumber: props => (number) => {
         const { resourceList: { params }, fetchResourceList } = props;
         const { page = {} } = params;
         fetchResourceList({ ...params, page: { ...page, number } });
@@ -42,7 +42,7 @@ const withResourceList = resourceKey => (WrappedComponent) => {
         return (values.id ? updateResource : createResource)(values)
           .catch((errors) => { throw new SubmissionError(errors); });
       },
-      onDelete: props => (resource) => (e) => {
+      onDelete: props => resource => (e) => {
         const { deleteResource } = props;
         e.preventDefault();
         deleteResource(resource);
@@ -56,7 +56,7 @@ const withResourceList = resourceKey => (WrappedComponent) => {
 
   const mapDispatchToProps = dispatch => ({
     fetchResourceList: (params = {}) => dispatch(fetchList(resourceKey, params)),
-    createResource: payload => dispatch(createResource(resourceKey, payload, {list: true})),
+    createResource: payload => dispatch(createResource(resourceKey, payload, { list: true })),
     updateResource: payload => dispatch(updateResource(resourceKey, payload)),
     deleteResource: payload => dispatch(deleteResource(resourceKey, payload)),
   });

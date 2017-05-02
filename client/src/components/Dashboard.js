@@ -29,7 +29,7 @@ export class Dashobard extends Component {
             <Link to={`/posts/${post.id}`}>{post.title}</Link>
             ({this.getCategoryForPost(post).name})
             {formatDate(post.createdAt)}
-          </div>
+          </div>,
         )}
       </div>
     );

@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
-import {createUltimatePagination, ITEM_TYPES} from 'react-ultimate-pagination';
+import { createUltimatePagination, ITEM_TYPES } from 'react-ultimate-pagination';
 import { Input, Label } from 'reactstrap';
 
-const WrapperComponent = ({children}) => (
+const WrapperComponent = ({ children }) => (
   <ul className="pagination">{children}</ul>
 );
 
-const withPreventDefault = (fn) => (event) => {
+const withPreventDefault = fn => (event) => {
   event.preventDefault();
   fn();
 };
 
-const Page = ({value, isActive, onClick}) => (
+const Page = ({ value, isActive, onClick }) => (
   <li className={isActive ? 'page-item active' : 'page-item'}>
     <a className="page-link" href="#" onClick={withPreventDefault(onClick)}>{value}</a>
   </li>
 );
 
-const createPageLink = children => ({onClick}) => (
+const createPageLink = children => ({ onClick }) => (
   <li className="page-item">
     <a className="page-link" href="#" onClick={withPreventDefault(onClick)}>{children}</a>
   </li>
@@ -32,7 +32,10 @@ const itemTypeToComponent = {
   [ITEM_TYPES.LAST_PAGE_LINK]: createPageLink(<span>&raquo;</span>),
 };
 
-const UltimatePaginationBootstrap4 = createUltimatePagination({itemTypeToComponent, WrapperComponent});
+const UltimatePaginationBootstrap4 = createUltimatePagination({
+  itemTypeToComponent,
+  WrapperComponent,
+});
 
 export default (props) => {
   const { resourceList, onPageSize, onPageNumber } = props;
@@ -47,7 +50,7 @@ export default (props) => {
   }
 
   return (
-    <div className="d-flex justify-content-center" style={{height: '50px'}}>
+    <div className="d-flex justify-content-center" style={{ height: '50px' }}>
       <UltimatePaginationBootstrap4
         currentPage={currentPage}
         totalPages={totalPages}
@@ -56,8 +59,8 @@ export default (props) => {
       <Label
         for="perPage"
         className="align-self-center"
-        style={{marginLeft: '20px', padding: '8px'}}>Per Page</Label>
-      <Input type="select" name="perPage" value={size} onChange={onPageSize} style={{width: '60px'}}>
+        style={{ marginLeft: '20px', padding: '8px' }}>Per Page</Label>
+      <Input type="select" name="perPage" value={size} onChange={onPageSize} style={{ width: '60px' }}>
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="50">50</option>
@@ -65,4 +68,4 @@ export default (props) => {
       </Input>
     </div>
   );
-}
+};

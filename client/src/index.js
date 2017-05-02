@@ -5,10 +5,11 @@ import { Provider } from 'react-redux';
 import { hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
+import 'bootstrap/dist/css/bootstrap.css';
+
 import Routes from './components/Routes';
 import configureStore from './store/configureStore';
 
-import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 
 const store = configureStore(hashHistory);

@@ -10,4 +10,4 @@ export default (props) => {
       { !isNew && <Badge color="danger" onClick={onDelete}>X</Badge> }
     </h2>
   );
-}
+};

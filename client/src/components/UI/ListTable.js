@@ -10,9 +10,9 @@ export default (props) => {
   const { sort } = resourceList.params;
   const sortedAsc = sort && sort[0] !== '-';
 
-  const sorted = (attribute) => attribute === sort || `-${attribute}` === sort;
+  const sorted = attribute => attribute === sort || `-${attribute}` === sort;
 
-  const toggleSort = (attribute) => (e) => {
+  const toggleSort = attribute => (e) => {
     if (attribute === sort) {
       onSort(sortedAsc ? `-${attribute}` : attribute);
     } else {
@@ -28,14 +28,14 @@ export default (props) => {
           {columns.map(column =>
             <th
               key={columnKey(column, 'header')}
-              style={{minWidth: column.minWidth}}
+              style={{ minWidth: column.minWidth }}
               onClick={column.sortable && toggleSort(column.attribute)}
             >
               {column.header}&nbsp;
               {column.sortable && !sorted(column.attribute) && <i className="fa fa-sort"></i>}
               {column.sortable && sorted(column.attribute) && !sortedAsc && <i className="fa fa-sort-desc"></i>}
               {column.sortable && sorted(column.attribute) && sortedAsc && <i className="fa fa-sort-asc"></i>}
-            </th>
+            </th>,
           )}
         </tr>
         </thead>
@@ -43,11 +43,11 @@ export default (props) => {
         {resourceList.data.map(item =>
           <tr key={item.id}>
             {columns.map(column =>
-              <td key={columnKey(column, 'row')} style={{minWidth: column.minWidth}}>
+              <td key={columnKey(column, 'row')} style={{ minWidth: column.minWidth }}>
                 {column.rowRender ? column.rowRender(item) : item[column.attribute]}
-              </td>
+              </td>,
             )}
-          </tr>
+          </tr>,
         )}
         </tbody>
       </Table>
@@ -61,4 +61,4 @@ export default (props) => {
       {resourceList.empty && resourceList.loading && <p>Loading...</p>}
     </div>
   );
-}
+};

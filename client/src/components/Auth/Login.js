@@ -10,8 +10,8 @@ import { login } from '../../store/api';
 export class Login extends Component {
   onSubmit = values => this.props.login(values)
     .then(this.props.redirect)
-    .catch(({response}) => {
-      throw new SubmissionError({_error: response.data.errors.join()});
+    .catch(({ response }) => {
+      throw new SubmissionError({ _error: response.data.errors.join() });
     });
 
   render() {
