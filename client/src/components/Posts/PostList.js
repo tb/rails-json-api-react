@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { get, find, keyBy } from 'lodash';
-import { Button, Table } from 'reactstrap';
+import { Button } from 'reactstrap';
 
 import { fetchList, getMap, getMany } from '../../store/api';
 import { withResourceList } from '../../hocs';
-import { ListHeader, Pagination } from '../UI';
+import { ListHeader, ListTable } from '../UI';
 import PostListFilter from './PostListFilter';
 
 const formatDate = date => (new Date(date)).toLocaleString();
@@ -24,7 +24,27 @@ export class PostList extends Component {
   }
 
   render() {
-    const { resourceList, onFilter, onSort, categories } = this.props;
+    const { resourceList, onFilter, categories } = this.props;
+
+    const columns = [
+      {
+        header: 'Category',
+        minWidth: '50px',
+        rowRender: post => this.getCategoryForPost(post).name,
+      },
+      {
+        attribute: 'title',
+        header: 'Title',
+        rowRender: post => <Link to={`/posts/${post.id}`}>{post.title}</Link>,
+        sortable: true,
+      },
+      {
+        attribute: 'createdAt',
+        header: 'Created At',
+        rowRender: post => formatDate(post.createdAt),
+        sortable: true,
+      },
+    ];
 
     return (
       <div>
@@ -36,46 +56,7 @@ export class PostList extends Component {
           categories={categories}>
         </PostListFilter>
 
-        <Table>
-          <thead>
-          <tr>
-            <th>
-              Category
-            </th>
-            <th>
-              Title&nbsp;
-              <select name="sort" value={resourceList.params.sort} onChange={onSort}>
-                <option value="title">Asc</option>
-                <option value="-title">Desc</option>
-              </select>
-            </th>
-            <th>
-              Created at&nbsp;
-              <select name="sort" value={resourceList.params.sort} onChange={onSort}>
-                <option value="createdAt">Asc</option>
-                <option value="-createdAt">Desc</option>
-              </select>
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          {resourceList.data.map(post =>
-            <tr key={post.id}>
-              <td>
-                {this.getCategoryForPost(post).name}
-              </td>
-              <td>
-                <Link to={`/posts/${post.id}`}>{post.title}</Link>
-              </td>
-              <td>
-                {formatDate(post.createdAt)}
-              </td>
-            </tr>
-          )}
-          </tbody>
-        </Table>
-        <Pagination {...this.props}></Pagination>
-        {resourceList.empty && resourceList.loading && <p>Loading...</p>}
+        <ListTable {...this.props} columns={columns} />
       </div>
     );
   }

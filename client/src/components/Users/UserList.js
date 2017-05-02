@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { find, keyBy } from 'lodash';
-import { Table } from 'reactstrap';
 
-import { Pagination } from '../UI';
+import { ListTable } from '../UI';
 import { withResourceList } from '../../hocs';
 
 const formatDate = date => (new Date(date)).toLocaleString();
@@ -14,37 +13,23 @@ export class UserList extends Component {
   }
 
   render() {
-    const { resourceList } = this.props;
+    const columns = [
+      {
+        attribute: 'email',
+        header: 'Email',
+        rowRender: user => <Link to={`/users/${user.id}`}>{user.email}</Link>,
+        sortable: true,
+      },
+      {
+        attribute: 'confirmedAt',
+        header: 'Confirmed At',
+        rowRender: user => formatDate(user.confirmedAt),
+        sortable: true,
+      },
+    ];
 
     return (
-      <div>
-        <Table>
-          <thead>
-          <tr>
-            <th>
-              Email
-            </th>
-            <th>
-              Confirmed at
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          {resourceList.data.map(user =>
-            <tr key={user.id}>
-              <td>
-                <Link to={`/users/${user.id}`}>{user.email}</Link>
-              </td>
-              <td>
-                {formatDate(user.confirmedAt)}
-              </td>
-            </tr>
-          )}
-          </tbody>
-        </Table>
-        <Pagination {...this.props}></Pagination>
-        {resourceList.empty && resourceList.loading && <p>Loading...</p>}
-      </div>
+      <ListTable {...this.props} columns={columns} />
     );
   }
 }

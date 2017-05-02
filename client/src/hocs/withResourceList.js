@@ -22,9 +22,8 @@ const withResourceList = resourceKey => (WrappedComponent) => {
         const number = 1;
         fetchResourceList({ ...params, page: { number, size }, filter: omitBy(filter, isEmpty) });
       },
-      onSort: props => (event) => {
+      onSort: props => (sort) => {
         const { resourceList: { params }, fetchResourceList } = props;
-        const sort = event.target.value;
         fetchResourceList({ ...params, sort });
       },
       onPageSize: props => (event) => {
