@@ -1,6 +1,6 @@
 # [rails-json-api-react](https://github.com/tb/rails-json-api-react)
 
-## [DEMO](rails-json-api-react.herokuapp.com)
+## [DEMO](https://rails-json-api-react.herokuapp.com)
 
 Demo user: user1@example.com / Secret123
 
