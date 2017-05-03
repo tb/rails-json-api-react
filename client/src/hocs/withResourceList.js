@@ -39,7 +39,7 @@ const withResourceList = resourceKey => (WrappedComponent) => {
       },
       onSubmit: props => (values) => {
         const { createResource, updateResource } = props;
-        return (values.id ? updateResource : createResource)(values)
+        return (values.id ? updateResource : createResource)(values, { list: 'list' })
           .catch((errors) => { throw new SubmissionError(errors); });
       },
       onDelete: props => resource => (e) => {
@@ -56,7 +56,7 @@ const withResourceList = resourceKey => (WrappedComponent) => {
 
   const mapDispatchToProps = dispatch => ({
     fetchResourceList: (params = {}) => dispatch(fetchList(resourceKey, params)),
-    createResource: payload => dispatch(createResource(resourceKey, payload, { list: true })),
+    createResource: payload => dispatch(createResource(resourceKey, payload, { list: 'list' })),
     updateResource: payload => dispatch(updateResource(resourceKey, payload)),
     deleteResource: payload => dispatch(deleteResource(resourceKey, payload)),
   });

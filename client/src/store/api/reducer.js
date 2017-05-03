@@ -65,7 +65,7 @@ export default (state = initialState, action) => {
     }
     case actionType(CREATE, SUCCESS): {
       newState = addNormalized(newState, payload);
-      if (meta.list) {
+      if (list) {
         newState = imm.push(newState, [key, list, 'ids'], payload.data.id);
       }
       return newState;
