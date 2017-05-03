@@ -8,7 +8,7 @@ Demo user: user1@example.com / Secret123
 
     bundle
     rake db:setup
-    cd client && npm i
+    cd client && yarn
 
 ## Start app
 
