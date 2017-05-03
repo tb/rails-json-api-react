@@ -28,7 +28,6 @@ export class Routes extends PureComponent {
           <Route path="/posts/new" component={PostEdit}/>
           <Route path="/posts/:id" component={PostEdit}/>
           <Route path="/categories" component={CategoryList}/>
-          <Route path="/categories/:id" component={CategoryEdit}/>
           <Route path="/users" component={UserList}/>
           <Route path="/users/:id" component={UserEdit}/>
         </Route>
