@@ -1,17 +1,17 @@
-# Perfectly simple Webpack 2 setup
+# Client
 
-    git clone git@github.com:tb/perfectly-simple-webpack-starter.git client 
-    cd client
-    npm i
+## Install packages
 
-Run tests
+    yarn
 
-    npm test
+## Run tests
 
-Start dev server
+    yarn test
 
-    npm start
+## Start dev server
 
-Build production version
+    yarn start
 
-    npm build
+## Upgrade packages
+
+    yarn upgrade-interactive
