@@ -7,13 +7,13 @@ class InputField extends Component {
   };
 
   render() {
-    const { input, type, label, meta: { touched, error } } = this.props;
+    const { input, type, label, placeholder, meta: { touched, error } } = this.props;
     const showError = touched && error;
 
     return (
       <FormGroup color={showError ? 'danger' : ''}>
         {label && <Label>{label}</Label>}
-        <Input {...input} type={type} />
+        <Input {...input} type={type} placeholder={placeholder} />
         {showError && <FormFeedback>{error}</FormFeedback>}
       </FormGroup>
     );

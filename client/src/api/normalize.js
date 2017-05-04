@@ -21,6 +21,7 @@ const serializers = {
         'title',
         'body',
         'category',
+        'parts',
       ],
       category: {
         ref: 'id',
