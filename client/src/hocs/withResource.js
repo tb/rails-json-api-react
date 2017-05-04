@@ -16,11 +16,11 @@ import {
 const withResource = resourceKey => (WrappedComponent) => {
   const enhance = compose(
     withHandlers({
-      onSubmit: props => (values) => {
+      onSubmit: props => (values, meta = {}) => {
         const { params, createResource, updateResource, redirectToIndex } = props;
         const payload = { id: params.id, ...values };
-        return (params.id ? updateResource : createResource)(payload)
-          .then(redirectToIndex)
+        return (params.id ? updateResource : createResource)(payload, meta)
+          // .then(redirectToIndex)
           .catch((errors) => { throw new SubmissionError(errors); });
       },
       onDelete: props => (e) => {
@@ -37,10 +37,10 @@ const withResource = resourceKey => (WrappedComponent) => {
   });
 
   const mapDispatchToProps = dispatch => ({
-    fetchResource: payload => dispatch(fetchOne(resourceKey, payload)),
-    createResource: payload => dispatch(createResource(resourceKey, payload)),
-    updateResource: payload => dispatch(updateResource(resourceKey, payload)),
-    deleteResource: payload => dispatch(deleteResource(resourceKey, payload)),
+    fetchResource: (payload, meta) => dispatch(fetchOne(resourceKey, payload, meta)),
+    createResource: (payload, meta) => dispatch(createResource(resourceKey, payload, meta)),
+    updateResource: (payload, meta) => dispatch(updateResource(resourceKey, payload, meta)),
+    deleteResource: (payload, meta) => dispatch(deleteResource(resourceKey, payload, meta)),
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(enhance(WrappedComponent));

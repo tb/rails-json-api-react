@@ -4,10 +4,11 @@ import {
   castArray,
   get,
   groupBy,
-  values,
   keys,
-  zipObject,
   pick,
+  set,
+  values,
+  zipObject,
 } from 'lodash';
 
 import { denormalize, normalize } from './normalize';
@@ -75,8 +76,8 @@ const normalizeResponse = (response) => {
 const normalizeErrors = (response) => {
   throw get(response, 'response.data.errors')
     .reduce((errors, error) => {
-      const attribute = /attributes\/(.*)$/.exec(get(error, 'source.pointer'))[1];
-      errors[attribute] = error.title;
+      const attribute = /\/data\/[a-z]*\/(.*)$/.exec(get(error, 'source.pointer'))[1];
+      set(errors, attribute.split('/'), error.title);
       return errors;
     }, {});
 };
@@ -84,6 +85,7 @@ const normalizeErrors = (response) => {
 export default (requestType, payload, meta) => {
   const {
     url = `${meta.key}`,
+    include,
   } = meta;
 
   const params = payload;
@@ -104,13 +106,13 @@ export default (requestType, payload, meta) => {
       }).then(normalizeResponse).then(res => ({ ...res, params }));
     case CREATE:
       return client({
-        url: withParams(url),
+        url: withParams(url, { include }),
         method: 'POST',
         data: denormalize(meta.key, payload),
       }).then(normalizeResponse).catch(normalizeErrors);
     case UPDATE: {
       return client({
-        url: withParams(`${url}/${payload.id}`),
+        url: withParams(`${url}/${payload.id}`, { include }),
         method: 'PUT',
         data: denormalize(meta.key, payload),
       }).then(normalizeResponse).catch(normalizeErrors);

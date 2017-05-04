@@ -13,7 +13,7 @@ import {
   getList,
 } from '../store/api';
 
-const withResourceList = resourceKey => (WrappedComponent) => {
+const withResourceList = (resourceKey) => (WrappedComponent) => {
   const enhance = compose(
     withHandlers({
       onFilter: props => (filter) => {
@@ -37,9 +37,9 @@ const withResourceList = resourceKey => (WrappedComponent) => {
         const { page = {} } = params;
         fetchResourceList({ ...params, page: { ...page, number } });
       },
-      onSubmit: props => (values) => {
+      onSubmit: props => (values, meta = {}) => {
         const { createResource, updateResource } = props;
-        return (values.id ? updateResource : createResource)(values, { list: 'list' })
+        return (values.id ? updateResource : createResource)(values, { list: 'list', ...meta })
           .catch((errors) => { throw new SubmissionError(errors); });
       },
       onDelete: props => resource => (e) => {
@@ -55,10 +55,10 @@ const withResourceList = resourceKey => (WrappedComponent) => {
   });
 
   const mapDispatchToProps = dispatch => ({
-    fetchResourceList: (params = {}) => dispatch(fetchList(resourceKey, params)),
-    createResource: payload => dispatch(createResource(resourceKey, payload, { list: 'list' })),
-    updateResource: payload => dispatch(updateResource(resourceKey, payload)),
-    deleteResource: payload => dispatch(deleteResource(resourceKey, payload)),
+    fetchResourceList: (payload, meta) => dispatch(fetchList(resourceKey, payload, meta)),
+    createResource: (payload, meta) => dispatch(createResource(resourceKey, payload, meta)),
+    updateResource: (payload, meta) => dispatch(updateResource(resourceKey, payload, meta)),
+    deleteResource: (payload, meta) => dispatch(deleteResource(resourceKey, payload, meta)),
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(enhance(WrappedComponent));

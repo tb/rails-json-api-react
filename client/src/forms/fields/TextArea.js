@@ -7,13 +7,13 @@ class TextArea extends Component {
   };
 
   render() {
-    const { input, type, label, rows, meta: { touched, error } } = this.props;
+    const { input, type, label, rows, placeholder, meta: { touched, error } } = this.props;
     const showError = touched && error;
 
     return (
       <FormGroup color={showError ? 'danger' : ''}>
         {label && <Label>{label}</Label>}
-        <Input {...input} type={type} rows={rows} />
+        <Input {...input} type={type} placeholder={placeholder} rows={rows} />
         {showError && <FormFeedback>{error}</FormFeedback>}
       </FormGroup>
     );

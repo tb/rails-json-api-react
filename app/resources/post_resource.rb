@@ -1,7 +1,7 @@
 class PostResource < JSONAPI::Resource
   extend CustomFilter
 
-  attributes :title, :body, :created_at
+  attributes :title, :created_at, :parts
 
   has_many :comments
   has_one :category
