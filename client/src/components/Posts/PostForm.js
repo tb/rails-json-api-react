@@ -6,8 +6,8 @@ import { Button, Form, FormFeedback, Col, Row } from 'reactstrap';
 
 import { InputField, TextArea, SelectField, required } from '../../forms';
 
-export const PostFormPart = ({values, part}) => {
-  switch(values.type) {
+export const PostFormPart = ({ values, part }) => {
+  switch (values.type) {
     case 'image':
       return (
         <div>
@@ -17,11 +17,12 @@ export const PostFormPart = ({values, part}) => {
             name={`${part}.imageUrl`}
             placeholder={'Image url...'}
             component={InputField}
-          />          <Field
-          name={`${part}.description`}
-          placeholder={'Image description...'}
-          component={InputField}
-        />
+          />
+          <Field
+            name={`${part}.description`}
+            placeholder={'Image description...'}
+            component={InputField}
+          />
         </div>
       );
     case 'text':
@@ -33,15 +34,17 @@ export const PostFormPart = ({values, part}) => {
           component={TextArea}
         />
       );
-  };
+    default:
+      return null;
+  }
 };
 
 export const PostFormParts = ({ parts, fields, meta: { error } }) => (
   <div className="my-3">
     {fields.map((part, index) =>
-      <div>
+      <div key={index}>
         <hr />
-        <Row key={index}>
+        <Row>
           <Col xs="10">
             <PostFormPart values={parts[index]} part={part} />
           </Col>
@@ -49,7 +52,7 @@ export const PostFormParts = ({ parts, fields, meta: { error } }) => (
             <Button color="danger" onClick={() => fields.remove(index)}>X</Button>
           </Col>
         </Row>
-      </div>
+      </div>,
     )}
     {error && <FormFeedback>{error}</FormFeedback>}
     <Button onClick={() => fields.push({ type: 'text' })} className="mr-2">Add Text</Button>
@@ -104,7 +107,7 @@ const validate = (values) => {
 
 const selector = formValueSelector('post');
 
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
   parts: selector(state, 'parts'),
 });
 
@@ -113,5 +116,5 @@ export default reduxForm({
   form: 'post',
   validate,
 })(
-  connect(mapStateToProps)(PostForm)
+  connect(mapStateToProps)(PostForm),
 );

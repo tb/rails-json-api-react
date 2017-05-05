@@ -13,7 +13,7 @@ import {
   getList,
 } from '../store/api';
 
-const withResourceList = (resourceKey) => (WrappedComponent) => {
+const withResourceList = resourceKey => (WrappedComponent) => {
   const enhance = compose(
     withHandlers({
       onFilter: props => (filter) => {
