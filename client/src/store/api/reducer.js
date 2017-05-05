@@ -1,10 +1,11 @@
 import imm from 'object-path-immutable';
 import {
   get,
-  map,
-  keys,
-  keyBy,
   isEmpty,
+  keyBy,
+  keys,
+  map,
+  pick,
   without,
 } from 'lodash';
 
@@ -15,20 +16,7 @@ import {
   CREATE,
   UPDATE,
   DELETE,
-  AUTH_LOGIN,
-  AUTH_LOGOUT,
-} from '../../api';
-
-import {
-  STARTED,
-  SUCCESS,
-  FAILED,
-  actionType,
 } from './actions';
-
-const initialState = {
-  user: JSON.parse(localStorage.getItem('user') || '{}'),
-};
 
 const addNormalized = (newState, payload) => {
   keys(payload.normalized).forEach((key) => {
@@ -39,55 +27,45 @@ const addNormalized = (newState, payload) => {
   return newState;
 };
 
-export default (state = initialState, action) => {
-  const { type, payload, meta } = action;
+const initialState = {};
+
+export default (state = initialState, { type, payload, meta }) => {
   const { key, list = 'list' } = meta || {};
   let newState = state;
 
   switch (type) {
-    case actionType(GET_ONE, SUCCESS): {
+    case GET_ONE.SUCCESS: {
       return addNormalized(newState, payload);
     }
-    case actionType(GET_LIST, STARTED): {
+    case GET_LIST.STARTED: {
       return imm.set(newState, [key, list, 'loading'], true);
     }
-    case actionType(GET_LIST, SUCCESS): {
+    case GET_LIST.SUCCESS: {
       newState = addNormalized(newState, payload);
-      newState = imm.set(newState, [key, list, 'ids'], map(payload.data, 'id'));
-      newState = imm.set(newState, [key, list, 'params'], payload.params);
-      newState = imm.set(newState, [key, list, 'links'], payload.links);
-      newState = imm.set(newState, [key, list, 'meta'], payload.meta);
-      newState = imm.set(newState, [key, list, 'loading'], false);
-      return newState;
+      return imm.set(newState, [key, list], {
+        ids: map(payload.data, 'id'),
+        loading: false,
+        ...pick(payload, ['params', 'links', 'meta']),
+      });
     }
-    case actionType(GET_MANY, SUCCESS): {
+    case GET_MANY.SUCCESS: {
       return addNormalized(newState, payload);
     }
-    case actionType(CREATE, SUCCESS): {
+    case CREATE.SUCCESS: {
       newState = addNormalized(newState, payload);
       if (list) {
         newState = imm.push(newState, [key, list, 'ids'], payload.data.id);
       }
       return newState;
     }
-    case actionType(UPDATE, SUCCESS): {
+    case UPDATE.SUCCESS: {
       return addNormalized(newState, payload);
     }
-    case actionType(DELETE, SUCCESS): {
+    case DELETE.SUCCESS: {
       newState = imm.del(newState, [key, 'byId', payload.data.id]);
       newState = imm.set(newState, [key, list, 'ids'],
         without(get(newState, [key, list, 'ids']), payload.data.id),
       );
-      return newState;
-    }
-    case actionType(AUTH_LOGIN, SUCCESS): {
-      localStorage.setItem('user', JSON.stringify(payload));
-      newState = imm.set(newState, ['user'], payload);
-      return newState;
-    }
-    case actionType(AUTH_LOGOUT, SUCCESS): {
-      localStorage.removeItem('user');
-      newState = imm.set(newState, ['user'], {});
       return newState;
     }
     default:

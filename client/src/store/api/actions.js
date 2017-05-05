@@ -1,47 +1,51 @@
 import {
-  GET_ONE,
-  GET_LIST,
-  GET_MANY,
-  CREATE,
-  UPDATE,
-  DELETE,
-  AUTH_LOGIN,
-  AUTH_LOGOUT,
   client,
+  withParams,
+  normalizeResponse,
+  normalizeErrors,
+  denormalize,
 } from '../../api';
 
-export const STARTED = 'STARTED';
-export const SUCCESS = 'SUCCESS';
-export const FAILED = 'FAILED';
+import {
+  createAsyncActionType,
+  createAsyncAction,
+} from '../utils';
 
-export const actionType = (request, status) => `@@api/${request}/${status}`;
+export const GET_ONE = createAsyncActionType('GET_ONE');
+export const GET_LIST = createAsyncActionType('GET_LIST');
+export const GET_MANY = createAsyncActionType('GET_MANY');
+export const CREATE = createAsyncActionType('CREATE');
+export const UPDATE = createAsyncActionType('UPDATE');
+export const DELETE = createAsyncActionType('DELETE');
 
-const createAction = (request, status) => (key, payload, meta = {}) => ({
-  type: actionType(request, status),
-  payload,
-  meta: { ...meta, status },
-  error: status === FAILED ? true : undefined,
+export const fetchOne = createAsyncAction(GET_ONE, (payload, meta) => client({
+  url: withParams(meta.url, { include: meta.include, ...payload }),
+  method: 'GET',
+  data: JSON.stringify(payload),
+}).then(normalizeResponse));
+
+export const fetchList = createAsyncAction(GET_LIST, (payload, meta) => {
+  const params = { include: meta.include, ...payload };
+  return client({
+    url: withParams(meta.url, params),
+    method: 'GET',
+    data: JSON.stringify(payload),
+  }).then(normalizeResponse).then(res => ({ ...res, params }));
 });
 
-const createAsyncAction = request => (key, payload = {}, _meta = {}) => (dispatch) => {
-  const meta = { ..._meta, key, request };
-  dispatch(createAction(request, STARTED)(key, payload, meta));
-  return client(request, payload, meta)
-    .then((response) => {
-      dispatch(createAction(request, SUCCESS)(key, response, meta));
-      return response;
-    })
-    .catch((error) => {
-      dispatch(createAction(request, FAILED)(key, error, meta));
-      throw error;
-    });
-};
+export const createResource = createAsyncAction(CREATE, (payload, meta) => client({
+  url: withParams(meta.url, { include: meta.include }),
+  method: 'POST',
+  data: denormalize(meta.key, payload),
+}).then(normalizeResponse).catch(normalizeErrors));
 
-export const fetchOne = createAsyncAction(GET_ONE);
-export const fetchList = createAsyncAction(GET_LIST);
-export const fetchMany = createAsyncAction(GET_MANY);
-export const createResource = createAsyncAction(CREATE);
-export const updateResource = createAsyncAction(UPDATE);
-export const deleteResource = createAsyncAction(DELETE);
-export const login = createAsyncAction(AUTH_LOGIN);
-export const logout = createAsyncAction(AUTH_LOGOUT);
+export const updateResource = createAsyncAction(UPDATE, (payload, meta) => client({
+  url: withParams(`${meta.url}/${payload.id}`, { include: meta.include }),
+  method: 'PUT',
+  data: denormalize(meta.key, payload),
+}).then(normalizeResponse).catch(normalizeErrors));
+
+export const deleteResource = createAsyncAction(DELETE, (payload, meta) => client({
+  url: withParams(`${meta.url}/${payload.id}`),
+  method: 'DELETE',
+}).then(() => ({ data: payload })));

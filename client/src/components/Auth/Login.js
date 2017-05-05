@@ -5,7 +5,7 @@ import { SubmissionError } from 'redux-form';
 
 import { CardSingle } from '../UI';
 import LoginForm from './LoginForm';
-import { login } from '../../store/api';
+import { login } from '../../store/auth';
 
 export class Login extends Component {
   onSubmit = values => this.props.login(values)

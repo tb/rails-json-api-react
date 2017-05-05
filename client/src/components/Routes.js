@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { Router, Route, IndexRoute } from 'react-router';
 import { UserAuthWrapper } from 'redux-auth-wrapper';
 
-import { getUser } from '../store/api';
+import { getUser } from '../store/auth';
 import App from './App';
 import Dashboard from './Dashboard';
 import { PostList, PostEdit } from './Posts';
