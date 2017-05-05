@@ -1,5 +1,5 @@
 class PostResource < JSONAPI::Resource
-  extend CustomFilter
+  extend ModelFilter
 
   attributes :title, :created_at, :parts
 
@@ -9,5 +9,5 @@ class PostResource < JSONAPI::Resource
   paginator :paged
 
   filters :category
-  custom_filter :title_contains
+  model_filters :title_contains
 end

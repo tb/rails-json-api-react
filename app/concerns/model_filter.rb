@@ -1,6 +1,6 @@
 # see https://github.com/cerebris/jsonapi-resources/issues/460
-module CustomFilter
-  def custom_filter(name, opts = {})
+module ModelFilter
+  def model_filter(name, opts = {})
     opts[:apply] = ->(records, value, _options) do
       records.public_send(name, value)
     end
@@ -8,7 +8,7 @@ module CustomFilter
     filter name, opts
   end
 
-  def custom_filters(*names)
-    names.each { |name| custom_filter(name, names.extract_options!) }
+  def model_filters(*names)
+    names.each { |name| model_filter(name, names.extract_options!) }
   end
 end
