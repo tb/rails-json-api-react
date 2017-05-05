@@ -20,7 +20,7 @@ const withResource = resourceKey => (WrappedComponent) => {
         const { params, createResource, updateResource, redirectToIndex } = props;
         const payload = { id: params.id, ...values };
         return (params.id ? updateResource : createResource)(payload, meta)
-          // .then(redirectToIndex)
+          .then(redirectToIndex)
           .catch((errors) => { throw new SubmissionError(errors); });
       },
       onDelete: props => (e) => {
