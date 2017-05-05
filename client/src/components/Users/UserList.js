@@ -9,7 +9,8 @@ const formatDate = date => (new Date(date)).toLocaleString();
 
 export class UserList extends Component {
   componentWillMount() {
-    this.props.fetchResourceList();
+    const { resourceList } = this.props;
+    this.props.fetchResourceList({ sort: '-createdAt', ...resourceList.params });
   }
 
   render() {
@@ -21,8 +22,8 @@ export class UserList extends Component {
         sortable: true,
       },
       {
-        attribute: 'confirmedAt',
-        header: 'Confirmed At',
+        attribute: 'createdAt',
+        header: 'Created At',
         rowRender: user => formatDate(user.confirmedAt),
         sortable: true,
       },
