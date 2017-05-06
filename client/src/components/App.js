@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { Collapse, Container, Navbar, NavbarToggler, Nav, NavItem, NavLink } from 'reactstrap';
 
-import { getUser, logout } from '../store/api';
+import { getUser, logout } from '../store/auth';
 
 export class App extends Component {
   state = {

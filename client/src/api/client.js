@@ -11,18 +11,11 @@ import {
   zipObject,
 } from 'lodash';
 
-import { denormalize, normalize } from './normalize';
+import { normalize } from './normalize';
 
-export const GET_ONE = 'GET_ONE';
-export const GET_LIST = 'GET_LIST';
-export const GET_MANY = 'GET_MANY';
-export const CREATE = 'CREATE';
-export const UPDATE = 'UPDATE';
-export const DELETE = 'DELETE';
-export const AUTH_LOGIN = 'AUTH_LOGIN';
-export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+export { denormalize } from './normalize';
 
-const client = axios.create({
+export const client = axios.create({
   baseURL: '/',
   headers: {
     Accept: 'application/vnd.api+json',
@@ -56,9 +49,9 @@ client.interceptors.request.use(
 
 const stringifyParams = params => qs.stringify(params, { format: 'RFC1738', arrayFormat: 'brackets' });
 
-const withParams = (url, params) => `${url}?${stringifyParams(params)}`;
+export const withParams = (url, params) => `${url}?${stringifyParams(params)}`;
 
-const normalizeResponse = (response) => {
+export const normalizeResponse = (response) => {
   const { data = [], included = [] } = response.data;
   const dataByType = groupBy(castArray(data).concat(included), 'type');
 
@@ -73,71 +66,11 @@ const normalizeResponse = (response) => {
     }));
 };
 
-const normalizeErrors = (response) => {
+export const normalizeErrors = (response) => {
   throw get(response, 'response.data.errors')
     .reduce((errors, error) => {
       const attribute = /\/data\/[a-z]*\/(.*)$/.exec(get(error, 'source.pointer'))[1];
       set(errors, attribute.split('/'), error.title);
       return errors;
     }, {});
-};
-
-export default (requestType, payload, meta) => {
-  const {
-    url = `${meta.key}`,
-    include,
-  } = meta;
-
-  const params = payload;
-
-  switch (requestType) {
-    case GET_ONE:
-      return client({
-        url: withParams(`${url}/${payload.id}`, params),
-        method: 'GET',
-        data: JSON.stringify(payload),
-      }).then(normalizeResponse);
-    case GET_MANY:
-    case GET_LIST:
-      return client({
-        url: withParams(`${url}`, params),
-        method: 'GET',
-        data: JSON.stringify(payload),
-      }).then(normalizeResponse).then(res => ({ ...res, params }));
-    case CREATE:
-      return client({
-        url: withParams(url, { include }),
-        method: 'POST',
-        data: denormalize(meta.key, payload),
-      }).then(normalizeResponse).catch(normalizeErrors);
-    case UPDATE: {
-      return client({
-        url: withParams(`${url}/${payload.id}`, { include }),
-        method: 'PUT',
-        data: denormalize(meta.key, payload),
-      }).then(normalizeResponse).catch(normalizeErrors);
-    }
-    case DELETE:
-      return client({
-        url: withParams(`${url}/${payload.id}`),
-        method: 'DELETE',
-      }).then(() => ({ data: payload }));
-    case AUTH_LOGIN:
-      return client({
-        url: 'auth/sign_in',
-        method: 'POST',
-        data: payload,
-      }).then(response => ({
-        ...response.data.data,
-        ...pick(response.headers, ['access-token', 'client']),
-      }));
-    case AUTH_LOGOUT:
-      return client({
-        url: 'auth/sign_out',
-        method: 'DELETE',
-        data: payload,
-      });
-    default:
-      throw new Error(`No client handler for ${requestType}`);
-  }
 };

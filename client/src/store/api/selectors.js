@@ -1,7 +1,4 @@
-import { get, isEmpty } from 'lodash';
-
-export const getUser = state =>
-  get(state, ['api', 'user']) || {};
+import { compact, get, isEmpty } from 'lodash';
 
 export const getOne = (state, resourceName, id) =>
   get(state, ['api', resourceName, 'byId', id]) || {};
@@ -16,10 +13,20 @@ export const getMany = (state, resourceName, ids) => {
     : (ids || Object.keys(byId)).map(id => byId[id]);
 };
 
+const emptyList = {
+  data: [],
+  ids: [],
+  links: {},
+  meta: {},
+  params: { page: {}, filter: {} },
+  loading: true,
+};
+
 export const getList = (state, resourceName, listName = 'list') => {
   const byId = get(state, ['api', resourceName, 'byId']) || {};
   const list = get(state, ['api', resourceName, listName]) || {};
+
   return !list.ids
-    ? { data: [], ids: [], links: {}, params: { page: {}, filter: {} }, loading: true, empty: true }
-    : { ...list, empty: false, data: list.ids.map(id => byId[id]) };
+    ? { ...emptyList, empty: true }
+    : { ...emptyList, empty: false, ...list, data: compact(list.ids.map(id => byId[id])) };
 };
