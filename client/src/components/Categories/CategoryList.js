@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { find, keyBy } from 'lodash';
 
+import { Loading } from '../UI';
 import { withResourceList } from '../../hocs';
 import CategoryForm from './CategoryForm';
 
@@ -11,6 +12,10 @@ export class CategoryList extends Component {
 
   render() {
     const { resourceList, onSubmit, onDelete } = this.props;
+
+    if (resourceList.empty && resourceList.loading) {
+      return (<Loading />);
+    }
 
     return (
       <div>
@@ -24,7 +29,6 @@ export class CategoryList extends Component {
             />
           </div>,
         )}
-        {resourceList.empty && resourceList.loading && <p>Loading...</p>}
         <CategoryForm
           isNew={true}
           form="category-new"

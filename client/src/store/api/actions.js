@@ -1,7 +1,10 @@
+import { omit } from 'lodash';
+
 import {
   client,
   withParams,
   normalizeResponse,
+  normalizeEndpointError,
   normalizeErrors,
   denormalize,
 } from '../../api';
@@ -19,10 +22,10 @@ export const UPDATE = createAsyncActionType('UPDATE');
 export const DELETE = createAsyncActionType('DELETE');
 
 export const fetchOne = createAsyncAction(GET_ONE, (payload, meta) => client({
-  url: withParams(meta.url, { include: meta.include, ...payload }),
+  url: withParams(`${meta.url}/${payload.id}`, { include: meta.include, ...omit(payload, 'id') }),
   method: 'GET',
   data: JSON.stringify(payload),
-}).then(normalizeResponse));
+}).then(normalizeResponse).catch(normalizeEndpointError));
 
 export const fetchList = createAsyncAction(GET_LIST, (payload, meta) => {
   const params = { include: meta.include, ...payload };

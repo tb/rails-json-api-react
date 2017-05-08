@@ -1,7 +1,10 @@
 import { compact, get, isEmpty } from 'lodash';
 
 export const getOne = (state, resourceName, id) =>
-  get(state, ['api', resourceName, 'byId', id]) || {};
+  get(state, ['api', resourceName, 'byId', id]);
+
+export const getError = (state, resourceName) =>
+  get(state, ['api', resourceName, 'error']);
 
 export const getMap = (state, resourceName) =>
   get(state, ['api', resourceName, 'byId']) || {};

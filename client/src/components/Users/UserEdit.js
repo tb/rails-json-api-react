@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { get, find, omit } from 'lodash';
 
-import { EditHeader } from '../UI';
+import { ErrorAlert, Loading, EditHeader } from '../UI';
 import { withResource } from '../../hocs';
 import UserForm from './UserForm';
 
@@ -17,7 +17,15 @@ export class UserEdit extends Component {
   }
 
   render() {
-    const { isNew, resource, onSubmit } = this.props;
+    const { isNew, error, loading, resource, onSubmit } = this.props;
+
+    if (error) {
+      return (<ErrorAlert {...error} />);
+    }
+
+    if (loading) {
+      return (<Loading />);
+    }
 
     return (
       <div>

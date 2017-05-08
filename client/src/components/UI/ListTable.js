@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'reactstrap';
 
-import { Pagination } from './';
+import { Loading, Pagination } from './';
 
 const columnKey = (column, postfix) => `${column.accessor || column.header}-${postfix}`;
 
@@ -19,6 +19,11 @@ export default (props) => {
       onSort(attribute);
     }
   };
+
+
+  if (resourceList.empty && resourceList.loading) {
+    return (<Loading />);
+  }
 
   return (
     <div>
@@ -51,14 +56,11 @@ export default (props) => {
         )}
         </tbody>
       </Table>
-
       <Pagination
         resourceList={resourceList}
         onPageNumber={onPageNumber}
         onPageSize={onPageSize}>
       </Pagination>
-
-      {resourceList.empty && resourceList.loading && <p>Loading...</p>}
     </div>
   );
 };

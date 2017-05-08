@@ -1,4 +1,4 @@
-export const createAsyncActionType = actionName => ['STARTED', 'SUCCESS', 'FAILED']
+export const createAsyncActionType = actionName => ['STARTED', 'FAILED', 'SUCCESS']
   .reduce((acc, status) => ({ ...acc, [status]: `@@api/${actionName}/${status}` }), {});
 
 export const createAction = type => (payload, meta = {}) => ({

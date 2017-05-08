@@ -11,6 +11,7 @@ import {
   updateResource,
   deleteResource,
   getOne,
+  getError,
 } from '../store/api';
 
 const withResource = (resourceType, resourceMeta) => (WrappedComponent) => {
@@ -33,14 +34,20 @@ const withResource = (resourceType, resourceMeta) => (WrappedComponent) => {
 
   const mapStateToProps = (state, props) => ({
     isNew: !props.params.id,
+    loading: props.params.id && !getOne(state, resourceType, props.params.id),
+    error: props.params.id && getError(state, resourceType),
     resource: getOne(state, resourceType, props.params.id),
   });
 
   const mapDispatchToProps = dispatch => ({
-    fetchResource: (payload, meta) => dispatch(fetchOne(resourceType, payload, { ...resourceMeta, ...meta })),
-    createResource: (payload, meta) => dispatch(createResource(resourceType, payload, { ...resourceMeta, ...meta })),
-    updateResource: (payload, meta) => dispatch(updateResource(resourceType, payload, { ...resourceMeta, ...meta })),
-    deleteResource: (payload, meta) => dispatch(deleteResource(resourceType, payload, { ...resourceMeta, ...meta })),
+    fetchResource: (payload, meta) =>
+      dispatch(fetchOne(resourceType, payload, { ...resourceMeta, ...meta })),
+    createResource: (payload, meta) =>
+      dispatch(createResource(resourceType, payload, { ...resourceMeta, ...meta })),
+    updateResource: (payload, meta) =>
+      dispatch(updateResource(resourceType, payload, { ...resourceMeta, ...meta })),
+    deleteResource: (payload, meta) =>
+      dispatch(deleteResource(resourceType, payload, { ...resourceMeta, ...meta })),
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(enhance(WrappedComponent));

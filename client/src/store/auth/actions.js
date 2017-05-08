@@ -13,7 +13,9 @@ export const login = createAsyncAction(AUTH_LOGIN, payload => client({
 }).then(response => ({
   ...response.data.data,
   ...pick(response.headers, ['access-token', 'client']),
-})));
+})).catch(({ response }) => {
+  throw new Error(response.data.errors.join());
+}));
 
 export const logout = createAsyncAction(AUTH_LOGOUT, payload => client({
   url: 'auth/sign_out',

@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { get, find, omit } from 'lodash';
 
-import { EditHeader } from '../UI';
+import { ErrorAlert, Loading, EditHeader } from '../UI';
 import { withResource } from '../../hocs';
 import PostForm from './PostForm';
 import {
@@ -23,7 +23,15 @@ export class PostEdit extends Component {
   }
 
   render() {
-    const { isNew, resource, onSubmit, categories } = this.props;
+    const { isNew, error, loading, resource, onSubmit, categories } = this.props;
+
+    if (error) {
+      return (<ErrorAlert {...error} />);
+    }
+
+    if (loading) {
+      return (<Loading/>);
+    }
 
     return (
       <div>

@@ -55,10 +55,14 @@ const withResourceList = (resourceType, resourceMeta) => (WrappedComponent) => {
   });
 
   const mapDispatchToProps = dispatch => ({
-    fetchResourceList: (payload, meta) => dispatch(fetchList(resourceType, payload, {...resourceMeta, ...meta})),
-    createResource: (payload, meta) => dispatch(createResource(resourceType, payload, {...resourceMeta, ...meta})),
-    updateResource: (payload, meta) => dispatch(updateResource(resourceType, payload, {...resourceMeta, ...meta})),
-    deleteResource: (payload, meta) => dispatch(deleteResource(resourceType, payload, {...resourceMeta, ...meta})),
+    fetchResourceList: (payload, meta) =>
+      dispatch(fetchList(resourceType, payload, { ...resourceMeta, ...meta })),
+    createResource: (payload, meta) =>
+      dispatch(createResource(resourceType, payload, { ...resourceMeta, ...meta })),
+    updateResource: (payload, meta) =>
+      dispatch(updateResource(resourceType, payload, { ...resourceMeta, ...meta })),
+    deleteResource: (payload, meta) =>
+      dispatch(deleteResource(resourceType, payload, { ...resourceMeta, ...meta })),
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(enhance(WrappedComponent));

@@ -8,14 +8,15 @@ import LoginForm from './LoginForm';
 import { login } from '../../store/auth';
 
 export class Login extends Component {
+  // eslint-disable-next-line class-methods-use-this
   componentWillMount() {
     localStorage.clear();
   }
 
   onSubmit = values => this.props.login(values)
     .then(this.props.redirect)
-    .catch(({ response }) => {
-      throw new SubmissionError({ _error: response.data.errors.join() });
+    .catch(({ message }) => {
+      throw new SubmissionError({ _error: message });
     });
 
   render() {

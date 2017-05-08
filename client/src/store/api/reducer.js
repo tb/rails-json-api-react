@@ -34,6 +34,12 @@ export default (state = initialState, { type, payload, meta }) => {
   let newState = state;
 
   switch (type) {
+    case GET_ONE.STARTED: {
+      return imm.set(newState, [key, 'error'], null);
+    }
+    case GET_ONE.FAILED: {
+      return imm.set(newState, [key, 'error'], payload);
+    }
     case GET_ONE.SUCCESS: {
       return addNormalized(newState, payload);
     }

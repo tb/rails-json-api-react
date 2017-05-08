@@ -66,8 +66,14 @@ export const normalizeResponse = (response) => {
     }));
 };
 
-export const normalizeErrors = (response) => {
-  throw get(response, 'response.data.errors')
+export const normalizeEndpointError = (err) => {
+  const error = get(err, 'response.data.errors[0]');
+  // eslint-disable-next-line  no-throw-literal
+  throw { message: error.detail || error.title || err.message };
+};
+
+export const normalizeErrors = (err) => {
+  throw get(err, 'response.data.errors')
     .reduce((errors, error) => {
       const attribute = /\/data\/[a-z]*\/(.*)$/.exec(get(error, 'source.pointer'))[1];
       set(errors, attribute.split('/'), error.title);
