@@ -8,6 +8,10 @@ import LoginForm from './LoginForm';
 import { login } from '../../store/auth';
 
 export class Login extends Component {
+  componentWillMount() {
+    localStorage.clear();
+  }
+
   onSubmit = values => this.props.login(values)
     .then(this.props.redirect)
     .catch(({ response }) => {
