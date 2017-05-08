@@ -13,7 +13,7 @@ import {
   getList,
 } from '../store/api';
 
-const withResourceList = resourceKey => (WrappedComponent) => {
+const withResourceList = (resourceType, resourceMeta) => (WrappedComponent) => {
   const enhance = compose(
     withHandlers({
       onFilter: props => (filter) => {
@@ -51,14 +51,14 @@ const withResourceList = resourceKey => (WrappedComponent) => {
   );
 
   const mapStateToProps = (state, props) => ({
-    resourceList: getList(state, resourceKey),
+    resourceList: getList(state, resourceType),
   });
 
   const mapDispatchToProps = dispatch => ({
-    fetchResourceList: (payload, meta) => dispatch(fetchList(resourceKey, payload, meta)),
-    createResource: (payload, meta) => dispatch(createResource(resourceKey, payload, meta)),
-    updateResource: (payload, meta) => dispatch(updateResource(resourceKey, payload, meta)),
-    deleteResource: (payload, meta) => dispatch(deleteResource(resourceKey, payload, meta)),
+    fetchResourceList: (payload, meta) => dispatch(fetchList(resourceType, payload, {...resourceMeta, ...meta})),
+    createResource: (payload, meta) => dispatch(createResource(resourceType, payload, {...resourceMeta, ...meta})),
+    updateResource: (payload, meta) => dispatch(updateResource(resourceType, payload, {...resourceMeta, ...meta})),
+    deleteResource: (payload, meta) => dispatch(deleteResource(resourceType, payload, {...resourceMeta, ...meta})),
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(enhance(WrappedComponent));

@@ -13,7 +13,7 @@ import {
   getOne,
 } from '../store/api';
 
-const withResource = resourceKey => (WrappedComponent) => {
+const withResource = (resourceType, resourceMeta) => (WrappedComponent) => {
   const enhance = compose(
     withHandlers({
       onSubmit: props => (values, meta = {}) => {
@@ -33,14 +33,14 @@ const withResource = resourceKey => (WrappedComponent) => {
 
   const mapStateToProps = (state, props) => ({
     isNew: !props.params.id,
-    resource: getOne(state, resourceKey, props.params.id),
+    resource: getOne(state, resourceType, props.params.id),
   });
 
   const mapDispatchToProps = dispatch => ({
-    fetchResource: (payload, meta) => dispatch(fetchOne(resourceKey, payload, meta)),
-    createResource: (payload, meta) => dispatch(createResource(resourceKey, payload, meta)),
-    updateResource: (payload, meta) => dispatch(updateResource(resourceKey, payload, meta)),
-    deleteResource: (payload, meta) => dispatch(deleteResource(resourceKey, payload, meta)),
+    fetchResource: (payload, meta) => dispatch(fetchOne(resourceType, payload, { ...resourceMeta, ...meta })),
+    createResource: (payload, meta) => dispatch(createResource(resourceType, payload, { ...resourceMeta, ...meta })),
+    updateResource: (payload, meta) => dispatch(updateResource(resourceType, payload, { ...resourceMeta, ...meta })),
+    deleteResource: (payload, meta) => dispatch(deleteResource(resourceType, payload, { ...resourceMeta, ...meta })),
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(enhance(WrappedComponent));
