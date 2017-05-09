@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   jsonapi_resources :comments
   jsonapi_resources :posts
   jsonapi_resources :users
+  jsonapi_resources :roles
 end

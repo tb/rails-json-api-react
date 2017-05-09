@@ -49,6 +49,23 @@ const serializers = {
     }),
     deserializer: new Deserializer({
       keyForAttribute: 'camelCase',
+      roles: {
+        valueForRelationship: relationship => ({
+          id: relationship.id,
+        }),
+      },
+    }),
+  },
+
+  roles: {
+    serializer: new Serializer('roles', {
+      keyForAttribute: 'camelCase',
+      attributes: [
+        'name',
+      ],
+    }),
+    deserializer: new Deserializer({
+      keyForAttribute: 'camelCase',
     }),
   },
 };

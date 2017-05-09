@@ -8,6 +8,7 @@ import Dashboard from './Dashboard';
 import { PostList, PostEdit } from './Posts';
 import { CategoryList, CategoryEdit } from './Categories';
 import { UserList, UserEdit } from './Users';
+import { ProfileEdit } from './Profiles';
 import { Login } from './Auth';
 
 const UserIsAuthenticated = UserAuthWrapper({ authSelector: getUser });
@@ -30,6 +31,7 @@ export class Routes extends PureComponent {
           <Route path="/categories" component={CategoryList}/>
           <Route path="/users" component={UserList}/>
           <Route path="/users/:id" component={UserEdit}/>
+          <Route path="/profile" component={ProfileEdit}/>
         </Route>
         <Route path="/login" component={Login}/>
       </Router>

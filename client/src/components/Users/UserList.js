@@ -27,6 +27,11 @@ export class UserList extends Component {
         rowRender: user => formatDate(user.confirmedAt),
         sortable: true,
       },
+      {
+        attribute: 'role',
+        header: 'Role',
+        rowRender: user => user.role,
+      }
     ];
 
     return (
