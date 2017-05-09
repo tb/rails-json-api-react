@@ -17,6 +17,6 @@ class User < ActiveRecord::Base
   def token_validation_response
     self.as_json(except: [
       :tokens, :created_at, :updated_at
-    ]).merge("role" => self.roles.map(&:name).join)
+    ]).merge("role" => self.roles.first.name)
   end
 end

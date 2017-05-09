@@ -9,6 +9,6 @@ class UserResource < JSONAPI::Resource
   model_filters :email_contains
 
   def role
-    self._model.roles.map(&:name).join
+    self._model.roles.first.name
   end
 end
