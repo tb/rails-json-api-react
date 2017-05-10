@@ -10,13 +10,9 @@ class User < ActiveRecord::Base
 
   scope :email_contains, -> (value) { where('email ILIKE ?', "%#{value.join}%") }
 
-  def admin?
-    has_role?(:admin)
-  end
-
   def token_validation_response
     self.as_json(except: [
       :tokens, :created_at, :updated_at
-    ]).merge("role" => self.roles.first.name)
+    ]).merge(roles: self.roles.map(&:name))
   end
 end

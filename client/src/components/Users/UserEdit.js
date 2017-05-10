@@ -14,7 +14,7 @@ export class UserEdit extends Component {
     fetchRoles();
 
     if (params.id) {
-      fetchResource({ id: params.id, include: 'roles' });
+      fetchResource({ id: params.id });
     }
   }
 

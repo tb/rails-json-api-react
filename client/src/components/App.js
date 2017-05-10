@@ -22,7 +22,7 @@ export class App extends Component {
 
   render() {
     const { user } = this.props;
-    const userIsAdmin = user.role === "admin"
+    const userIsAdmin = user.roles.includes('admin')
 
     return (
       <div>
@@ -51,7 +51,7 @@ export class App extends Component {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
-                    <Link to="/profile">Profile</Link>
+                    <DropdownItem>Profile</DropdownItem>
                   </DropdownItem>
                   <DropdownItem href onClick={this.logout}> Logout </DropdownItem>
                 </DropdownMenu>

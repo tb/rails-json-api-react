@@ -30,7 +30,7 @@ export class UserList extends Component {
       {
         attribute: 'role',
         header: 'Role',
-        rowRender: user => user.role,
+        rowRender: user => user.roles.join(),
       }
     ];
 

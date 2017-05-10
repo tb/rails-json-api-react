@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Form } from 'reactstrap';
 
-import { InputField, SelectField, required } from '../../forms';
+import { InputField, MultiselectField, required } from '../../forms';
 
 class UserForm extends Component {
   render() {
@@ -13,7 +13,7 @@ class UserForm extends Component {
       id: '',
       name: '-- select role --',
     }].concat(roles.map(role => ({
-      id: role.id,
+      id: role.name,
       name: role.name,
     })));
 
@@ -28,9 +28,9 @@ class UserForm extends Component {
         </div>
         <div>
           <Field
-            name="role.id"
+            name="roles"
             label="Role"
-            component={SelectField}
+            component={MultiselectField}
             options={rolesOptions}
           />
         </div>

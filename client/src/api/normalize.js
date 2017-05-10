@@ -45,6 +45,7 @@ const serializers = {
       keyForAttribute: 'camelCase',
       attributes: [
         'email',
+        'roles',
       ],
     }),
     deserializer: new Deserializer({
