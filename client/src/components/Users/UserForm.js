@@ -3,11 +3,19 @@ import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Form } from 'reactstrap';
 
-import { InputField, required } from '../../forms';
+import { InputField, MultiselectField, required } from '../../forms';
 
 class UserForm extends Component {
   render() {
-    const { handleSubmit, pristine, reset, submitting } = this.props;
+    const { roles, handleSubmit, pristine, reset, submitting } = this.props;
+
+    const rolesOptions = [{
+      id: '',
+      name: '-- select role --',
+    }].concat(roles.map(role => ({
+      id: role.name,
+      name: role.name,
+    })));
 
     return (
       <Form onSubmit={handleSubmit}>
@@ -16,6 +24,14 @@ class UserForm extends Component {
             name="email"
             label="Email"
             component={InputField}
+          />
+        </div>
+        <div>
+          <Field
+            name="roles"
+            label="Role"
+            component={MultiselectField}
+            options={rolesOptions}
           />
         </div>
         <div>

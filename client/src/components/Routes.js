@@ -11,6 +11,10 @@ import { UserList, UserEdit } from './Users';
 import { Login } from './Auth';
 
 const UserIsAuthenticated = UserAuthWrapper({ authSelector: getUser });
+const UserIsAdmin = UserAuthWrapper({
+  authSelector: getUser,
+  predicate: user => user.roles.includes('admin')
+});
 
 export class Routes extends PureComponent {
   static propTypes = {
@@ -28,8 +32,8 @@ export class Routes extends PureComponent {
           <Route path="/posts/new" component={PostEdit}/>
           <Route path="/posts/:id" component={PostEdit}/>
           <Route path="/categories" component={CategoryList}/>
-          <Route path="/users" component={UserList}/>
-          <Route path="/users/:id" component={UserEdit}/>
+          <Route path="/users" component={UserIsAdmin(UserList)}/>
+          <Route path="/users/:id" component={UserIsAdmin(UserEdit)}/>
         </Route>
         <Route path="/login" component={Login}/>
       </Router>

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
-import { Collapse, Container, Navbar, NavbarToggler, Nav, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Container, Navbar, NavbarToggler, Nav, NavItem, NavLink, NavDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import { getUser, logout } from '../store/auth';
 
@@ -15,36 +16,47 @@ export class App extends Component {
     this.props.logout(this.props.user);
   };
 
-  toggle = () => this.setState({ isOpen: !this.state.isOpen });
+  toggle = () => this.setState({
+    isOpen: !this.state.isOpen
+  });
 
   render() {
     const { user } = this.props;
+    const userIsAdmin = user.roles.includes('admin')
+
     return (
       <div>
         <Navbar color="faded" light toggleable>
           <Container>
-            <NavbarToggler right onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav navbar>
-                <NavItem>
-                  <NavLink href="/#/">Dashboard</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href="/#/posts">Posts</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href="/#/categories">Categories</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href="/#/users">Users</NavLink>
-                </NavItem>
-              </Nav>
-              <Nav navbar className="ml-auto">
-                <NavItem>
-                  <NavLink href onClick={this.logout}><small>{user.email}</small> Logout</NavLink>
-                </NavItem>
-              </Nav>
-            </Collapse>
+            <Nav navbar>
+              <NavItem>
+                <NavLink href="/#/">Dashboard</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/#/posts">Posts</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/#/categories">Categories</NavLink>
+              </NavItem>
+              <NavItem>
+                {
+                  userIsAdmin && <NavLink href="/#/users">Users</NavLink>
+                }
+              </NavItem>
+            </Nav>
+            <Nav navbar className="ml-auto">
+              <NavDropdown isOpen={this.state.isOpen} toggle={this.toggle}>
+                <DropdownToggle caret>
+                  {user.email}
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                    <DropdownItem>Profile</DropdownItem>
+                  </DropdownItem>
+                  <DropdownItem href onClick={this.logout}> Logout </DropdownItem>
+                </DropdownMenu>
+              </NavDropdown>
+            </Nav>
           </Container>
         </Navbar>
         <Container className="container-main">
