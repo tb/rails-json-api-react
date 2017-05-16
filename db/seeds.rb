@@ -24,3 +24,7 @@ end
 25.times do |n|
   FactoryGirl.create(:supplier)
 end
+
+25.times do |n|
+  FactoryGirl.create(:customer)
+end
