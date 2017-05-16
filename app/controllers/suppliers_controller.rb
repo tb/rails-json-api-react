@@ -1,0 +1,2 @@
+class SuppliersController < AuthorizedController
+end
