@@ -20,3 +20,7 @@ end
     tokens: nil
   ).add_role n == 0 ? :admin : :user
 end
+
+25.times do |n|
+  FactoryGirl.create(:supplier)
+end
