@@ -36,6 +36,7 @@ export class Routes extends PureComponent {
           <Route path="/users" component={UserIsAdmin(UserList)}/>
           <Route path="/users/:id" component={UserIsAdmin(UserEdit)}/>
           <Route path="/customers" component={UserIsAdmin(CustomerList)}/>
+          <Route path="/customers/new" component={UserIsAdmin(CustomerEdit)}/>
           <Route path="/customers/:id" component={UserIsAdmin(CustomerEdit)}/>
         </Route>
         <Route path="/login" component={Login}/>
