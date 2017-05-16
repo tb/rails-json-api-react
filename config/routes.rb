@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   jsonapi_resources :categories
   jsonapi_resources :comments
   jsonapi_resources :posts
+  jsonapi_resources :products
   jsonapi_resources :users
   jsonapi_resources :roles
   jsonapi_resources :customers
