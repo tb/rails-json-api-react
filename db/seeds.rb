@@ -13,10 +13,11 @@ FactoryGirl.find_definitions
 end
 
 25.times do |n|
-  User.create!(
-    email: "user#{n}@example.com",
-    password: 'Secret123',
-    confirmed_at: Time.now,
-    tokens: nil
-  ).add_role n == 0 ? :admin : :user
+  u = User.create!(email: "user#{n}@example.com", password: 'Secret123', confirmed_at: Time.now)
+  u.add_role n == 0 ? :admin : :user
 end
+
+25.times do |n|
+  FactoryGirl.create(:order)
+end
+
