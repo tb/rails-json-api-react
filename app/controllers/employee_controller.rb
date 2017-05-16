@@ -1,2 +1,0 @@
-class EmployeeController < ApplicationController
-end
