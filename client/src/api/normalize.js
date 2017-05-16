@@ -58,6 +58,19 @@ const serializers = {
     }),
   },
 
+  products: {
+    serializer: new Serializer('products', {
+      keyForAttribute: 'camelCase',
+      attributes: [
+        'productName',
+        'createdAt'
+      ],
+    }),
+    deserializer: new Deserializer({
+      keyForAttribute: 'camelCase',
+    }),
+  },
+
   roles: {
     serializer: new Serializer('roles', {
       keyForAttribute: 'camelCase',
