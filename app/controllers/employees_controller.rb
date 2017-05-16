@@ -1,0 +1,3 @@
+class EmployeesController < AuthorizedController
+  
+end

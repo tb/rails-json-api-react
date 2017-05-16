@@ -32,3 +32,7 @@ end
 20.times do |n|
   FactoryGirl.create(:product)
 end
+
+20.times do |n|
+  FactoryGirl.create(:employee)
+end
