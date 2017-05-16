@@ -39,6 +39,9 @@ export class App extends Component {
                 <NavLink href="/#/categories">Categories</NavLink>
               </NavItem>
               <NavItem>
+                <NavLink href="/#/orders">Orders</NavLink>
+              </NavItem>
+              <NavItem>
                 {
                   userIsAdmin && <NavLink href="/#/users">Users</NavLink>
                 }

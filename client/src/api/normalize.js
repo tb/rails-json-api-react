@@ -69,6 +69,28 @@ const serializers = {
       keyForAttribute: 'camelCase',
     }),
   },
+
+  orders: {
+    serializer: new Serializer('orders', {
+      keyForAttribute: 'camelCase',
+      attributes: [
+        'orderDate',
+        'requiredDate',
+        'shippedDate',
+        'shipVia',
+        'freight',
+        'shipName',
+        'shipAddress',
+        'shipCity',
+        'shipRegion',
+        'shipPostalCode',
+        'shipCountry',
+      ],
+    }),
+    deserializer: new Deserializer({
+      keyForAttribute: 'camelCase',
+    }),
+  },
 };
 
 export const normalize = (type, data) => {
