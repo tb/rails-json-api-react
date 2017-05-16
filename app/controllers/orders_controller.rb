@@ -1,0 +1,2 @@
+class OrdersController < AuthorizedController
+end
