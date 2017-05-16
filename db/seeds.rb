@@ -16,3 +16,7 @@ end
   u = User.create!(email: "user#{n}@example.com", password: 'Secret123', confirmed_at: Time.now)
   u.add_role n == 0 ? :admin : :user
 end
+
+20.times do |n|
+  FactoryGirl.create(:product)
+end
