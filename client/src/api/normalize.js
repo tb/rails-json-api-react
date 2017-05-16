@@ -58,6 +58,18 @@ const serializers = {
     }),
   },
 
+  customers: {
+    serializer: new Serializer('customers', {
+      keyForAttribute: 'camelCase',
+      attributes: [
+        'companyName'
+      ],
+    }),
+    deserializer: new Deserializer({
+      keyForAttribute: 'camelCase'
+    }),
+  },
+
   roles: {
     serializer: new Serializer('roles', {
       keyForAttribute: 'camelCase',
