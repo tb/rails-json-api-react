@@ -14,7 +14,7 @@ import {
   getError,
 } from '../store/api';
 
-const withResource = (resourceType, resourceMeta) => (WrappedComponent) => {
+const withResource = (resourceType, resourceMeta = {}) => (WrappedComponent) => {
   const enhance = compose(
     withHandlers({
       onSubmit: props => (values, meta = {}) => {

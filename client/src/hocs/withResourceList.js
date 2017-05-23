@@ -13,7 +13,7 @@ import {
   getList,
 } from '../store/api';
 
-const withResourceList = (resourceType, resourceMeta) => (WrappedComponent) => {
+const withResourceList = (resourceType, resourceMeta = {}) => (WrappedComponent) => {
   const enhance = compose(
     withHandlers({
       onFilter: props => (filter) => {
@@ -51,7 +51,7 @@ const withResourceList = (resourceType, resourceMeta) => (WrappedComponent) => {
   );
 
   const mapStateToProps = (state, props) => ({
-    resourceList: getList(state, resourceType),
+    resourceList: getList(state, resourceType, resourceMeta.list),
   });
 
   const mapDispatchToProps = dispatch => ({
