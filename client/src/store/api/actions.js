@@ -19,6 +19,7 @@ export const GET_MANY = createAsyncActionType('GET_MANY');
 export const CREATE = createAsyncActionType('CREATE');
 export const UPDATE = createAsyncActionType('UPDATE');
 export const DELETE = createAsyncActionType('DELETE');
+export const ACTION = createAsyncActionType('ACTION');
 
 export const fetchOne = createAsyncAction(GET_ONE, (payload, meta) => client({
   url: `${meta.url}/${payload.id}`,
@@ -55,3 +56,10 @@ export const deleteResource = createAsyncAction(DELETE, (payload, meta) => clien
   url: `${meta.url}/${payload.id}`,
   method: 'DELETE',
 }).then(() => ({ data: payload })));
+
+export const resourceAction = createAsyncAction(ACTION, (payload, meta = {}) => client({
+  url: meta.url,
+  params: { include: meta.include },
+  method: meta.method || 'PUT',
+  data: JSON.stringify(payload),
+}).then(normalizeResponse).catch(normalizeErrors));

@@ -10,6 +10,7 @@ import {
   createResource,
   updateResource,
   deleteResource,
+  resourceAction,
   getOne,
   getError,
 } from '../store/api';
@@ -48,6 +49,8 @@ const withResource = (resourceType, resourceMeta = {}) => (WrappedComponent) => 
       dispatch(updateResource(resourceType, payload, { ...resourceMeta, ...meta })),
     deleteResource: (payload, meta) =>
       dispatch(deleteResource(resourceType, payload, { ...resourceMeta, ...meta })),
+    resourceAction: (payload, meta) =>
+      dispatch(resourceAction(resourceType, payload, { ...resourceMeta, ...meta })),
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(enhance(WrappedComponent));
