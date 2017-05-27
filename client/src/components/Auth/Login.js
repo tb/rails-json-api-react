@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 import { SubmissionError } from 'redux-form';
@@ -8,7 +8,6 @@ import LoginForm from './LoginForm';
 import { login } from '../../store/auth';
 
 export class Login extends Component {
-  // eslint-disable-next-line class-methods-use-this
   componentWillMount() {
     localStorage.clear();
   }

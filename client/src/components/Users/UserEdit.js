@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 
@@ -32,7 +32,7 @@ export class UserEdit extends Component {
     return (
       <div>
         <EditHeader {...this.props}>{ isNew ? 'New User' : resource.email }</EditHeader>
-        <UserForm initialValues={resource} roles={roles} onSubmit={onSubmit}></UserForm>
+        <UserForm initialValues={resource} roles={roles} onSubmit={onSubmit}/>
       </div>
     );
   }

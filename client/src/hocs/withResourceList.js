@@ -1,7 +1,6 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { SubmissionError } from 'redux-form';
-import { get, find, isEmpty, omitBy } from 'lodash';
+import { isEmpty, omitBy } from 'lodash';
 import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';
 

@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { get, find, keyBy } from 'lodash';
+import { get } from 'lodash';
 
 import { fetchList, getList, getMap } from '../store/api';
 

@@ -1,7 +1,5 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { SubmissionError } from 'redux-form';
-import { get, find, omit } from 'lodash';
 import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';
 

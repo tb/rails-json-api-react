@@ -1,6 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { find, keyBy } from 'lodash';
 
 import { ListTable } from '../UI';
 import { withResourceList } from '../../hocs';
@@ -31,7 +30,7 @@ export class UserList extends Component {
         attribute: 'role',
         header: 'Role',
         rowRender: user => user.roles.join(),
-      }
+      },
     ];
 
     return (

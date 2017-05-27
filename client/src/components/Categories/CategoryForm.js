@@ -1,5 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-import { isEmpty } from 'lodash';
+import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Form, Col, Row } from 'reactstrap';
 
