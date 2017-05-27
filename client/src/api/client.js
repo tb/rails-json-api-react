@@ -21,6 +21,7 @@ export const client = axios.create({
     Accept: 'application/vnd.api+json',
     'Content-Type': 'application/vnd.api+json',
   },
+  paramsSerializer: params => qs.stringify(params, { format: 'RFC1738', arrayFormat: 'brackets' }),
 });
 
 client.interceptors.response.use(
@@ -46,10 +47,6 @@ client.interceptors.request.use(
   },
   error => Promise.reject(error),
 );
-
-const stringifyParams = params => qs.stringify(params, { format: 'RFC1738', arrayFormat: 'brackets' });
-
-export const withParams = (url, params) => `${url}?${stringifyParams(params)}`;
 
 export const normalizeResponse = (response) => {
   const { data = [], included = [] } = response.data;
