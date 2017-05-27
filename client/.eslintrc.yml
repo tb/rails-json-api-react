@@ -1,30 +1,12 @@
 ---
-parser: babel-eslint
+extends: react-app
 
 env:
   browser: true
   es6: true
-  jasmine: true
+  jest: true
   node: true
-
-ecmaFeatures:
-  jsx: true
-
-plugins:
-- react
-
-extends:
-- airbnb-base
 
 globals:
   context: false
   jest: true
-
-rules:
-  import/no-named-as-default: 0
-  import/prefer-default-export: 0
-  no-console: 0
-  no-param-reassign: 0
-  no-shadow: 0 # FIXME extract generic Edit component
-  no-unused-vars: 0 # FIXME
-  react/jsx-uses-react: 2
