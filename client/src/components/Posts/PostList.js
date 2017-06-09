@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { get, find, keyBy } from 'lodash';
+import { get } from 'lodash';
 import { Button } from 'reactstrap';
 
 import { fetchList, getMap, getMany } from '../../store/api';
 import { withResourceList } from '../../hocs';
-import { ListHeader, ListTable } from '../UI';
+import { ListTable } from '../UI';
 import PostListFilter from './PostListFilter';
 
 const formatDate = date => (new Date(date)).toLocaleString();

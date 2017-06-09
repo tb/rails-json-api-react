@@ -1,36 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { isEmpty } from 'lodash';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Form } from 'reactstrap';
 
 import { InputField, MultiselectField, required } from '../../forms';
 
-class UserForm extends Component {
+class ProductForm extends Component {
   render() {
-    const { roles, handleSubmit, pristine, reset, submitting } = this.props;
-
-    const rolesOptions = [{
-      id: '',
-      name: '-- select role --',
-    }].concat(roles.map(role => ({
-      id: role.name,
-      name: role.name,
-    })));
+    const { handleSubmit, pristine, reset, submitting } = this.props;
 
     return (
       <Form onSubmit={handleSubmit}>
         <div>
           <Field
-            name="email"
-            label="Email"
+            name="productName"
+            label="Name"
             component={InputField}
-          />
-        </div>
-        <div>
-          <Field
-            name="roles"
-            label="Role"
-            component={MultiselectField}
-            options={rolesOptions}
           />
         </div>
         <div>
@@ -43,12 +28,12 @@ class UserForm extends Component {
 }
 
 const validate = (values) => {
-  const errors = required(values, 'email');
+  const errors = required(values, 'productName');
   return errors;
 };
 
 export default reduxForm({
   enableReinitialize: true,
-  form: 'user',
+  form: 'product',
   validate,
-})(UserForm);
+})(ProductForm);

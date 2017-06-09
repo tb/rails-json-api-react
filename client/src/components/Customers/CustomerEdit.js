@@ -1,25 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 
 import { ErrorAlert, Loading, EditHeader } from '../UI';
 import { withResource } from '../../hocs';
-import UserForm from './UserForm';
+import CustomerForm from './CustomerForm';
 import { getMany, fetchList } from '../../store/api';
 
-export class UserEdit extends Component {
+export class CustomerEdit extends Component {
   componentWillMount() {
-    const { params, fetchResource, fetchRoles } = this.props;
-
-    fetchRoles();
-
+    const { params, fetchResource } = this.props;
     if (params.id) {
       fetchResource({ id: params.id });
     }
   }
 
   render() {
-    const { isNew, error, loading, resource, onSubmit, roles } = this.props;
+    const { isNew, error, loading, resource, onSubmit } = this.props;
 
     if (error) {
       return (<ErrorAlert {...error} />);
@@ -31,22 +28,21 @@ export class UserEdit extends Component {
 
     return (
       <div>
-        <EditHeader {...this.props}>{ isNew ? 'New User' : resource.email }</EditHeader>
-        <UserForm initialValues={resource} roles={roles} onSubmit={onSubmit}/>
+        <EditHeader {...this.props}>{ isNew ? 'New Customer' : resource.company_name }</EditHeader>
+        <CustomerForm initialValues={resource} onSubmit={onSubmit}></CustomerForm>
       </div>
     );
   }
 }
 
 export const mapStateToProps = (state, props) => ({
-  roles: getMany(state, 'roles'),
+  roles: getMany(state)
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchRoles: () => dispatch(fetchList('roles', { page: { limit: 999 } })),
-  redirectToIndex: () => dispatch(push('/users')),
+  redirectToIndex: () => dispatch(push('/customers'))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  withResource('users')(UserEdit),
+  withResource('customers')(CustomerEdit),
 );

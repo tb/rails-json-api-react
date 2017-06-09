@@ -1,7 +1,5 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { SubmissionError } from 'redux-form';
-import { get, find, omit } from 'lodash';
 import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';
 
@@ -10,11 +8,12 @@ import {
   createResource,
   updateResource,
   deleteResource,
+  resourceAction,
   getOne,
   getError,
 } from '../store/api';
 
-const withResource = (resourceType, resourceMeta) => (WrappedComponent) => {
+const withResource = (resourceType, resourceMeta = {}) => (WrappedComponent) => {
   const enhance = compose(
     withHandlers({
       onSubmit: props => (values, meta = {}) => {
@@ -48,6 +47,8 @@ const withResource = (resourceType, resourceMeta) => (WrappedComponent) => {
       dispatch(updateResource(resourceType, payload, { ...resourceMeta, ...meta })),
     deleteResource: (payload, meta) =>
       dispatch(deleteResource(resourceType, payload, { ...resourceMeta, ...meta })),
+    resourceAction: (payload, meta) =>
+      dispatch(resourceAction(resourceType, payload, { ...resourceMeta, ...meta })),
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(enhance(WrappedComponent));
