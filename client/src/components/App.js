@@ -44,6 +44,9 @@ export class App extends Component {
                   userIsAdmin && <NavLink href="/#/users">Users</NavLink>
                 }
               </NavItem>
+              <NavItem>
+                <NavLink href="/#/products">Products</NavLink>
+              </NavItem>
             </Nav>
             <Nav navbar className="ml-auto">
               <NavDropdown isOpen={this.state.isOpen} toggle={this.toggle}>
