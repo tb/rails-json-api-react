@@ -1,4 +1,6 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+
 import { Router, Route, IndexRoute } from 'react-router';
 import { UserAuthWrapper } from 'redux-auth-wrapper';
 
@@ -6,14 +8,14 @@ import { getUser } from '../store/auth';
 import App from './App';
 import Dashboard from './Dashboard';
 import { PostList, PostEdit } from './Posts';
-import { CategoryList, CategoryEdit } from './Categories';
+import { CategoryList } from './Categories';
 import { UserList, UserEdit } from './Users';
 import { Login } from './Auth';
 
 const UserIsAuthenticated = UserAuthWrapper({ authSelector: getUser });
 const UserIsAdmin = UserAuthWrapper({
   authSelector: getUser,
-  predicate: user => user.roles.includes('admin')
+  predicate: user => user.roles.includes('admin'),
 });
 
 export class Routes extends PureComponent {

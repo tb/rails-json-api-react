@@ -1,5 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-import { find, keyBy } from 'lodash';
+import React, { Component } from 'react';
 
 import { Loading } from '../UI';
 import { withResourceList } from '../../hocs';
