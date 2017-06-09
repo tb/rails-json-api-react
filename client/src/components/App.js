@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { isEmpty } from 'lodash';
-import { Collapse, Container, Navbar, NavbarToggler, Nav, NavItem, NavLink, NavDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Container, Navbar, Nav, NavItem, NavLink, NavDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import { getUser, logout } from '../store/auth';
 
@@ -17,12 +15,12 @@ export class App extends Component {
   };
 
   toggle = () => this.setState({
-    isOpen: !this.state.isOpen
+    isOpen: !this.state.isOpen,
   });
 
   render() {
     const { user } = this.props;
-    const userIsAdmin = user.roles.includes('admin')
+    const userIsAdmin = user.roles.includes('admin');
 
     return (
       <div>
@@ -37,6 +35,9 @@ export class App extends Component {
               </NavItem>
               <NavItem>
                 <NavLink href="/#/categories">Categories</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/#/customers">Customers</NavLink>
               </NavItem>
               <NavItem>
                 {

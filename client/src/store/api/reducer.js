@@ -1,8 +1,6 @@
 import imm from 'object-path-immutable';
 import {
   get,
-  isEmpty,
-  keyBy,
   keys,
   map,
   pick,

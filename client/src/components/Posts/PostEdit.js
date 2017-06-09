@@ -1,7 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
-import { get, find, omit } from 'lodash';
 
 import { ErrorAlert, Loading, EditHeader } from '../UI';
 import { withResource } from '../../hocs';

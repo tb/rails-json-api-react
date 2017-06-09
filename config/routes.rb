@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   jsonapi_resources :posts
   jsonapi_resources :users
   jsonapi_resources :roles
+  jsonapi_resources :employees
   jsonapi_resources :orders
   jsonapi_resources :customers
   jsonapi_resources :suppliers

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { createUltimatePagination, ITEM_TYPES } from 'react-ultimate-pagination';
 import { Input, Label } from 'reactstrap';
 

@@ -1,7 +1,6 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { SubmissionError } from 'redux-form';
-import { get, find, isEmpty, omitBy } from 'lodash';
+import { isEmpty, omitBy } from 'lodash';
 import compose from 'recompose/compose';
 import withHandlers from 'recompose/withHandlers';
 
@@ -10,10 +9,11 @@ import {
   createResource,
   updateResource,
   deleteResource,
+  resourceAction,
   getList,
 } from '../store/api';
 
-const withResourceList = (resourceType, resourceMeta) => (WrappedComponent) => {
+const withResourceList = (resourceType, resourceMeta = {}) => (WrappedComponent) => {
   const enhance = compose(
     withHandlers({
       onFilter: props => (filter) => {
@@ -51,7 +51,7 @@ const withResourceList = (resourceType, resourceMeta) => (WrappedComponent) => {
   );
 
   const mapStateToProps = (state, props) => ({
-    resourceList: getList(state, resourceType),
+    resourceList: getList(state, resourceType, resourceMeta.list),
   });
 
   const mapDispatchToProps = dispatch => ({
@@ -63,6 +63,8 @@ const withResourceList = (resourceType, resourceMeta) => (WrappedComponent) => {
       dispatch(updateResource(resourceType, payload, { ...resourceMeta, ...meta })),
     deleteResource: (payload, meta) =>
       dispatch(deleteResource(resourceType, payload, { ...resourceMeta, ...meta })),
+    resourceAction: (payload, meta) =>
+      dispatch(resourceAction(resourceType, payload, { ...resourceMeta, ...meta }))
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(enhance(WrappedComponent));

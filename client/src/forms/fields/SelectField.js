@@ -3,7 +3,7 @@ import { FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 
 class SelectField extends Component {
   render() {
-    const { input, type, label, options, meta: { touched, error } } = this.props;
+    const { input, label, options, meta: { touched, error } } = this.props;
     const showError = touched && error;
 
     return (

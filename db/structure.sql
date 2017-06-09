@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.2
--- Dumped by pg_dump version 9.6.2
+-- Dumped from database version 9.6.3
+-- Dumped by pg_dump version 9.6.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -107,6 +107,52 @@ CREATE SEQUENCE comments_id_seq
 --
 
 ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
+
+
+--
+-- Name: employees; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE employees (
+    id integer NOT NULL,
+    last_name character varying,
+    first_name character varying,
+    title character varying,
+    title_of_courtesy character varying,
+    birth_date date,
+    hire_date date,
+    address character varying,
+    city character varying,
+    region character varying,
+    postal_code character varying,
+    country character varying,
+    home_phone character varying,
+    extension character varying,
+    photo character varying,
+    notes text,
+    reports_to integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: employees_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE employees_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: employees_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE employees_id_seq OWNED BY employees.id;
 
 
 --
@@ -256,6 +302,13 @@ ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq':
 
 
 --
+-- Name: employees id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY employees ALTER COLUMN id SET DEFAULT nextval('employees_id_seq'::regclass);
+
+
+--
 -- Name: posts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -298,6 +351,14 @@ ALTER TABLE ONLY categories
 
 ALTER TABLE ONLY comments
     ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: employees employees_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY employees
+    ADD CONSTRAINT employees_pkey PRIMARY KEY (id);
 
 
 --
@@ -423,6 +484,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170328194726'),
 ('20170418135338'),
 ('20170504204400'),
-('20170508090812');
+('20170508090812'),
+('20170516130923');
 
 
