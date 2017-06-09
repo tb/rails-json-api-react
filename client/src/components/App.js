@@ -38,15 +38,15 @@ export class App extends Component {
               </NavItem>
               <NavItem>
                 <NavLink href="/#/orders">Orders</NavLink>
+              </NavItem>
+              <NavItem>
                 <NavLink href="/#/customers">Customers</NavLink>
               </NavItem>
               <NavItem>
-                {
-                  userIsAdmin && <NavLink href="/#/users">Users</NavLink>
-                }
+                <NavLink href="/#/products">Products</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/#/products">Products</NavLink>
+                { userIsAdmin && <NavLink href="/#/users">Users</NavLink>}
               </NavItem>
             </Nav>
             <Nav navbar className="ml-auto">
@@ -55,9 +55,6 @@ export class App extends Component {
                   {user.email}
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem>
-                    <DropdownItem>Profile</DropdownItem>
-                  </DropdownItem>
                   <DropdownItem href onClick={this.logout}> Logout </DropdownItem>
                 </DropdownMenu>
               </NavDropdown>
