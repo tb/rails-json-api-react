@@ -12,6 +12,7 @@ import { CategoryList } from './Categories';
 import { UserList, UserEdit } from './Users';
 import { CustomerList, CustomerEdit } from './Customers';
 import { Login } from './Auth';
+import { OrderList, OrderEdit } from './Orders';
 import { ProductList, ProductEdit } from './Products';
 
 const UserIsAuthenticated = UserAuthWrapper({ authSelector: getUser });
@@ -32,6 +33,9 @@ export class Routes extends PureComponent {
       <Router history={history}>
         <Route path="/" component={UserIsAuthenticated(App)}>
           <IndexRoute component={Dashboard}/>
+          <Route path="/orders" component={OrderList}/>
+          <Route path="/orders/new" component={OrderEdit}/>
+          <Route path="/orders/:id" component={OrderEdit}/>
           <Route path="/posts" component={PostList}/>
           <Route path="/posts/new" component={PostEdit}/>
           <Route path="/posts/:id" component={PostEdit}/>
