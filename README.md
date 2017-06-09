@@ -28,3 +28,11 @@ Demo user: user1@example.com / Secret123
 ### Client
 
 Add list, edit and form components in `client/src/components/` based on one of existing.
+
+### [graphiql](http://localhost:3001/graphiql)
+        
+    {
+      categories {
+        name
+      }
+    }

@@ -17,3 +17,4 @@
 .byebug_history
 .idea/
 public/
+node_modules/
