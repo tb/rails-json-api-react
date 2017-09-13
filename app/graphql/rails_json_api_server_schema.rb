@@ -1,6 +1,4 @@
 RailsJsonApiServerSchema = GraphQL::Schema.define do
   query(Types::QueryType)
-
-  # GraphQL::Batch setup:
-  use GraphQL::Batch
+  use BatchLoader::GraphQL
 end

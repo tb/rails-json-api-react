@@ -33,7 +33,7 @@ gem 'rolify'
 gem 'pry'
 gem 'graphql'
 gem 'graphiql-rails', group: :development
-gem 'graphql-batch'
+gem 'batch-loader'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

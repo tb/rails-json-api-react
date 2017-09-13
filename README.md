@@ -30,9 +30,72 @@ Demo user: user1@example.com / Secret123
 Add list, edit and form components in `client/src/components/` based on one of existing.
 
 ### [graphiql](http://localhost:3001/graphiql)
-        
+
+Categories
+
+     {
+       categories {
+         id
+         name
+       }
+     }
+
+Categories with posts
+
     {
-      categories {
+      categories(with_posts: true) {
+        id
         name
+        posts {
+          id
+          title
+          category {
+            id
+            name
+          }
+          comments {
+            id
+            body
+          }
+        }
+      }
+    }
+
+One category
+    
+    {
+      category(id: 1) {
+        id
+        name
+      }
+    }
+
+Posts
+
+    {
+      posts {
+        id
+        title
+        category {
+          id
+          name
+        }
+      }
+    }
+
+One post
+
+    {
+      post(id: 1) {
+        id
+        title
+        category {
+          id
+          name
+        }
+        comments {
+          id
+          body
+        }
       }
     }

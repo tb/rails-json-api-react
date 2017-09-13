@@ -3,4 +3,5 @@ Types::CategoryType = GraphQL::ObjectType.define do
   field :id, types.Int
   field :name, types.String
   field :created_at, types.String
+  field :posts, types[Types::PostType]
 end
