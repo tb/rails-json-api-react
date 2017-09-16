@@ -1,5 +1,6 @@
 Types::PostType = GraphQL::ObjectType.define do
   name "Post"
+
   field :id, types.Int
   field :title, types.String
   field :created_at, types.String
@@ -12,4 +13,13 @@ Types::PostType = GraphQL::ObjectType.define do
     }
   end
   field :comments, types[Types::CommentType]
+  field :errors, Types::JSONType
+end
+
+Types::PostInputType = GraphQL::InputObjectType.define do
+  name "PostInput"
+
+  argument :id, types.Int
+  argument :title, types.String
+  argument :category_id, types.Int
 end

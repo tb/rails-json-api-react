@@ -70,6 +70,26 @@ One category
       }
     }
 
+Create category
+
+    mutation {
+      createCategory(category: {name: "Graphql"}) {
+        id
+        name
+        errors
+      }
+    }
+
+Update category
+
+    mutation {
+      updateCategory(category: {id: 1, name: "Graphql"}) {
+        id
+        name
+        errors
+      }
+    }
+
 Posts
 
     {
@@ -97,5 +117,33 @@ One post
           id
           body
         }
+      }
+    }
+
+Create post
+
+    mutation {
+      createPost(post: {title: "Graphql", category_id: 1}) {
+        id
+        title
+        category {
+          id
+          name
+        }
+        errors
+      }
+    }
+
+Update post
+
+    mutation {
+      updatePost(post: {id: 1, title: "Graphql", category_id: 1}) {
+        id
+        title
+        category {
+          id
+          name
+        }
+        errors
       }
     }
