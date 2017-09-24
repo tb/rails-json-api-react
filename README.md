@@ -90,6 +90,15 @@ Update category
       }
     }
 
+Delete category
+
+    mutation {
+      deleteCategory(id: 24) {
+        id
+        name
+      }
+    }
+
 Posts
 
     {
@@ -145,5 +154,14 @@ Update post
           name
         }
         errors
+      }
+    }
+
+Delete post
+
+    mutation {
+      deletePost(id: 83) {
+        id
+        title
       }
     }

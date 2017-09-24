@@ -3,4 +3,5 @@ RailsJsonApiServerSchema = GraphQL::Schema.define do
   mutation Types::MutationType
   use BatchLoader::GraphQL
   max_depth 10
+  rescue_from(ActiveRecord::RecordNotFound) { "Not found" }
 end

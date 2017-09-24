@@ -17,6 +17,14 @@ Types::MutationType = GraphQL::ObjectType.define do
     }
   end
 
+  field :deleteCategory, Types::CategoryType do
+    description "Delete a category"
+    argument :id, types.Int
+    resolve ->(o, args, c) {
+      Category.destroy(args[:id])
+    }
+  end
+
   field :createPost, Types::PostType do
     description "Create a post"
 
@@ -31,6 +39,14 @@ Types::MutationType = GraphQL::ObjectType.define do
     argument :post, Types::PostInputType
     resolve ->(o, args, c) {
       Post.update(args[:post][:id], args[:post].to_h.except!("id"))
+    }
+  end
+
+  field :deletePost, Types::PostType do
+    description "Delete a post"
+    argument :id, types.Int
+    resolve ->(o, args, c) {
+      Post.destroy(args[:id])
     }
   end
 end
