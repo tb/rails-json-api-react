@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Navbar, Nav, NavItem, NavLink, NavDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { get } from 'lodash';
 
 import { getUser, logout } from '../store/auth';
 
@@ -20,7 +21,7 @@ export class App extends Component {
 
   render() {
     const { user } = this.props;
-    const userIsAdmin = user.roles.includes('admin');
+    const userIsAdmin = get(user, 'roles', []).includes('admin');
 
     return (
       <div>
