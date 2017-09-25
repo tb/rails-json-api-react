@@ -2,6 +2,14 @@ Types::QueryType = GraphQL::ObjectType.define do
   name "Query"
   description "The query root of this schema"
 
+  field :me do
+    type Types::UserType
+    description "Me (current user)"
+    resolve ->(obj, args, ctx) {
+      ctx[:current_user]
+    }
+  end
+
   field :category do
     type Types::CategoryType
     argument :id, !types.ID

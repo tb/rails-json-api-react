@@ -2,9 +2,10 @@ class GraphqlController < ApplicationController
   def execute
     variables = ensure_hash(params[:variables])
     query = params[:query]
+    graphiql_user = User.find_by(email: 'user0@example.com')
     context = {
       # Query context goes here, for example:
-      # current_user: current_user,
+      current_user: Rails.env.development? ? current_user || graphiql_user : current_user
     }
     result = RailsJsonApiServerSchema.execute(query, variables: variables, context: context)
     render json: result
