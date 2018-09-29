@@ -1,6 +1,6 @@
 # [rails-json-api-react](https://github.com/tb/rails-json-api-react)
 
-by [React Developers @ Selleo](https://selleo.com)
+by [React Developers @ Selleo](https://selleo.com/react-js)
 
 ## [DEMO](https://rails-json-api-react.herokuapp.com)
 
